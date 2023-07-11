@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@src/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/src/app/api/auth/[...nextauth]/route';
 import { redirect } from 'next/navigation';
-import { Navbar } from '@src/components/Navbar/component';
+import { Navbar } from '@/src/components/Navbar/component';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

@@ -9,7 +9,7 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
     }),
   ],
-  callbacks: {
+  /* callbacks: {
     async signIn({ user }) {
       const isAllowedToSignIn = user.email === 'joaob199@gmail.com' ? true : null;
       if (isAllowedToSignIn) {
@@ -18,7 +18,7 @@ export const authOptions: NextAuthOptions = {
         return '/unauthorized';
       }
     },
-  },
+  }, */
 };
 
 const handler = NextAuth(authOptions);
