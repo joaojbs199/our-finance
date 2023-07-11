@@ -1,4 +1,4 @@
-import { getUser } from '@/lib/user/helpers';
+import { getUser } from '@/src/database/entities/user/helpers';
 import { isValid } from '@/src/utils/validators';
 import { NextAuthOptions } from 'next-auth';
 import NextAuth from 'next-auth/next';

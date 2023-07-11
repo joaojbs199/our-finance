@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "local-db-connect": "pscale connect our-finance shadow --port 3310"
   },
   "dependencies": {
     "@prisma/client": "^4.16.2",
