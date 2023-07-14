@@ -2,16 +2,138 @@ generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
-  relationMode = "prisma"
+generator erd {
+  provider = "prisma-erd-generator"
 }
 
+datasource db {
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  relationMode      = "prisma"
+}
 
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String
+  id     Int     @id @default(autoincrement())
+  name   String
+  email  String  @unique
+  owners Owner[]
+}
+
+model Owner {
+  id Int @id @default(autoincrement())
+
+  name String
+
+  user_id Int
+  User    User @relation(fields: [user_id], references: [id])
+
+  revenues    Revenue[]
+  expenses    Expense[]
+  PaymentPlan PaymentPlan[]
+
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
+  PaymentList PaymentList[]
+
+  @@map("owners")
+}
+
+enum RevenueType {
+  GENERAL
+  FOOD
+}
+
+model Revenue {
+  id Int @id @default(autoincrement())
+
+  date        DateTime
+  value       Float
+  description String
+  type        RevenueType
+
+  owner_id Int
+  owner    Owner @relation(fields: [owner_id], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("revenues")
+}
+
+enum ExpenseType {
+  INDIVIDUAL
+  SHARED
+}
+
+enum ExpenseStatusType {
+  PAID
+  NOT_PAID
+}
+
+model Expense {
+  id Int @id @default(autoincrement())
+
+  dueDate     DateTime
+  value       Float
+  description String
+  type        ExpenseType
+  status      ExpenseStatusType @default(value: NOT_PAID)
+
+  owners Owner[]
+
+  paymentList_id Int?
+  PaymentList    PaymentList? @relation(fields: [paymentList_id], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("expenses")
+}
+
+enum ReferenceMonths {
+  JANUARY
+  FEBRUARY
+  MARCH
+  APRIL
+  MAY
+  JUNE
+  JULY
+  AUGUST
+  SEPTEMBER
+  OCTOBER
+  NOVEMBER
+  DECEMBER
+}
+
+model PaymentList {
+  id Int @id @default(autoincrement())
+
+  owner_expense          Float
+  foreign_expense        Float
+  shared_expense         Float
+  total_expense          Float
+  agreement_sub_total    Float
+  first_fortnight_total  Float
+  second_fortnight_total Float
+
+  referenceMonth ReferenceMonths
+  expenses       Expense[]
+
+  owner_id Int
+  owner    Owner @relation(fields: [owner_id], references: [id])
+
+  paymentPlan_id Int
+  PaymentPlan    PaymentPlan @relation(fields: [paymentPlan_id], references: [id])
+}
+
+model PaymentPlan {
+  id Int @id @default(autoincrement())
+
+  agreement_total Float
+
+  paymentLists PaymentList[]
+
+  owner_id        Int
+  agreement_payer Owner @relation(fields: [owner_id], references: [id])
 }
