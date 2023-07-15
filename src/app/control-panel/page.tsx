@@ -3,7 +3,7 @@ import { authOptions } from '@/src/app/api/auth/[...nextauth]/route';
 import { redirect } from 'next/navigation';
 import { Navbar } from '@/src/components/Navbar/component';
 import { Metadata } from 'next';
-import GetUserButton from '@/src/components/Buttons/GetUsersButton';
+import GetUserButton from '@/src/components/Buttons/GetOwnersButton';
 
 export const metadata: Metadata = {
   title: 'Painel de controle',

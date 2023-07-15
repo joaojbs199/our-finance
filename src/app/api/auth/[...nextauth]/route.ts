@@ -1,5 +1,4 @@
-import { getUser } from '@/src/database/entities/user/helpers';
-import { isValid } from '@/src/utils/validators';
+import { makeRequestHandlerFactory } from '@/src/integration/domain/factories/services/request-service-factory';
 import { NextAuthOptions } from 'next-auth';
 import NextAuth from 'next-auth/next';
 import GoogleProvider from 'next-auth/providers/google';
@@ -13,10 +12,24 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user }) {
-      const registeredUser = await getUser(user?.email as string);
-      const isAllowedToSignIn = isValid(registeredUser);
+      let isRegisteredUser = false;
 
-      if (isAllowedToSignIn) {
+      try {
+        const request = makeRequestHandlerFactory();
+        const response = await request.handle<boolean>({
+          url: '/api/auth/isRegisteredUser',
+          method: 'post',
+          body: {
+            email: user.email,
+          },
+        });
+
+        isRegisteredUser = response;
+      } catch (error) {
+        console.log('DEBUG_OUR-FINANCE <-----> error:', error);
+      }
+
+      if (isRegisteredUser) {
         return true;
       } else {
         return '/unauthorized';
