@@ -4,6 +4,7 @@ import { authOptions } from '@/src/app/api/auth/[...nextauth]/route';
 import { prisma } from '@/lib/prisma';
 import { DateHandler } from '@/src/utils/DateHandler';
 import isEmpty from 'is-empty';
+import { ExpenseType } from '@prisma/client';
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
@@ -15,7 +16,7 @@ export async function POST(request: Request) {
   const body = await request.json();
   const { initialDate, finalDate, ownerIds, type } = body;
 
-  const hasSharedType = !isEmpty(type) && type.includes('SHARED');
+  const hasSharedType = !isEmpty(type) && type.includes(ExpenseType.SHARED);
 
   const createExpensesDateRange = () => {
     const { year, month } = DateHandler.getYearMonth();
@@ -47,7 +48,7 @@ export async function POST(request: Request) {
         {
           owners: {
             every: {
-              user_email: 'joaojbs199@gmail.com',
+              user_email: session.user?.email as string,
               id: {
                 ...(!hasSharedType && {
                   in: ownerIds,
