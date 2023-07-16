@@ -13,7 +13,9 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { initialDate, finalDate } = body;
+  const { initialDate, finalDate, ownerIds, type } = body;
+
+  const hasSharedType = !isEmpty(type) && type.includes('SHARED');
 
   const createExpensesDateRange = () => {
     const { year, month } = DateHandler.getYearMonth();
@@ -45,8 +47,24 @@ export async function POST(request: Request) {
         {
           owners: {
             every: {
-              user_email: session.user?.email as string,
+              user_email: 'joaojbs199@gmail.com',
+              id: {
+                ...(!hasSharedType && {
+                  in: ownerIds,
+                }),
+              },
             },
+          },
+        },
+        {
+          type: {
+            ...(!isEmpty(ownerIds) && ownerIds.length > 1 && !hasSharedType
+              ? {
+                  in: ['INDIVIDUAL'],
+                }
+              : {
+                  in: type,
+                }),
           },
         },
       ],
