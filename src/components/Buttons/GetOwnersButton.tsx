@@ -8,6 +8,7 @@ const GetOwnersButton = () => {
 
   return (
     <button
+      className="rounded border border-gray-200 p-1"
       onClick={() => {
         dispatch(getOwners());
       }}

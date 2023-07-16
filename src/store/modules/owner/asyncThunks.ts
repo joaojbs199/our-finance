@@ -4,7 +4,7 @@ import { RootState } from '@/src/store/store';
 import { makeRequestHandlerFactory } from '@/src/integration/domain/factories/services/request-service-factory';
 
 export const getOwners = createAsyncThunk<Owner[], void, { state: RootState; rejectValue: string }>(
-  'users/getOwners',
+  'owner/getOwners',
   async (_, { rejectWithValue }) => {
     try {
       const request = makeRequestHandlerFactory();

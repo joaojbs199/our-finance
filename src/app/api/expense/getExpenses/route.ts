@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma';
 import { DateHandler } from '@/src/utils/DateHandler';
 import isEmpty from 'is-empty';
 import { ExpenseType } from '@prisma/client';
+import { IExpenseApiResponse } from '@/src/integration/data/models/apiResponse/expense/interfaces';
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
@@ -74,5 +75,12 @@ export async function POST(request: Request) {
 
   const data = await prisma.expense.findMany(query);
 
-  return NextResponse.json({ length: data.length, data }, { status: 200 });
+  const response: IExpenseApiResponse = {
+    metadata: {
+      totalResults: data.length,
+    },
+    data: data,
+  };
+
+  return NextResponse.json({ data: response }, { status: 200 });
 }
