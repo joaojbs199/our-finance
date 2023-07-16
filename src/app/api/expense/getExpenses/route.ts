@@ -35,10 +35,21 @@ export async function POST(request: Request) {
 
   const query = {
     where: {
-      dueDate: {
-        gte: new Date(expenseDateRange.initialDate),
-        lte: new Date(expenseDateRange.finalDate),
-      },
+      AND: [
+        {
+          dueDate: {
+            gte: new Date(expenseDateRange.initialDate),
+            lte: new Date(expenseDateRange.finalDate),
+          },
+        },
+        {
+          owners: {
+            every: {
+              user_email: session.user?.email as string,
+            },
+          },
+        },
+      ],
     },
   };
 

@@ -25,8 +25,8 @@ model Owner {
 
   name String
 
-  user_id Int
-  User    User @relation(fields: [user_id], references: [id])
+  user_email String
+  User       User   @relation(fields: [user_email], references: [email])
 
   revenues    Revenue[]
   expenses    Expense[]
