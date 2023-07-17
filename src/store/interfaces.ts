@@ -1,5 +1,5 @@
 import { Owner } from '@prisma/client';
-import { IExpenseApiResponse } from '@/src/integration/data/models/apiResponse/expense/interfaces';
+import { IGetExpenseApiResponse } from '@/src/integration/data/models/apiResponse/expense/interfaces';
 
 // COMMON INTERFACES
 export interface IUiState {
@@ -25,8 +25,9 @@ export interface IOwnerState {
 export interface IExpenseState {
   uiState: {
     getExpenses: IUiState;
+    createExpense: IUiState;
   };
-  expenses: IExpenseApiResponse;
+  expenses: IGetExpenseApiResponse;
 }
 
 /* ********************************************************************************* */

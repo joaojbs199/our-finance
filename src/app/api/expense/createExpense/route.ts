@@ -28,10 +28,10 @@ export async function PUT(request: Request) {
   try {
     await prisma.expense.create(query);
 
-    return NextResponse.json({ message: 'EXPENSE CREATED.' }, { status: 201 });
+    return NextResponse.json({ data: true }, { status: 201 });
   } catch (error) {
     return NextResponse.json(
-      { message: 'EXPENSE NOT CREATED, SOMETHING WENT WRONG.' },
+      { data: false, message: 'EXPENSE NOT CREATED, SOMETHING WENT WRONG.' },
       { status: 422 },
     );
   }

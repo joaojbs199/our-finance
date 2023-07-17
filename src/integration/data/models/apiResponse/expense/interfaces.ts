@@ -1,6 +1,6 @@
 import { Expense } from '@prisma/client';
 
-export interface IExpenseApiResponse {
+export interface IGetExpenseApiResponse {
   metadata: {
     totalResults: number;
   };

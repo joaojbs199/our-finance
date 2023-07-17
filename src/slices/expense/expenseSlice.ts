@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { initialExpenseState } from '@/src/store/state';
-import { getExpenses } from '@/src/store/modules/expense/asyncThunks';
+import { createExpense, getExpenses } from '@/src/store/modules/expense/asyncThunks';
 
 const expenseSlice = createSlice({
   name: 'expenses',
@@ -20,7 +20,23 @@ const expenseSlice = createSlice({
         state.uiState.getExpenses.isLoading = false;
         state.uiState.getExpenses.error = {
           isError: true,
-          errorMessage: action.error.message || 'Something went wrong',
+          errorMessage: action.payload || 'Something went wrong',
+        };
+      });
+
+    builder
+      .addCase(createExpense.pending, (state) => {
+        state.uiState.createExpense.isLoading = true;
+        state.uiState.createExpense.error = { isError: false, errorMessage: '' };
+      })
+      .addCase(createExpense.fulfilled, (state) => {
+        state.uiState.createExpense.isLoading = false;
+      })
+      .addCase(createExpense.rejected, (state, action) => {
+        state.uiState.createExpense.isLoading = false;
+        state.uiState.createExpense.error = {
+          isError: true,
+          errorMessage: action.payload || 'Something went wrong',
         };
       });
   },

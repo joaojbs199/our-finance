@@ -10,6 +10,7 @@ export const initialOwnerState: IOwnerState = {
 export const initialExpenseState: IExpenseState = {
   uiState: {
     getExpenses: initialUiState,
+    createExpense: initialUiState,
   },
   expenses: {
     metadata: {
