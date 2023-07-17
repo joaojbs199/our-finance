@@ -18,7 +18,7 @@ export const Navbar = () => {
       ) : (
         <button
           onClick={() => {
-            signIn('google', { callbackUrl: '/control-panel' });
+            signIn('google', { callbackUrl: '/control/expenses' });
           }}
         >
           Entrar

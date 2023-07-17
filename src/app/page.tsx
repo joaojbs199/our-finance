@@ -12,7 +12,7 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
 
   if (session) {
-    redirect('/control-panel');
+    redirect('/control/expenses');
   }
   return (
     <div>
