@@ -10,7 +10,13 @@ export async function GET() {
     return NextResponse.json({ message: 'YOU MUST BE LOGGED IN.' }, { status: 401 });
   }
 
-  const data = await prisma.owner.findMany();
+  const query = {
+    where: {
+      user_email: session.user?.email as string,
+    },
+  };
+
+  const data = await prisma.owner.findMany(query);
 
   return NextResponse.json({ data }, { status: 200 });
 }
