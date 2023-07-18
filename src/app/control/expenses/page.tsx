@@ -8,7 +8,7 @@ import GetExpensesButton from '@/src/components/Buttons/GetExpensesButton';
 import CreateExpenseButton from '@/src/components/Buttons/CreateExpenseButton';
 
 export const metadata: Metadata = {
-  title: 'Painel de controle',
+  title: 'Despesas',
 };
 
 export default async function ControlPanel() {
@@ -21,7 +21,6 @@ export default async function ControlPanel() {
   return (
     <div>
       <Navbar />
-      <h1>Painel de controle</h1>
       <GetUserButton />
       <GetExpensesButton />
       <CreateExpenseButton />

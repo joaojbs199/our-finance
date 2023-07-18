@@ -6,17 +6,15 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import Logo from '@/src/assets/logo.png';
 import Image from 'next/image';
 import Link from 'next/link';
+import { joinClassNames } from '@/src/utils/Helpers';
+import { X as CloseIcon, Menu as MenuIcon } from 'lucide-react';
 
 const navigation = [
   { name: 'Receitas', href: '#', current: false },
   { name: 'Despesas', href: '/control/expenses', current: true },
-  { name: 'Listas de pagamento', href: '#', current: false },
-  { name: 'Planos de pagamento', href: '#', current: false },
+  { name: 'Listas', href: '#', current: false },
+  { name: 'Planos', href: '#', current: false },
 ];
-
-function classNames(...classes: Array<string>) {
-  return classes.filter(Boolean).join(' ');
-}
 
 export const Navbar = () => {
   const { data: session } = useSession();
@@ -29,9 +27,8 @@ export const Navbar = () => {
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                  <span className="sr-only">Open main menu</span>
-                  {open ? <p>Icone 1</p> : <p>Icone 2</p>}
+                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-1 focus:ring-gray-600">
+                  {open ? <CloseIcon /> : <MenuIcon />}
                 </Disclosure.Button>
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
@@ -47,7 +44,7 @@ export const Navbar = () => {
                         <a
                           key={item.name}
                           href={item.href}
-                          className={classNames(
+                          className={joinClassNames(
                             item.current
                               ? 'bg-gray-900 text-white'
                               : 'text-gray-300 hover:bg-gray-700 hover:text-white',
@@ -70,7 +67,7 @@ export const Navbar = () => {
                       onClick={() => {
                         signIn('google', { callbackUrl: '/control/expenses' });
                       }}
-                      className="rounded-md bg-cyan-600 px-3 py-2 text-sm font-medium text-white"
+                      className="delay-50 rounded-md bg-cyan-600 px-3 py-2 text-sm font-medium text-white transition ease-out hover:bg-cyan-800"
                     >
                       Entrar
                     </Menu.Button>
@@ -99,32 +96,22 @@ export const Navbar = () => {
                       >
                         <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                           <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href="#"
-                                className={classNames(
-                                  active ? 'bg-gray-100' : '',
-                                  'block px-4 py-2 text-sm text-gray-700',
-                                )}
-                              >
-                                Gerenciar conta
-                              </a>
-                            )}
+                            <a
+                              href="#"
+                              className="flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            >
+                              Gerenciar conta
+                            </a>
                           </Menu.Item>
                           <Menu.Item>
-                            {({ active }) => (
-                              <Menu.Button
-                                onClick={() => {
-                                  signOut();
-                                }}
-                                className={classNames(
-                                  active ? 'bg-gray-100' : '',
-                                  'flex w-full px-4 py-2 text-sm text-gray-700',
-                                )}
-                              >
-                                Sair
-                              </Menu.Button>
-                            )}
+                            <Menu.Button
+                              onClick={() => {
+                                signOut();
+                              }}
+                              className="flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            >
+                              Sair
+                            </Menu.Button>
                           </Menu.Item>
                         </Menu.Items>
                       </Transition>
@@ -142,7 +129,7 @@ export const Navbar = () => {
                   key={item.name}
                   as="a"
                   href={item.href}
-                  className={classNames(
+                  className={joinClassNames(
                     item.current
                       ? 'bg-gray-900 text-white'
                       : 'text-gray-300 hover:bg-gray-700 hover:text-white',
