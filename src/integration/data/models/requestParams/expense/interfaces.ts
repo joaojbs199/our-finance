@@ -1,4 +1,4 @@
-import { ExpenseStatusType, ExpenseType } from '@prisma/client';
+import { ExpenseType } from '@prisma/client';
 export interface IGetExpensesRequestParams {
   initialDate: Date | '';
   finalDate: Date | '';
@@ -12,7 +12,7 @@ export interface ICreateExpenseRequestParams {
     value: number;
     description: string;
     type: ExpenseType;
-    status: ExpenseStatusType;
+    status: boolean;
   };
   ownerId: number;
 }

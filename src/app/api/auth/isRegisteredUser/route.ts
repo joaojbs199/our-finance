@@ -14,5 +14,5 @@ export async function POST(request: Request) {
 
   const isRegisteredUser = isValid(user);
 
-  return NextResponse.json({ data: isRegisteredUser });
+  return NextResponse.json({ data: isRegisteredUser, message: 'RESULT' });
 }

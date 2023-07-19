@@ -18,5 +18,5 @@ export async function GET() {
 
   const data = await prisma.owner.findMany(query);
 
-  return NextResponse.json({ data }, { status: 200 });
+  return NextResponse.json({ data, message: 'FINDED USERS' }, { status: 200 });
 }

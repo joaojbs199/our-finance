@@ -93,5 +93,5 @@ export async function POST(request: Request) {
     data: data,
   };
 
-  return NextResponse.json({ data: response }, { status: 200 });
+  return NextResponse.json({ data: response, message: 'FINDED EXPENSES.' }, { status: 200 });
 }
