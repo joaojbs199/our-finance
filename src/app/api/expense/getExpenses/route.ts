@@ -71,6 +71,17 @@ export async function POST(request: Request) {
         },
       ],
     },
+    select: {
+      id: true,
+      dueDate: true,
+      value: true,
+      description: true,
+      type: true,
+      paymentBarCode: true,
+      observations: true,
+      status: true,
+      paymentList_id: true,
+    },
   };
 
   const data = await prisma.expense.findMany(query);

@@ -4,5 +4,5 @@ export interface IGetExpenseApiResponse {
   metadata: {
     totalResults: number;
   };
-  data: Expense[];
+  data: Omit<Expense, 'created_at' | 'updated_at'>[];
 }
