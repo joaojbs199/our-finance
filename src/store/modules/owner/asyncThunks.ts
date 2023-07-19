@@ -10,7 +10,7 @@ export const getOwners = createAsyncThunk<Owner[], void, { state: RootState; rej
       const request = makeRequestHandlerFactory();
 
       const response = await request.handle<Owner[]>({
-        url: '/api/owner/getOwners',
+        url: '/api/owners/getOwners',
         method: 'get',
       });
       const owners: Owner[] = response;

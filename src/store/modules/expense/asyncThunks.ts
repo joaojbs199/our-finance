@@ -11,7 +11,7 @@ export const getExpenses = createAsyncThunk<
   IGetExpenseApiResponse,
   IGetExpensesRequestParams,
   { state: RootState; rejectValue: string }
->('expenses/getExpenses', async (requestParams, { rejectWithValue }) => {
+>('expense/getExpenses', async (requestParams, { rejectWithValue }) => {
   try {
     const request = makeRequestHandlerFactory();
 
@@ -32,7 +32,7 @@ export const createExpense = createAsyncThunk<
   boolean,
   ICreateExpenseRequestParams,
   { state: RootState; rejectValue: string }
->('expenses/createExpense', async (requestParams, { rejectWithValue }) => {
+>('expense/createExpense', async (requestParams, { rejectWithValue }) => {
   try {
     const request = makeRequestHandlerFactory();
 
