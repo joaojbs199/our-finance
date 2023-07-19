@@ -3,9 +3,8 @@ import { authOptions } from '@/src/app/api/auth/[...nextauth]/route';
 import { redirect } from 'next/navigation';
 import { Navbar } from '@/src/components/Navbar/component';
 import { Metadata } from 'next';
-import GetUserButton from '@/src/components/Buttons/GetOwnersButton';
-import GetExpensesButton from '@/src/components/Buttons/GetExpensesButton';
 import CreateExpenseButton from '@/src/components/Buttons/CreateExpenseButton';
+import { ItemList } from '@/src/components/List/ItemList';
 
 export const metadata: Metadata = {
   title: 'Despesas',
@@ -19,11 +18,9 @@ export default async function Expenses() {
   }
 
   return (
-    <div>
+    <div className="flex h-screen flex-col">
       <Navbar />
-      <GetUserButton />
-      <GetExpensesButton />
-      <CreateExpenseButton />
+      <ItemList />
     </div>
   );
 }
