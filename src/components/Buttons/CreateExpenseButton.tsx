@@ -19,7 +19,7 @@ const CreateExpenseButton = () => {
               value: 159.3,
               description: 'Conta teste',
               type: 'INDIVIDUAL',
-              status: 'NOT_PAID',
+              status: false,
             },
             ownerId: 1,
           }),
