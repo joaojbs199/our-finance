@@ -74,11 +74,13 @@ enum ExpenseStatusType {
 model Expense {
   id Int @id @default(autoincrement())
 
-  dueDate     DateTime
-  value       Float
-  description String
-  type        ExpenseType
-  status      ExpenseStatusType @default(value: NOT_PAID)
+  dueDate        DateTime
+  value          Float
+  description    String
+  type           ExpenseType
+  paymentBarCode String?
+  observations   String?
+  status         Boolean     @default(value: false)
 
   owners Owner[]
 
