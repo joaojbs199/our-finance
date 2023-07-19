@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { Navbar } from '@/src/components/Navbar/component';
 import { Metadata } from 'next';
 import CreateExpenseButton from '@/src/components/Buttons/CreateExpenseButton';
-import { ItemList } from '@/src/components/List/ItemList';
+import { ExpenseList } from '@/src/components/Expenses/ExpenseList';
 
 export const metadata: Metadata = {
   title: 'Despesas',
@@ -20,7 +20,7 @@ export default async function Expenses() {
   return (
     <div className="flex h-screen flex-col">
       <Navbar />
-      <ItemList />
+      <ExpenseList />
     </div>
   );
 }

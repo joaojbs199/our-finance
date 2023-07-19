@@ -1,31 +1,19 @@
-'use client';
-
-import { getExpenses } from '@/src/store/modules/expense/asyncThunks';
-import { AppDispatch, RootState, useAppDispatch } from '@/src/store/store';
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { ReactNode } from 'react';
 import { Loader } from '@/src/components/Loader/Loader';
 
-export const ItemList = () => {
-  const dispatch: AppDispatch = useAppDispatch();
-  const state = useSelector((state: RootState) => state);
-  const { metadata, data } = state.expense.expenses;
-  const { uiState } = state.expense;
+interface itemListProps {
+  children: ReactNode;
+  isLoading: boolean;
+}
 
-  useEffect(() => {
-    dispatch(
-      getExpenses({
-        initialDate: '',
-        finalDate: '',
-      }),
-    );
-  }, []);
-
+export const ItemList = ({ isLoading, children }: itemListProps) => {
   return (
     <>
-      {uiState.getExpenses.isLoading && <Loader />}
+      {isLoading && <Loader />}
 
-      <div className="m-1 flex-grow bg-gray-200 "></div>
+      <div className="relative m-1 flex-grow bg-gray-200 ">
+        <div className="absolute h-full w-full overflow-auto bg-gray-200 p-1">{children}</div>
+      </div>
     </>
   );
 };
