@@ -11,8 +11,8 @@ export const ItemList = ({ isLoading, children }: itemListProps) => {
     <>
       {isLoading && <Loader />}
 
-      <div className="relative m-1 flex-grow bg-gray-200 ">
-        <div className="absolute h-full w-full overflow-auto bg-gray-200 p-1">{children}</div>
+      <div className="relative m-1 flex-grow">
+        <div className="absolute h-full w-full overflow-auto p-1">{children}</div>
       </div>
     </>
   );

@@ -22,7 +22,7 @@ export const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-black">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -30,7 +30,7 @@ export const Navbar = () => {
               {session && (
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                   {/* Mobile menu button*/}
-                  <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-1 focus:ring-gray-600">
+                  <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-neutral-700 hover:text-white focus:outline-none focus:ring-1 focus:ring-gray-600">
                     {open ? <CloseIcon /> : <MenuIcon />}
                   </Disclosure.Button>
                 </div>
@@ -50,8 +50,8 @@ export const Navbar = () => {
                           href={page.href}
                           className={joinClassNames(
                             pathname === page.href
-                              ? 'bg-gray-900 text-white'
-                              : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                              ? 'bg-neutral-800 text-white'
+                              : 'text-gray-300 hover:bg-neutral-600 hover:text-white',
                             'rounded-md px-3 py-2 text-sm font-medium',
                           )}
                           aria-current={pathname === page.href ? 'page' : undefined}
@@ -78,7 +78,7 @@ export const Navbar = () => {
                   ) : (
                     <div>
                       <div>
-                        <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                        <Menu.Button className="flex rounded-full bg-neutral-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                           <span className="sr-only">Abrir menu do usuário</span>
                           <Image
                             width={50}
@@ -136,8 +136,8 @@ export const Navbar = () => {
                     href={page.href}
                     className={joinClassNames(
                       pathname === page.href
-                        ? 'bg-gray-900 text-white'
-                        : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                        ? 'bg-neutral-800 text-white'
+                        : 'text-gray-300 hover:bg-neutral-700 hover:text-white',
                       'block rounded-md px-3 py-2 text-base font-medium',
                     )}
                     aria-current={pathname === page.href ? 'page' : undefined}
