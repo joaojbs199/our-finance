@@ -4,5 +4,7 @@ export interface IGetExpenseApiResponse {
   metadata: {
     totalResults: number;
   };
-  data: Omit<Expense, 'created_at' | 'updated_at'>[];
+  data: PartialExpense[];
 }
+
+export type PartialExpense = Omit<Expense, 'created_at' | 'updated_at'>;
