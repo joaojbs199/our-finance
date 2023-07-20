@@ -12,7 +12,9 @@ export const ItemList = ({ isLoading, children }: itemListProps) => {
       {isLoading && <Loader />}
 
       <div className="relative m-1 flex-grow">
-        <div className="absolute h-full w-full overflow-auto p-1">{children}</div>
+        <div className="absolute h-full w-full divide-y-[2px] divide-neutral-500 overflow-auto">
+          {children}
+        </div>
       </div>
     </>
   );

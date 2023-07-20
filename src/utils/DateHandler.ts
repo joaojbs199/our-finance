@@ -30,4 +30,15 @@ export class DateHandler {
     const dateISO = `${splitDate[2]}-${splitDate[1]}-${splitDate[0]}`;
     return dateISO;
   }
+
+  /**
+   * Convert yyyy-mm-dd date format to dd/mm/aaaa date format
+   * @param isoDate
+   * @returns date in dd/mm/aaaa format
+   */
+  static formatDateBR(isoDate: Date) {
+    const receivedDate = new Date(isoDate);
+    const convertedDate = receivedDate.toLocaleDateString('pt-BR');
+    return convertedDate;
+  }
 }
