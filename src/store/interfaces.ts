@@ -31,6 +31,10 @@ export interface IExpenseState {
   expenses: IGetExpenseApiResponse;
 }
 
+export interface IConfigurationState {
+  globalLoading: boolean;
+}
+
 /* ********************************************************************************* */
 
 // COOMMON INITIAL STATES

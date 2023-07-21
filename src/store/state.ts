@@ -1,4 +1,4 @@
-import { IExpenseState, IOwnerState, initialUiState } from './interfaces';
+import { IConfigurationState, IExpenseState, IOwnerState, initialUiState } from './interfaces';
 
 export const initialOwnerState: IOwnerState = {
   uiState: {
@@ -19,4 +19,8 @@ export const initialExpenseState: IExpenseState = {
     },
     data: [],
   },
+};
+
+export const initialConfigurationState: IConfigurationState = {
+  globalLoading: false,
 };

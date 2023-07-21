@@ -2,10 +2,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import ownerSlice from '@/src/slices/owner/ownerSlice';
 import { useDispatch } from 'react-redux';
 import expenseSlice from '@/src/slices/expense/expenseSlice';
+import configurationSlice from '../slices/configuration/configurationSlice';
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
+      configuration: configurationSlice.reducer,
       owner: ownerSlice.reducer,
       expense: expenseSlice.reducer,
     },

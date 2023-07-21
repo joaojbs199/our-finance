@@ -7,14 +7,17 @@ import {
   IGetExpensesRequestParams,
   IUpdateExpenseStatusRequestParams,
 } from '@/src/integration/data/models/requestParams/expense/interfaces';
+import { ConfigurationActions } from '@/src/slices/configuration/configurationSlice';
 
 export const getExpenses = createAsyncThunk<
   IGetExpenseApiResponse,
   IGetExpensesRequestParams,
   { state: RootState; rejectValue: string }
->('expense/getExpenses', async (requestParams, { rejectWithValue }) => {
+>('expense/getExpenses', async (requestParams, { rejectWithValue, dispatch }) => {
   try {
     const request = makeRequestHandlerFactory();
+
+    dispatch(ConfigurationActions.setGlobalIsLoading(true));
 
     const response = await request.handle<IGetExpenseApiResponse>({
       url: '/api/expenses/getExpenses',
@@ -22,6 +25,9 @@ export const getExpenses = createAsyncThunk<
       body: requestParams,
     });
     const expenses: IGetExpenseApiResponse = response;
+
+    dispatch(ConfigurationActions.setGlobalIsLoading(false));
+
     return expenses;
   } catch (err) {
     const error = err as Error;
@@ -53,15 +59,20 @@ export const updateExpenseStatus = createAsyncThunk<
   boolean,
   IUpdateExpenseStatusRequestParams,
   { state: RootState; rejectValue: string }
->('expense/updateExpenseStatus', async (requestParams, { rejectWithValue }) => {
+>('expense/updateExpenseStatus', async (requestParams, { rejectWithValue, dispatch }) => {
   try {
     const request = makeRequestHandlerFactory();
+
+    dispatch(ConfigurationActions.setGlobalIsLoading(true));
 
     const response = await request.handle<boolean>({
       url: '/api/expenses/updateExpenseStatus',
       method: 'put',
       body: requestParams,
     });
+
+    dispatch(ConfigurationActions.setGlobalIsLoading(false));
+
     return response;
   } catch (err) {
     const error = err as Error;
