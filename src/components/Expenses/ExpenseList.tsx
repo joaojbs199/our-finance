@@ -5,7 +5,7 @@ import { AppDispatch, RootState, useAppDispatch } from '@/src/store/store';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { ItemList } from '../List/ItemList';
-import { ExpenseCard } from '../Cards/Card';
+import { ExpenseCard } from '@/src/components/Expenses/ExpenseCard';
 
 export const ExpenseList = () => {
   const dispatch: AppDispatch = useAppDispatch();
