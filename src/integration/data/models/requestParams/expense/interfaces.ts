@@ -16,3 +16,8 @@ export interface ICreateExpenseRequestParams {
   };
   ownerId: number;
 }
+
+export interface IUpdateExpenseStatusRequestParams {
+  id: number;
+  status: boolean;
+}
