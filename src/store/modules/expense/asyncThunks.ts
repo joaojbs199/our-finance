@@ -5,6 +5,7 @@ import { IGetExpenseApiResponse } from '@/src/integration/data/models/apiRespons
 import {
   ICreateExpenseRequestParams,
   IGetExpensesRequestParams,
+  IUpdateExpenseStatusRequestParams,
 } from '@/src/integration/data/models/requestParams/expense/interfaces';
 
 export const getExpenses = createAsyncThunk<
@@ -38,6 +39,26 @@ export const createExpense = createAsyncThunk<
 
     const response = await request.handle<boolean>({
       url: '/api/expenses/createExpense',
+      method: 'put',
+      body: requestParams,
+    });
+    return response;
+  } catch (err) {
+    const error = err as Error;
+    return rejectWithValue(error.message);
+  }
+});
+
+export const updateExpenseStatus = createAsyncThunk<
+  boolean,
+  IUpdateExpenseStatusRequestParams,
+  { state: RootState; rejectValue: string }
+>('expense/updateExpenseStatus', async (requestParams, { rejectWithValue }) => {
+  try {
+    const request = makeRequestHandlerFactory();
+
+    const response = await request.handle<boolean>({
+      url: '/api/expenses/updateExpenseStatus',
       method: 'put',
       body: requestParams,
     });

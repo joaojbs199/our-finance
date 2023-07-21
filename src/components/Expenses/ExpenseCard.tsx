@@ -7,12 +7,15 @@ import { Clipboard, ClipboardCheck, Pencil } from 'lucide-react';
 import isEmpty from 'is-empty';
 import { convertCurrency, joinClassNames } from '@/src/utils/Helpers';
 import { DateHandler } from '@/src/utils/DateHandler';
+import { AppDispatch, useAppDispatch } from '@/src/store/store';
+import { updateExpenseStatus } from '@/src/store/modules/expense/asyncThunks';
 
 interface ExpenseCardProps {
   expense: PartialExpense;
 }
 
 export const ExpenseCard = ({ expense }: ExpenseCardProps) => {
+  const dispatch: AppDispatch = useAppDispatch();
   const barCodeInput = useRef<HTMLInputElement>(null);
   const [copyBarCode, setCopyBarCode] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -25,6 +28,10 @@ export const ExpenseCard = ({ expense }: ExpenseCardProps) => {
       }, 1000);
       setCopyBarCode(true);
     }
+  };
+
+  const handleUpdateExpenseStatus = (checked: boolean) => {
+    dispatch(updateExpenseStatus({ id: expense.id, status: checked }));
   };
 
   return (
@@ -52,7 +59,7 @@ export const ExpenseCard = ({ expense }: ExpenseCardProps) => {
           title={`${expense.status ? 'Despesa paga' : 'Pagar'}`}
           checked={expense.status}
           onChange={(e) => {
-            console.log('DEBUG_OUR-FINANCE <-----> e:', e.target.checked); // Request to update expesne status
+            handleUpdateExpenseStatus(e.target.checked);
           }}
           style={{ fontSize: '12px' }}
           color="success-o"

@@ -26,6 +26,7 @@ export interface IExpenseState {
   uiState: {
     getExpenses: IUiState;
     createExpense: IUiState;
+    updateExpenseStatus: IUiState;
   };
   expenses: IGetExpenseApiResponse;
 }

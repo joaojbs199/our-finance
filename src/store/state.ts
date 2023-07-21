@@ -11,6 +11,7 @@ export const initialExpenseState: IExpenseState = {
   uiState: {
     getExpenses: initialUiState,
     createExpense: initialUiState,
+    updateExpenseStatus: initialUiState,
   },
   expenses: {
     metadata: {
