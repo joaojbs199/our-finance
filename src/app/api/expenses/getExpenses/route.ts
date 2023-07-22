@@ -95,7 +95,7 @@ export async function POST(request: Request) {
       type: 'INDIVIDUAL',
       paymentBarCode: '14587412224865356784658431521632086357168740641840696066',
       observations: 'Teste de observações das despesas',
-      status: true,
+      status: false,
       paymentList_id: null,
     },
     {

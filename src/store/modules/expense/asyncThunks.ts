@@ -1,7 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '@/src/store/store';
 import { makeRequestHandlerFactory } from '@/src/integration/domain/factories/services/request-service-factory';
-import { IGetExpenseApiResponse } from '@/src/integration/data/models/apiResponse/expense/interfaces';
+import {
+  IGetExpenseApiResponse,
+  PartialExpense,
+} from '@/src/integration/data/models/apiResponse/expense/interfaces';
 import {
   ICreateExpenseRequestParams,
   IGetExpensesRequestParams,
@@ -56,7 +59,7 @@ export const createExpense = createAsyncThunk<
 });
 
 export const updateExpenseStatus = createAsyncThunk<
-  boolean,
+  PartialExpense,
   IUpdateExpenseStatusRequestParams,
   { state: RootState; rejectValue: string }
 >('expense/updateExpenseStatus', async (requestParams, { rejectWithValue, dispatch }) => {
@@ -65,7 +68,7 @@ export const updateExpenseStatus = createAsyncThunk<
 
     dispatch(ConfigurationActions.setGlobalIsLoading(true));
 
-    const response = await request.handle<boolean>({
+    const response = await request.handle<PartialExpense>({
       url: '/api/expenses/updateExpenseStatus',
       method: 'put',
       body: requestParams,

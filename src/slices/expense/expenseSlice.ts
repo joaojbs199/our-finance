@@ -5,6 +5,7 @@ import {
   getExpenses,
   updateExpenseStatus,
 } from '@/src/store/modules/expense/asyncThunks';
+import { updateExpenses } from './reducer-helper';
 
 const expenseSlice = createSlice({
   name: 'expenses',
@@ -49,7 +50,9 @@ const expenseSlice = createSlice({
         state.uiState.updateExpenseStatus.isLoading = true;
         state.uiState.updateExpenseStatus.error = { isError: false, errorMessage: '' };
       })
-      .addCase(updateExpenseStatus.fulfilled, (state) => {
+      .addCase(updateExpenseStatus.fulfilled, (state, action) => {
+        const updatedExpenses = updateExpenses(action.payload, state.expenses.data);
+        state.expenses.data = updatedExpenses;
         state.uiState.updateExpenseStatus.isLoading = false;
       })
       .addCase(updateExpenseStatus.rejected, (state, action) => {
