@@ -31,7 +31,11 @@ export const Navbar = () => {
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                   {/* Mobile menu button*/}
                   <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-neutral-700 hover:text-white focus:outline-none focus:ring-1 focus:ring-gray-600">
-                    {open ? <CloseIcon /> : <MenuIcon />}
+                    {open ? (
+                      <CloseIcon className="h-5 w-5 text-gray-300" />
+                    ) : (
+                      <MenuIcon className="h-5 w-5 text-gray-300" />
+                    )}
                   </Disclosure.Button>
                 </div>
               )}
