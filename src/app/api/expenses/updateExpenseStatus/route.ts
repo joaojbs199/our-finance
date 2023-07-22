@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/src/app/api/auth/[...nextauth]/route';
 import { prisma } from '@/lib/prisma';
 import { IUpdateExpenseStatusRequestParams } from '@/src/integration/data/models/requestParams/expense/interfaces';
+import { Prisma } from '@prisma/client';
 
 export async function PUT(request: Request) {
   const session = await getServerSession(authOptions);
@@ -37,19 +38,20 @@ export async function PUT(request: Request) {
   try {
     const response = await prisma.expense.update(query);
 
-    return NextResponse.json({ data: response }, { status: 200 });
+    return NextResponse.json({ data: response, message: 'EXPENSE UPDATED.' }, { status: 200 });
   } catch (error) {
-    const err = error as any;
-    const errorCause = err?.meta?.cause;
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      console.log('DEBUG_OUR-FINANCE <-----> error:', error);
 
-    if (errorCause === 'Record to update not found.') {
-      return NextResponse.json({ data: false, message: errorCause }, { status: 404 });
+      return NextResponse.json(
+        { data: null, message: `Prisma error. Code: ${error.code}` },
+        { status: 422 },
+      );
+    } else {
+      return NextResponse.json(
+        { data: null, message: 'EXPENSE NOT CREATED, SOMETHING WENT WRONG.' },
+        { status: 500 },
+      );
     }
-
-    console.log('DEBUG_OUR-FINANCE <-----> error:', err);
-    return NextResponse.json(
-      { data: false, message: 'EXPENSE NOT UPDATED, SOMETHING WENT WRONG.' },
-      { status: 422 },
-    );
   }
 }
