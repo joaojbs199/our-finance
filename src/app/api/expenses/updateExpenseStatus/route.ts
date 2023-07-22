@@ -3,14 +3,13 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/src/app/api/auth/[...nextauth]/route';
 import { prisma } from '@/lib/prisma';
 import { IUpdateExpenseStatusRequestParams } from '@/src/integration/data/models/requestParams/expense/interfaces';
-import { isValid } from '@/src/utils/validators';
 
 export async function PUT(request: Request) {
   const session = await getServerSession(authOptions);
 
-  /* if (!session) {
+  if (!session) {
     return NextResponse.json({ message: 'YOU MUST BE LOGGED IN.' }, { status: 401 });
-  } */
+  }
 
   const body = await request.json();
   const { id, status }: IUpdateExpenseStatusRequestParams = body;
@@ -38,12 +37,10 @@ export async function PUT(request: Request) {
   try {
     const response = await prisma.expense.update(query);
 
-    const updated = isValid(response);
-
-    return NextResponse.json({ data: updated }, { status: 200 });
+    return NextResponse.json({ data: response }, { status: 200 });
   } catch (error) {
     const err = error as any;
-    const errorCause = err.meta.cause;
+    const errorCause = err?.meta?.cause;
 
     if (errorCause === 'Record to update not found.') {
       return NextResponse.json({ data: false, message: errorCause }, { status: 404 });
