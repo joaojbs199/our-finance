@@ -1,6 +1,4 @@
 import { ReactNode } from 'react';
-import { Loader } from '@/src/components/Loader/Loader';
-
 interface itemListProps {
   children: ReactNode;
 }
