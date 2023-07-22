@@ -1,16 +1,21 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { initialExpenseState } from '@/src/store/state';
 import {
   createExpense,
   getExpenses,
   updateExpenseStatus,
 } from '@/src/store/modules/expense/asyncThunks';
-import { updateExpenses } from './reducer-helper';
+import { updateExpenses, updateIsOpenUpdateExpenseDialog } from './reducer-helper';
 
 const expenseSlice = createSlice({
   name: 'expenses',
   initialState: initialExpenseState,
-  reducers: {},
+  reducers: {
+    setIsOpenUpdateExpenseDialog: (state, action: PayloadAction<boolean>) => {
+      return updateIsOpenUpdateExpenseDialog(state, action);
+    },
+  },
+
   extraReducers(builder) {
     builder
       .addCase(getExpenses.pending, (state) => {
@@ -64,5 +69,11 @@ const expenseSlice = createSlice({
       });
   },
 });
+
+const { setIsOpenUpdateExpenseDialog } = expenseSlice.actions;
+
+export const ExpenseActions = {
+  setIsOpenUpdateExpenseDialog,
+};
 
 export default expenseSlice;

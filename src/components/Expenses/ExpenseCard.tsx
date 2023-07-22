@@ -5,10 +5,11 @@ import { Checkbox } from 'pretty-checkbox-react';
 import '@djthoms/pretty-checkbox';
 import { Clipboard, ClipboardCheck, Pencil } from 'lucide-react';
 import isEmpty from 'is-empty';
-import { convertCurrency, joinClassNames } from '@/src/utils/Helpers';
+import { convertCurrency } from '@/src/utils/Helpers';
 import { DateHandler } from '@/src/utils/DateHandler';
 import { AppDispatch, useAppDispatch } from '@/src/store/store';
 import { updateExpenseStatus } from '@/src/store/modules/expense/asyncThunks';
+import { ExpenseActions } from '@/src/slices/expense/expenseSlice';
 
 interface ExpenseCardProps {
   expense: PartialExpense;
@@ -18,7 +19,6 @@ export const ExpenseCard = ({ expense }: ExpenseCardProps) => {
   const dispatch: AppDispatch = useAppDispatch();
   const barCodeInput = useRef<HTMLInputElement>(null);
   const [copyBarCode, setCopyBarCode] = useState(false);
-  const [edit, setEdit] = useState(false);
 
   const handleCopyBarCode = () => {
     if (barCodeInput.current) {
@@ -39,13 +39,13 @@ export const ExpenseCard = ({ expense }: ExpenseCardProps) => {
       <div className="mb-3 flex w-full justify-end border-b border-zinc-900 p-2 pt-0 text-gray-100">
         <Pencil
           onClick={() => {
-            setEdit(true);
+            dispatch(ExpenseActions.setIsOpenUpdateExpenseDialog(true));
           }}
           className="h-4 w-4"
         />
       </div>
 
-      <header className={joinClassNames(!edit ? 'flex justify-between' : '', 'w-full')}>
+      <header className="flex w-full justify-between">
         <p className="text-xs tracking-wider">{expense.description}</p>
         <p className="text-[10px] tracking-widest text-gray-400">
           {DateHandler.formatDateBR(expense.dueDate)}
