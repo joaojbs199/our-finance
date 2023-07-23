@@ -41,4 +41,16 @@ export class DateHandler {
     const convertedDate = receivedDate.toLocaleDateString('pt-BR');
     return convertedDate;
   }
+
+  /**
+   * Simplify yyyy-mm-dd'T'HH:mm:ss.000Z date format to yyyy-mm-dd date format
+   * @param isoDate
+   * @returns date in yyyy-mm-dd format
+   */
+  static simplifyDateISO(isoDate: Date) {
+    const stringDate = new Date(isoDate).toISOString();
+    const splitteDate = stringDate.split('T');
+    const simplifiedDate = splitteDate[0];
+    return simplifiedDate;
+  }
 }
