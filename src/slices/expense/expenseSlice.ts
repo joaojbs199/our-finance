@@ -6,12 +6,13 @@ import {
   updateExpenseStatus,
 } from '@/src/store/modules/expense/asyncThunks';
 import { updateExpenses, updateIsOpenUpdateExpenseDialog } from './reducer-helper';
+import { IOpenExpenseDialogs } from '@/src/integration/data/models/flow/expense/interfaces';
 
 const expenseSlice = createSlice({
   name: 'expenses',
   initialState: initialExpenseState,
   reducers: {
-    setIsOpenUpdateExpenseDialog: (state, action: PayloadAction<boolean>) => {
+    setIsOpenUpdateExpenseDialog: (state, action: PayloadAction<IOpenExpenseDialogs>) => {
       return updateIsOpenUpdateExpenseDialog(state, action);
     },
   },

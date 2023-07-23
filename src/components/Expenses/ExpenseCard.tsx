@@ -39,7 +39,9 @@ export const ExpenseCard = ({ expense }: ExpenseCardProps) => {
       <div className="mb-3 flex w-full justify-end border-b border-zinc-900 p-2 pt-0 text-gray-100">
         <Pencil
           onClick={() => {
-            dispatch(ExpenseActions.setIsOpenUpdateExpenseDialog(true));
+            dispatch(
+              ExpenseActions.setIsOpenUpdateExpenseDialog({ isOpen: true, expenseId: expense.id }),
+            );
           }}
           className="h-4 w-4"
         />

@@ -1,4 +1,5 @@
 import { PartialExpense } from '@/src/integration/data/models/apiResponse/expense/interfaces';
+import { IOpenExpenseDialogs } from '@/src/integration/data/models/flow/expense/interfaces';
 import { IExpenseState } from '@/src/store/interfaces';
 import { Draft, PayloadAction } from '@reduxjs/toolkit';
 
@@ -19,14 +20,19 @@ export const updateExpenses = (updatedExpense: PartialExpense, expenses: Partial
   return updatedExpenses;
 };
 
-export const updateIsOpenUpdateExpenseDialog = (state: S, action: A<boolean>) => {
+export const updateIsOpenUpdateExpenseDialog = (state: S, action: A<IOpenExpenseDialogs>) => {
+  const { isOpen, expenseId } = action.payload;
   return {
     ...state,
     uiState: {
       ...state.uiState,
       dialogs: {
         ...state.uiState.dialogs,
-        isOpenUpdateExpenseDialog: action.payload,
+        updateExpenseDialog: {
+          ...state.uiState.dialogs.updateExpenseDialog,
+          isOpen,
+          expenseId,
+        },
       },
     },
   };

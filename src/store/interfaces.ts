@@ -25,7 +25,10 @@ export interface IOwnerState {
 export interface IExpenseState {
   uiState: {
     dialogs: {
-      isOpenUpdateExpenseDialog: boolean;
+      updateExpenseDialog: {
+        isOpen: boolean;
+        expenseId: number;
+      };
     };
     getExpenses: IUiState;
     createExpense: IUiState;

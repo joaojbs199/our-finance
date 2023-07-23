@@ -10,7 +10,10 @@ export const initialOwnerState: IOwnerState = {
 export const initialExpenseState: IExpenseState = {
   uiState: {
     dialogs: {
-      isOpenUpdateExpenseDialog: false,
+      updateExpenseDialog: {
+        isOpen: false,
+        expenseId: 0,
+      },
     },
     getExpenses: initialUiState,
     createExpense: initialUiState,

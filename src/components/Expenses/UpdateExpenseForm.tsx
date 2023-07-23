@@ -8,18 +8,24 @@ import { ExpenseActions } from '@/src/slices/expense/expenseSlice';
 
 export const UpdateExpenseForm = () => {
   const dispatch: AppDispatch = useAppDispatch();
+
   const {
-    expense: { uiState },
+    expense: {
+      uiState,
+      expenses: { data },
+    },
   } = useSelector((state: RootState) => state);
 
   return (
     <>
-      {uiState.dialogs.isOpenUpdateExpenseDialog && (
+      {uiState.dialogs.updateExpenseDialog.isOpen && (
         <BlockBackground>
           <div className="z-30 h-3/5 w-[95%] bg-red-500">
             <X
               onClick={() => {
-                dispatch(ExpenseActions.setIsOpenUpdateExpenseDialog(false));
+                dispatch(
+                  ExpenseActions.setIsOpenUpdateExpenseDialog({ isOpen: false, expenseId: 0 }),
+                );
               }}
             />
           </div>
