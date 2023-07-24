@@ -8,9 +8,9 @@ import { useForm, Controller } from 'react-hook-form';
 import Select from 'react-select';
 import { ExpenseActions } from '@/src/slices/expense/expenseSlice';
 import { ExpenseType } from '@prisma/client';
-import IntlCurrencyInput from 'react-intl-currency-input';
 import { DateHandler } from '@/src/utils/DateHandler';
 import { joinClassNames } from '@/src/utils/Helpers';
+import { CurrencyInput } from '@/src/components/Inputs/CurrencyInput';
 
 export const UpdateExpenseForm: React.FC = () => {
   const dispatch: AppDispatch = useAppDispatch();
@@ -53,9 +53,8 @@ export const UpdateExpenseForm: React.FC = () => {
     },
   });
 
-  const handleChange = (value: number, maskedValue: string) => {
-    console.log(value); // value without mask (ex: 1234.56)
-    console.log(maskedValue); // masked value (ex: R$1234,56)
+  const handleFormSubmit = (data: any) => {
+    console.log('DEBUG_OUR-FINANCE <-----> data:', data);
   };
 
   return (
@@ -73,7 +72,10 @@ export const UpdateExpenseForm: React.FC = () => {
                 }}
               />
             </header>
-            <form className=" m-auto mt-5 flex w-11/12 max-w-lg flex-wrap justify-center  p-3">
+            <form
+              onSubmit={handleSubmit(handleFormSubmit)}
+              className=" m-auto mt-5 flex w-11/12 max-w-lg flex-wrap justify-center  p-3"
+            >
               <input
                 {...register('description', {
                   required: { value: true, message: 'Insira uma descrição' },
@@ -90,25 +92,12 @@ export const UpdateExpenseForm: React.FC = () => {
                 type="date"
                 className="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 pr-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
               />
-              <IntlCurrencyInput
-                className="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
-                currency="BRL"
-                defaultValue={expense.value}
-                max={999999999.99}
-                config={{
-                  locale: 'pt-BR',
-                  formats: {
-                    number: {
-                      BRL: {
-                        style: 'currency',
-                        currency: 'BRL',
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      },
-                    },
-                  },
-                }}
-                onChange={handleChange}
+              <CurrencyInput
+                register={register}
+                name="value"
+                errors={errors}
+                receivedValue={expense.value}
+                classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
               />
               <input
                 type="text"
