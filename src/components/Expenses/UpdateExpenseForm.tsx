@@ -11,6 +11,20 @@ import { DateHandler } from '@/src/utils/DateHandler';
 import { CurrencyInput } from '@/src/components/Inputs/CurrencyInput';
 import { StyledSelect } from '../Selects/Select';
 
+interface SelectOption {
+  label: string;
+  value: string;
+}
+
+interface FormValues {
+  description: string;
+  dueDate: string;
+  observations: string;
+  paymentBarCode: string;
+  type: SelectOption;
+  value: string;
+}
+
 export const UpdateExpenseForm: React.FC = () => {
   const dispatch: AppDispatch = useAppDispatch();
 
@@ -41,13 +55,13 @@ export const UpdateExpenseForm: React.FC = () => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<FormValues>({
     defaultValues: {
       description: '',
       dueDate: '',
       observations: '',
       paymentBarCode: '',
-      type: null,
+      type: { label: '', value: '' },
       value: '',
     },
   });
