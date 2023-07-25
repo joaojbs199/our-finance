@@ -5,12 +5,11 @@ import { useSelector } from 'react-redux';
 import { BlockBackground } from '../BlockBackground/BlockBackground';
 import { X } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
-import Select from 'react-select';
 import { ExpenseActions } from '@/src/slices/expense/expenseSlice';
 import { ExpenseType } from '@prisma/client';
 import { DateHandler } from '@/src/utils/DateHandler';
-import { joinClassNames } from '@/src/utils/Helpers';
 import { CurrencyInput } from '@/src/components/Inputs/CurrencyInput';
+import { StyledSelect } from '../Selects/Select';
 
 export const UpdateExpenseForm: React.FC = () => {
   const dispatch: AppDispatch = useAppDispatch();
@@ -48,7 +47,7 @@ export const UpdateExpenseForm: React.FC = () => {
       dueDate: '',
       observations: '',
       paymentBarCode: '',
-      type: { label: '', value: '' },
+      type: null,
       value: '',
     },
   });
@@ -92,12 +91,23 @@ export const UpdateExpenseForm: React.FC = () => {
                 type="date"
                 className="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 pr-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
               />
-              <CurrencyInput
-                register={register}
+
+              <Controller
+                control={control}
                 name="value"
-                errors={errors}
-                receivedValue={expense.value}
-                classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
+                rules={{ required: 'Informe um valor' }}
+                render={({ field: { onChange } }) => {
+                  return (
+                    <>
+                      <CurrencyInput
+                        onChange={onChange}
+                        receivedValue={expense.value}
+                        classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
+                      />
+                      {errors.value && <p>{errors.value.message}</p>}
+                    </>
+                  );
+                }}
               />
               <input
                 type="text"
@@ -117,45 +127,21 @@ export const UpdateExpenseForm: React.FC = () => {
                 control={control}
                 name="type"
                 rules={{ required: 'Selecione um tipo' }}
-                render={({ field: { onChange } }) => {
+                render={({ field: { onChange, value } }) => {
                   return (
-                    <Select
-                      classNames={{
-                        container: () => 'w-full',
-                        control: ({ isFocused }) =>
-                          joinClassNames(
-                            isFocused ? 'border-gray-50' : 'border-neutral-500',
-                            'border rounded bg-neutral-700',
-                          ),
-                        placeholder: () => 'text-gray-100 pl-1 text-[12px] tracking-widest',
-                        indicatorSeparator: () => 'border h-7 border-neutral-500 m-auto',
-                        dropdownIndicator: ({ isFocused }) =>
-                          joinClassNames(
-                            isFocused ? 'text-neutral-200' : 'text-neutral-500',
-                            'p-1 hover:text-neutral-200',
-                          ),
-                        clearIndicator: () => 'p-1 text-red-500 hover:text-red-400',
-                        menu: () =>
-                          'w-full mt-0 bg-neutral-800 border border-neutral-700 text-[12px] rounded-md',
-                        option: ({ isSelected }) =>
-                          joinClassNames(
-                            isSelected ? 'bg-neutral-700' : '',
-                            'p-1 text-gray-100 tracking-widest cursor-pointer hover:bg-neutral-700',
-                          ),
-                        singleValue: () => 'text-[12px] pl-1 text-gray-100 tracking-widest',
-                      }}
-                      unstyled
-                      isClearable
-                      isSearchable
-                      options={selectOptions}
-                      placeholder="Selecione uma opção"
-                      defaultValue={
-                        expense.type === ExpenseType.INDIVIDUAL
-                          ? selectOptions[0]
-                          : selectOptions[1]
-                      }
-                      onChange={onChange}
-                    />
+                    <>
+                      <StyledSelect
+                        initialValue={
+                          expense.type === ExpenseType.INDIVIDUAL
+                            ? selectOptions[0]
+                            : selectOptions[1]
+                        }
+                        value={value}
+                        onChange={onChange}
+                        options={selectOptions}
+                      />
+                      {errors.type && <p>{errors.type.message}</p>}
+                    </>
                   );
                 }}
               />

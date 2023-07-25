@@ -1,22 +1,20 @@
-import {
-  UseFormRegister,
-  FieldValues,
-  FieldPath,
-  RegisterOptions,
-  FieldErrors,
-} from 'react-hook-form';
+import { GroupBase, Props, PropsValue } from 'react-select';
 
-export type IFormCurrencyInputProps<T extends FieldValues> = {
+export type IFormCurrencyInputProps = {
   receivedValue: number;
-} & IFormInputProps<T>;
-
-export type IFormInputProps<T extends FieldValues> = {
   classNames: string;
-  register: UseFormRegister<T>;
-  name: FieldPath<T>;
-  rules?: RegisterOptions;
-  errors?: FieldErrors<T>;
+  onChange: (...event: any[]) => void;
 };
+
+export type IFormSelectProps<
+  Option,
+  IsMulti extends boolean = false,
+  Group extends GroupBase<Option> = GroupBase<Option>,
+> = {
+  initialValue: PropsValue<Option> | undefined;
+  value: PropsValue<Option> | undefined;
+  onChange: (...event: any[]) => void;
+} & Props<Option, IsMulti, Group>;
 
 export interface IUpdateExpenseForm {
   description: string;

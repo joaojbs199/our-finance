@@ -1,15 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { IFormCurrencyInputProps } from '@/src/components/interfaces';
-import { FieldValues } from 'react-hook-form';
 
-export const CurrencyInput = <T extends FieldValues>({
-  classNames,
-  receivedValue,
-  register,
-  errors,
-  name,
-  rules,
-}: IFormCurrencyInputProps<T>) => {
+export const CurrencyInput = ({ receivedValue, classNames, onChange }: IFormCurrencyInputProps) => {
   const [formattedValue, setFormattedValue] = useState({
     numberValue: 0,
     stringValue: '',
@@ -23,8 +15,9 @@ export const CurrencyInput = <T extends FieldValues>({
       maximumFractionDigits: 2,
     }).format(receivedValue);
 
+    onChange(formattedValue);
     setFormattedValue({ numberValue: receivedValue, stringValue: formattedValue });
-  }, [receivedValue]);
+  }, [onChange, receivedValue]);
 
   const formatMoney = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -43,20 +36,14 @@ export const CurrencyInput = <T extends FieldValues>({
         maximumFractionDigits: 2,
       }).format(userInputAsNumber);
 
+      onChange(formattedNumber);
       setFormattedValue({ numberValue: userInputAsNumber, stringValue: formattedNumber });
     }
   };
 
   return (
     <>
-      <input
-        type="text"
-        {...register(name, rules)}
-        onChange={formatMoney}
-        value={formattedValue.stringValue}
-        className={classNames}
-      />
-      {errors && <p>{errors.root?.message}</p>}
+      <input className={classNames} onChange={formatMoney} value={formattedValue.stringValue} />
     </>
   );
 };
