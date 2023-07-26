@@ -1,27 +1,17 @@
 import { joinClassNames } from '@/src/utils/Helpers';
-import Select, { GroupBase, PropsValue } from 'react-select';
+import Select, { GroupBase } from 'react-select';
 import { IFormSelectProps } from '../interfaces';
-import { useState } from 'react';
 
 export const StyledSelect = <
   Option,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>,
->({
-  onChange,
-  initialValue,
-  ...rest
-}: IFormSelectProps<Option, IsMulti, Group>) => {
-  const [currentValue, setCurrentValue] = useState<PropsValue<Option> | undefined>(initialValue);
-
-  const handleCurrentValue = (e: any) => {
-    onChange(e);
-    setCurrentValue(e);
-  };
-
+>(
+  props: IFormSelectProps<Option, IsMulti, Group>,
+) => {
   return (
     <Select
-      {...rest}
+      {...props}
       classNames={{
         container: () => 'w-full',
         control: ({ isFocused }) =>
@@ -49,8 +39,6 @@ export const StyledSelect = <
       isClearable
       isSearchable
       placeholder="Selecione uma opção"
-      value={currentValue}
-      onChange={handleCurrentValue}
     />
   );
 };

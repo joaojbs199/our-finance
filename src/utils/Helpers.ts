@@ -7,13 +7,14 @@ export const joinClassNames = (...classes: Array<string>) => {
 };
 
 export const convertCurrency = (value: number) => {
-  const intl = new Intl.NumberFormat('pt-BR', {
+  const formattedValue = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
-  });
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
 
-  const formatedValue = intl.format(value);
-  return String(formatedValue);
+  return formattedValue;
 };
 
 /**

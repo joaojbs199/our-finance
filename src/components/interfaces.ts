@@ -1,7 +1,7 @@
-import { GroupBase, Props, PropsValue } from 'react-select';
+import { GroupBase, Props } from 'react-select';
 
 export type IFormCurrencyInputProps = {
-  receivedValue: number;
+  value: string;
   classNames: string;
   onChange: (...event: any[]) => void;
 };
@@ -10,11 +10,7 @@ export type IFormSelectProps<
   Option,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>,
-> = {
-  initialValue: PropsValue<Option> | undefined;
-  value: PropsValue<Option> | undefined;
-  onChange: (...event: any[]) => void;
-} & Props<Option, IsMulti, Group>;
+> = Props<Option, IsMulti, Group>;
 
 export interface IUpdateExpenseForm {
   description: string;
