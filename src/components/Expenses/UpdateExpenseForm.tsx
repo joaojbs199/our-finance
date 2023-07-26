@@ -2,20 +2,29 @@
 
 import { AppDispatch, RootState, useAppDispatch } from '@/src/store/store';
 import { useSelector } from 'react-redux';
-import { BlockBackground } from '../BlockBackground/BlockBackground';
+import { BlockBackground } from '@/src/components/BlockBackground/BlockBackground';
 import { X } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
 import { ExpenseActions } from '@/src/slices/expense/expenseSlice';
 import { ExpenseType } from '@prisma/client';
 import { DateHandler } from '@/src/utils/DateHandler';
 import { CurrencyInput } from '@/src/components/Inputs/CurrencyInput';
-import { StyledSelect } from '../Selects/Select';
+import { StyledSelect } from '@/src/components/Selects/Select';
 import { convertCurrency, parseLocaleNumber } from '@/src/utils/Helpers';
+import { TextInput } from '@/src/components/Inputs/SimpleInput';
+import { DateInput } from '@/src/components/Inputs/DateInput';
 
-interface SelectOption {
+export const RenderUpdateExpenseForm = () => {
+  const { isOpen } = useSelector(
+    (state: RootState) => state.expense.uiState.dialogs.updateExpenseDialog,
+  );
+  return <>{isOpen && <UpdateExpenseForm />}</>;
+};
+
+type SelectOption = {
   label: string;
   value: string;
-}
+};
 
 interface FormValues {
   description: string;
@@ -25,13 +34,6 @@ interface FormValues {
   type: SelectOption;
   value: string;
 }
-
-export const RenderUpdateExpenseForm = () => {
-  const { isOpen } = useSelector(
-    (state: RootState) => state.expense.uiState.dialogs.updateExpenseDialog,
-  );
-  return <>{isOpen && <UpdateExpenseForm />}</>;
-};
 
 const UpdateExpenseForm: React.FC = () => {
   const dispatch: AppDispatch = useAppDispatch();
@@ -58,7 +60,7 @@ const UpdateExpenseForm: React.FC = () => {
     register,
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, defaultValues },
   } = useForm<FormValues>({
     defaultValues: {
       description: expense.description,
@@ -71,7 +73,7 @@ const UpdateExpenseForm: React.FC = () => {
   });
 
   const handleFormSubmit = (data: any) => {
-    console.log('DEBUG_OUR-FINANCE <-----> data:', data);
+    console.log('DEBUG_OUR-FINANCE <-----> data:', JSON.stringify(data, null, 2));
   };
 
   return (
@@ -91,24 +93,20 @@ const UpdateExpenseForm: React.FC = () => {
           onSubmit={handleSubmit(handleFormSubmit)}
           className=" m-auto mt-5 flex w-11/12 max-w-lg flex-wrap justify-center  p-3"
         >
-          <input
-            {...register('description', {
-              required: { value: true, message: 'Insira uma descrição.' },
-            })}
-            type="text"
-            className="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
+          <TextInput
+            name="description"
+            register={register}
+            classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
           />
-          <input
-            {...register('dueDate', {
-              required: { value: true, message: 'Insira uma data.' },
-            })}
-            type="date"
-            className="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 pr-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
+          <DateInput
+            name="dueDate"
+            register={register}
+            classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 pr-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
           />
-
-          <Controller
-            control={control}
+          <CurrencyInput
             name="value"
+            value={defaultValues?.value as string}
+            register={register}
             rules={{
               validate: (value) => {
                 const numberValue = parseLocaleNumber(value, 'pt-BR');
@@ -116,29 +114,21 @@ const UpdateExpenseForm: React.FC = () => {
                 if (!isValid) return 'Informe um valor.';
               },
             }}
-            render={({ field: { onChange, value } }) => {
-              return (
-                <>
-                  <CurrencyInput
-                    onChange={onChange}
-                    value={value}
-                    classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
-                  />
-                  {errors.value && <p>{errors.value.message}</p>}
-                </>
-              );
-            }}
+            classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
           />
-          <input
-            type="text"
-            className="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
-            {...register('observations')}
+
+          <TextInput
+            name="observations"
+            register={register}
+            classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
           />
-          <input
-            type="text"
-            className="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
-            {...register('paymentBarCode')}
+
+          <TextInput
+            name="paymentBarCode"
+            register={register}
+            classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
           />
+
           <Controller
             control={control}
             name="type"
@@ -147,7 +137,6 @@ const UpdateExpenseForm: React.FC = () => {
               return (
                 <>
                   <StyledSelect value={value} onChange={onChange} options={selectOptions} />
-                  {errors.type && <p>{errors.type.message}</p>}
                 </>
               );
             }}
