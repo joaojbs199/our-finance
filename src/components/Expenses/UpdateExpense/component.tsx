@@ -10,6 +10,7 @@ import { DateHandler } from '@/src/utils/DateHandler';
 import { convertCurrency, parseLocaleNumber } from '@/src/utils/Helpers';
 import { IFormInputProps } from '@/src/components/BasicForm/interfaces';
 import { Form } from '@/src/components/BasicForm/component';
+import { FormValues } from './interfaces';
 
 export const RenderUpdateExpenseForm = () => {
   const { isOpen } = useSelector(
@@ -17,20 +18,6 @@ export const RenderUpdateExpenseForm = () => {
   );
   return <>{isOpen && <UpdateExpenseForm />}</>;
 };
-
-type SelectOption = {
-  label: string;
-  value: string;
-};
-
-export interface FormValues {
-  description: string;
-  dueDate: string;
-  observations: string | null;
-  paymentBarCode: string | null;
-  type: SelectOption;
-  value: string;
-}
 
 const UpdateExpenseForm: React.FC = () => {
   const dispatch: AppDispatch = useAppDispatch();
