@@ -1,67 +1,17 @@
 import { ChangeEvent, useState } from 'react';
-import {
-  DeepMap,
-  FieldError,
-  FieldValues,
-  Path,
-  RegisterOptions,
-  UseFormRegister,
-} from 'react-hook-form';
+import { FieldError } from 'react-hook-form';
 
-/* Use this to controlled currency input */
-
-/* export type IFormCurrencyInputProps = {
-  value: string;
-  classNames: string;
+export type IFormCurrencyInputProps = {
+  /**
+   * React-hook-form method to handle changes on the input.
+   * @param event Value inserted on the input
+   * @returns void
+   */
   onChange: (...event: any[]) => void;
-};
-
-export const CurrencyInput = ({ classNames, onChange, value }: IFormCurrencyInputProps) => {
-  const [formattedValue, setFormattedValue] = useState<string>(value);
-
-  const formatMoney = (e: ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-
-    const userInput: string = e.target.value.replace(/[^0-9]/g, '');
-
-    if (userInput === '') {
-      setFormattedValue('R$ 0,00');
-    } else {
-      const userInputAsNumber: number = parseInt(userInput, 10) / 100;
-
-      const formattedNumber = new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      }).format(userInputAsNumber);
-
-      onChange(formattedNumber);
-      setFormattedValue(formattedNumber);
-    }
-  };
-
-  return (
-    <>
-      <input className={classNames} onChange={formatMoney} value={formattedValue} />
-    </>
-  );
-}; */
-
-export type IFormCurrencyInputProps<T extends FieldValues> = {
   /**
-   * The name of input for register.
+   * Form input errors to warning.
    */
-  name: Path<T>;
-  /**
-   * Validation rules to submit form correctly.
-   */
-  rules?: RegisterOptions;
-  /**
-   * React-hook-form method to make form recognize the input.
-   */
-  register?: UseFormRegister<T>;
-  errors?: Partial<DeepMap<T, FieldError>>;
+  error?: FieldError | undefined;
   /**
    * Classes to style the input.
    */
@@ -81,14 +31,13 @@ export type IFormCurrencyInputProps<T extends FieldValues> = {
  * @param value The default value for input. Must be in "R$ 0,00" format.
  * @returns Input to type currency values.
  */
-export const CurrencyInput = <T extends FieldValues>({
+export const CurrencyInput = ({
   classNames,
-  register,
-  name,
-  rules,
+  error,
   value,
+  onChange,
   ...props
-}: IFormCurrencyInputProps<T>) => {
+}: IFormCurrencyInputProps) => {
   const [formattedValue, setFormattedValue] = useState<string>(value);
 
   const formatMoney = (e: ChangeEvent<HTMLInputElement>) => {
@@ -97,6 +46,7 @@ export const CurrencyInput = <T extends FieldValues>({
     const userInput: string = e.target.value.replace(/[^0-9]/g, '');
 
     if (userInput === '') {
+      onChange('R$ 0,00');
       setFormattedValue('R$ 0,00');
     } else {
       const userInputAsNumber: number = parseInt(userInput, 10) / 100;
@@ -108,19 +58,15 @@ export const CurrencyInput = <T extends FieldValues>({
         maximumFractionDigits: 2,
       }).format(userInputAsNumber);
 
+      onChange(formattedNumber);
       setFormattedValue(formattedNumber);
     }
   };
 
   return (
     <>
-      <input
-        {...props}
-        {...(register && register(name, rules))}
-        className={classNames}
-        onChange={formatMoney}
-        value={formattedValue}
-      />
+      <input {...props} className={classNames} onChange={formatMoney} value={formattedValue} />
+      {error && error.type === 'validate' && <p>{error.message}</p>}
     </>
   );
 };

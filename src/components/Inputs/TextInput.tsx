@@ -1,17 +1,10 @@
-import {
-  DeepMap,
-  FieldError,
-  FieldValues,
-  Path,
-  RegisterOptions,
-  UseFormRegister,
-} from 'react-hook-form';
+import { FieldError, FieldValues, Path, RegisterOptions, UseFormRegister } from 'react-hook-form';
 
 export interface ITextInputProps<T extends FieldValues> {
   name: Path<T>;
   rules?: RegisterOptions;
   register?: UseFormRegister<T>;
-  errors?: Partial<DeepMap<T, FieldError>>;
+  error?: FieldError | undefined;
   classNames: string;
 }
 
@@ -19,6 +12,7 @@ export const TextInput = <T extends FieldValues>({
   name,
   register,
   rules,
+  error,
   classNames,
   ...props
 }: ITextInputProps<T>) => {
@@ -30,6 +24,7 @@ export const TextInput = <T extends FieldValues>({
         {...(register && register(name, rules))}
         className={classNames}
       />
+      {error && error.type === 'required' && <p>{error.message}</p>}
     </>
   );
 };

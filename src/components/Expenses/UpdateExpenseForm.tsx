@@ -11,7 +11,7 @@ import { DateHandler } from '@/src/utils/DateHandler';
 import { CurrencyInput } from '@/src/components/Inputs/CurrencyInput';
 import { StyledSelect } from '@/src/components/Selects/Select';
 import { convertCurrency, parseLocaleNumber } from '@/src/utils/Helpers';
-import { TextInput } from '@/src/components/Inputs/SimpleInput';
+import { TextInput } from '@/src/components/Inputs/TextInput';
 import { DateInput } from '@/src/components/Inputs/DateInput';
 
 export const RenderUpdateExpenseForm = () => {
@@ -60,7 +60,7 @@ const UpdateExpenseForm: React.FC = () => {
     register,
     control,
     handleSubmit,
-    formState: { errors, defaultValues },
+    formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
       description: expense.description,
@@ -94,19 +94,22 @@ const UpdateExpenseForm: React.FC = () => {
           className=" m-auto mt-5 flex w-11/12 max-w-lg flex-wrap justify-center  p-3"
         >
           <TextInput
+            rules={{ required: 'Informe uma descrição.' }}
+            error={errors.description}
             name="description"
             register={register}
             classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
           />
           <DateInput
+            rules={{ required: 'Selecione uma data.' }}
+            error={errors.dueDate}
             name="dueDate"
             register={register}
             classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 pr-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
           />
-          <CurrencyInput
+          <Controller
+            control={control}
             name="value"
-            value={defaultValues?.value as string}
-            register={register}
             rules={{
               validate: (value) => {
                 const numberValue = parseLocaleNumber(value, 'pt-BR');
@@ -114,7 +117,18 @@ const UpdateExpenseForm: React.FC = () => {
                 if (!isValid) return 'Informe um valor.';
               },
             }}
-            classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
+            render={({ field: { onChange, value } }) => {
+              return (
+                <>
+                  <CurrencyInput
+                    onChange={onChange}
+                    value={value}
+                    error={errors.value}
+                    classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
+                  />
+                </>
+              );
+            }}
           />
 
           <TextInput
@@ -136,7 +150,12 @@ const UpdateExpenseForm: React.FC = () => {
             render={({ field: { onChange, value } }) => {
               return (
                 <>
-                  <StyledSelect value={value} onChange={onChange} options={selectOptions} />
+                  <StyledSelect
+                    error={errors.type}
+                    value={value}
+                    onChange={onChange}
+                    options={selectOptions}
+                  />
                 </>
               );
             }}
