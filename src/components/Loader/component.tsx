@@ -1,7 +1,7 @@
 'use client';
 
 import { Loader2 } from 'lucide-react';
-import { BlockBackground } from '../BlockBackground/BlockBackground';
+import { BlockBackground } from '../BlockBackground/component';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/src/store/store';
 

@@ -1,6 +1,6 @@
 import { PartialExpense } from '@/src/integration/data/models/apiResponse/expense/interfaces';
 import { useRef, useState } from 'react';
-import { Card } from '@/src/components/Cards/Card';
+import { Card } from '@/src/components/BasicCard/component';
 import { Checkbox } from 'pretty-checkbox-react';
 import '@djthoms/pretty-checkbox';
 import { Clipboard, ClipboardCheck, Pencil } from 'lucide-react';

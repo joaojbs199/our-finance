@@ -4,8 +4,8 @@ import { getExpenses } from '@/src/store/modules/expense/asyncThunks';
 import { AppDispatch, RootState, useAppDispatch } from '@/src/store/store';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { ItemList } from '../List/ItemList';
-import { ExpenseCard } from '@/src/components/Expenses/ExpenseCard';
+import { ItemList } from '../../BasicList/component';
+import { ExpenseCard } from '@/src/components/Expenses/ExpenseCard/component';
 
 export const ExpenseList = () => {
   const dispatch: AppDispatch = useAppDispatch();

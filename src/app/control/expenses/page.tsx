@@ -4,9 +4,9 @@ import { redirect } from 'next/navigation';
 import { Navbar } from '@/src/components/Navbar/component';
 import { Metadata } from 'next';
 import CreateExpenseButton from '@/src/components/Buttons/CreateExpenseButton';
-import { ExpenseList } from '@/src/components/Expenses/ExpenseList';
-import { Loader } from '@/src/components/Loader/Loader';
-import { RenderUpdateExpenseForm } from '@/src/components/Expenses/UpdateExpenseForm';
+import { ExpenseList } from '@/src/components/Expenses/ExpenseList/component';
+import { Loader } from '@/src/components/Loader/component';
+import { RenderUpdateExpenseForm } from '@/src/components/Expenses/UpdateExpense/component';
 
 export const metadata: Metadata = {
   title: 'Despesas',

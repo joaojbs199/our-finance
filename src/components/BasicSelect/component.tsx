@@ -1,5 +1,5 @@
 import Select, { GroupBase, Props } from 'react-select';
-import { createSelectStyles } from '@/src/components/Selects/styles';
+import { createSelectStyles } from '@/src/components/BasicSelect/styles';
 import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
 
 export type IFormSelectProps<
@@ -19,6 +19,7 @@ export type IFormSelectProps<
         }>
       >
     | undefined;
+  placeholder?: string;
 } & Props<Option, IsMulti, Group>;
 
 export const StyledSelect = <
@@ -27,6 +28,7 @@ export const StyledSelect = <
   Group extends GroupBase<Option> = GroupBase<Option>,
 >({
   error,
+  placeholder = 'Selecione uma opção',
   ...props
 }: IFormSelectProps<Option, IsMulti, Group>) => {
   return (
@@ -37,7 +39,7 @@ export const StyledSelect = <
         unstyled
         isClearable
         isSearchable
-        placeholder="Selecione uma opção"
+        placeholder={placeholder}
       />
       {error && error.type === 'required' && <p>{error.message}</p>}
     </>

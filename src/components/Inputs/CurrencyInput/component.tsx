@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from 'react';
-import { FieldError } from 'react-hook-form';
+import { FieldErrors, FieldValues, Path } from 'react-hook-form';
 
-export type IFormCurrencyInputProps = {
+export type IFormCurrencyInputProps<T extends FieldValues> = {
   /**
    * React-hook-form method to handle changes on the input.
    * @param event Value inserted on the input
@@ -11,7 +11,7 @@ export type IFormCurrencyInputProps = {
   /**
    * Form input errors to warning.
    */
-  error?: FieldError | undefined;
+  error?: FieldErrors<T>[Path<T>];
   /**
    * Classes to style the input.
    */
@@ -31,13 +31,13 @@ export type IFormCurrencyInputProps = {
  * @param value The default value for input. Must be in "R$ 0,00" format.
  * @returns Input to type currency values.
  */
-export const CurrencyInput = ({
+export const CurrencyInput = <T extends FieldValues>({
   classNames,
   error,
   value,
   onChange,
   ...props
-}: IFormCurrencyInputProps) => {
+}: IFormCurrencyInputProps<T>) => {
   const [formattedValue, setFormattedValue] = useState<string>(value);
 
   const formatMoney = (e: ChangeEvent<HTMLInputElement>) => {
@@ -66,7 +66,7 @@ export const CurrencyInput = ({
   return (
     <>
       <input {...props} className={classNames} onChange={formatMoney} value={formattedValue} />
-      {error && error.type === 'validate' && <p>{error.message}</p>}
+      {error && error.type === 'validate' && <p>{error.message as string}</p>}
     </>
   );
 };
