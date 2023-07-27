@@ -1,6 +1,7 @@
 import Select, { GroupBase, Props } from 'react-select';
 import { createSelectStyles } from '@/src/components/BasicSelect/styles';
 import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
+import { ErrorMessage } from '@/src/components/ErrorMessage/component';
 
 export type IFormSelectProps<
   Option,
@@ -41,7 +42,7 @@ export const StyledSelect = <
         isSearchable
         placeholder={placeholder}
       />
-      {error && error.type === 'required' && <p>{error.message}</p>}
+      {error && error.type === 'required' && <ErrorMessage message={error.message as string} />}
     </>
   );
 };

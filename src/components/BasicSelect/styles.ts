@@ -11,7 +11,7 @@ export const createSelectStyles = <
     control: ({ isFocused }) =>
       joinClassNames(
         isFocused ? 'border-gray-50' : 'border-neutral-500',
-        'border rounded bg-neutral-700',
+        'border mb-2 rounded bg-neutral-700',
       ),
     placeholder: () => 'text-gray-100 pl-1 text-[12px] tracking-widest',
     indicatorSeparator: () => 'border h-7 border-neutral-500 m-auto',

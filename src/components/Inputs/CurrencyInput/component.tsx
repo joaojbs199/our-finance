@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import { FieldErrors, FieldValues, Path } from 'react-hook-form';
+import { ErrorMessage } from '@/src/components/ErrorMessage/component';
 
 export type IFormCurrencyInputProps<T extends FieldValues> = {
   /**
@@ -66,7 +67,7 @@ export const CurrencyInput = <T extends FieldValues>({
   return (
     <>
       <input {...props} className={classNames} onChange={formatMoney} value={formattedValue} />
-      {error && error.type === 'validate' && <p>{error.message as string}</p>}
+      {error && error.type === 'validate' && <ErrorMessage message={error.message as string} />}
     </>
   );
 };

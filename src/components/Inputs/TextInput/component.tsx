@@ -1,4 +1,5 @@
 import { FieldErrors, FieldValues, Path, RegisterOptions, UseFormRegister } from 'react-hook-form';
+import { ErrorMessage } from '@/src/components/ErrorMessage/component';
 
 export interface ITextInputProps<T extends FieldValues> {
   name: Path<T>;
@@ -24,7 +25,7 @@ export const TextInput = <T extends FieldValues>({
         {...(register && register(name, rules))}
         className={classNames}
       />
-      {error && error.type === 'required' && <p>{error.message as string}</p>}
+      {error && error.type === 'required' && <ErrorMessage message={error.message as string} />}
     </>
   );
 };
