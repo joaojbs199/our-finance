@@ -1,4 +1,4 @@
-import { FieldValues, useForm, Controller } from 'react-hook-form';
+import { FieldValues, useForm, Controller, DefaultValues } from 'react-hook-form';
 import { IFormProps } from './interfaces';
 import { TextInput } from '@/src/components/Inputs/TextInput/component';
 import { DateInput } from '@/src/components/Inputs/DateInput/component';
@@ -6,11 +6,17 @@ import { CurrencyInput } from '@/src/components/Inputs/CurrencyInput/component';
 import { StyledSelect } from '@/src/components/BasicSelect/component';
 
 export const Form = <T extends FieldValues>({
-  defaultValues,
   handleFormSubmit,
   inputs,
   submitText,
 }: IFormProps<T>) => {
+  const defaultValues = inputs.reduce((acc, cur) => {
+    return {
+      ...acc,
+      [cur.name]: cur.defaultValue,
+    };
+  }, {} as DefaultValues<T>);
+
   const {
     register,
     control,

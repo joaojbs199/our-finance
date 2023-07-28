@@ -3,7 +3,6 @@
 import { AppDispatch, RootState, useAppDispatch } from '@/src/store/store';
 import { useSelector } from 'react-redux';
 import { BlockBackground } from '@/src/components/BlockBackground/component';
-import { X } from 'lucide-react';
 import { ExpenseActions } from '@/src/slices/expense/expenseSlice';
 import { ExpenseType } from '@prisma/client';
 import { DateHandler } from '@/src/utils/DateHandler';
@@ -11,15 +10,18 @@ import { convertCurrency, parseLocaleNumber } from '@/src/utils/Helpers';
 import { IFormInputProps } from '@/src/components/BasicForm/interfaces';
 import { Form } from '@/src/components/BasicForm/component';
 import { FormValues } from './interfaces';
+import { DefaultValues } from 'react-hook-form';
+import { BasicModal } from '@/src/components/BasicModal/component';
+import { CloseButton } from '@/src/components/Buttons/CloseButton/component';
 
-export const RenderUpdateExpenseForm = () => {
+export const RenderUpdateExpense = () => {
   const { isOpen } = useSelector(
     (state: RootState) => state.expense.uiState.dialogs.updateExpenseDialog,
   );
-  return <>{isOpen && <UpdateExpenseForm />}</>;
+  return <>{isOpen && <UpdateExpense />}</>;
 };
 
-const UpdateExpenseForm: React.FC = () => {
+const UpdateExpense: React.FC = () => {
   const dispatch: AppDispatch = useAppDispatch();
 
   const { expenseId } = useSelector(
@@ -46,6 +48,7 @@ const UpdateExpenseForm: React.FC = () => {
       name: 'description',
       control: 'UNCONTROLLED',
       type: 'text',
+      defaultValue: expense.description as DefaultValues<FormValues>,
       rules: { required: 'Informe uma descrição.' },
       classNames:
         'mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50',
@@ -56,6 +59,7 @@ const UpdateExpenseForm: React.FC = () => {
       name: 'dueDate',
       control: 'UNCONTROLLED',
       type: 'date',
+      defaultValue: DateHandler.simplifyDateISO(expense.dueDate) as DefaultValues<FormValues>,
       rules: { required: 'Selecione uma data.' },
       classNames:
         'mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 pr-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50',
@@ -66,6 +70,7 @@ const UpdateExpenseForm: React.FC = () => {
       name: 'value',
       control: 'CONTROLLED',
       type: 'currency',
+      defaultValue: convertCurrency(expense.value) as DefaultValues<FormValues>,
       rules: {
         validate: (value) => {
           const numberValue = parseLocaleNumber(value, 'pt-BR');
@@ -82,6 +87,7 @@ const UpdateExpenseForm: React.FC = () => {
       name: 'observations',
       control: 'UNCONTROLLED',
       type: 'text',
+      defaultValue: expense.observations as DefaultValues<FormValues>,
       classNames:
         'mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50',
     },
@@ -90,6 +96,7 @@ const UpdateExpenseForm: React.FC = () => {
       name: 'paymentBarCode',
       control: 'UNCONTROLLED',
       type: 'text',
+      defaultValue: expense.paymentBarCode as DefaultValues<FormValues>,
       classNames:
         'mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50',
     },
@@ -98,6 +105,10 @@ const UpdateExpenseForm: React.FC = () => {
       name: 'type',
       control: 'CONTROLLED',
       type: 'select',
+      defaultValue:
+        expense.type === ExpenseType.INDIVIDUAL
+          ? selectOptions[0]
+          : (selectOptions[1] as DefaultValues<FormValues>),
       rules: { required: 'Selecione um tipo.' },
       error: { type: 'required', message: 'Informe um valor.' },
       options: selectOptions,
@@ -110,31 +121,21 @@ const UpdateExpenseForm: React.FC = () => {
 
   return (
     <BlockBackground>
-      <div className="z-30 h-fit w-[95%] max-w-md rounded-md bg-neutral-800">
-        <header className="flex w-full justify-end border-b border-neutral-700 p-1 sm:p-2">
-          <X
-            className="h-4 w-4 rounded-full border border-neutral-600 p-0.5 text-gray-50 hover:cursor-pointer hover:border-gray-500 hover:text-neutral-400 sm:h-5 sm:w-5"
-            onClick={() => {
-              dispatch(
-                ExpenseActions.setIsOpenUpdateExpenseDialog({ isOpen: false, expenseId: 0 }),
-              );
-            }}
+      <BasicModal
+        closeButton={
+          <CloseButton
+            closeAction={() =>
+              dispatch(ExpenseActions.setIsOpenUpdateExpenseDialog({ isOpen: false, expenseId: 0 }))
+            }
           />
-        </header>
+        }
+      >
         <Form<FormValues>
-          defaultValues={{
-            description: expense.description,
-            dueDate: DateHandler.simplifyDateISO(expense.dueDate),
-            observations: expense.observations,
-            paymentBarCode: expense.paymentBarCode,
-            type: expense.type === ExpenseType.INDIVIDUAL ? selectOptions[0] : selectOptions[1],
-            value: convertCurrency(expense.value),
-          }}
           handleFormSubmit={handleFormSubmit}
           inputs={inputs}
           submitText="Atualizar"
         />
-      </div>
+      </BasicModal>
     </BlockBackground>
   );
 };

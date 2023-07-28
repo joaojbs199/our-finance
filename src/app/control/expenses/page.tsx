@@ -6,7 +6,7 @@ import { Metadata } from 'next';
 import CreateExpenseButton from '@/src/components/Buttons/CreateExpenseButton';
 import { ExpenseList } from '@/src/components/Expenses/ExpenseList/component';
 import { Loader } from '@/src/components/Loader/component';
-import { RenderUpdateExpenseForm } from '@/src/components/Expenses/UpdateExpense/component';
+import { RenderUpdateExpense } from '@/src/components/Expenses/UpdateExpense/component';
 
 export const metadata: Metadata = {
   title: 'Despesas',
@@ -22,7 +22,7 @@ export default async function Expenses() {
   return (
     <div className="flex h-screen flex-col">
       <Loader />
-      <RenderUpdateExpenseForm />
+      <RenderUpdateExpense />
       <Navbar />
       <ExpenseList />
     </div>

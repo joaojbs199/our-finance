@@ -5,7 +5,7 @@ export interface IFormInputProps<T extends FieldValues> {
   name: Path<T>;
   control: 'UNCONTROLLED' | 'CONTROLLED';
   type: 'text' | 'date' | 'select' | 'currency';
-  value?: T;
+  defaultValue?: DefaultValues<T>;
   rules?: RegisterOptions;
   options?: any;
   error?: FieldError | undefined;
@@ -13,7 +13,6 @@ export interface IFormInputProps<T extends FieldValues> {
 }
 
 export interface IFormProps<T extends FieldValues> {
-  defaultValues: DefaultValues<T>;
   handleFormSubmit: (formData: T) => void;
   inputs: Array<IFormInputProps<T>>;
   submitText: string;
