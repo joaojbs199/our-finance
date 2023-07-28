@@ -81,11 +81,16 @@ export async function POST(request: Request) {
       observations: true,
       status: true,
       paymentList_id: true,
+      owners: {
+        select: {
+          id: true,
+        },
+      },
     },
   };
 
   try {
-    // const data = await prisma.expense.findMany(query);
+    // const data = await prisma.expense.findMany();
 
     const data: any = [
       {
@@ -94,10 +99,15 @@ export async function POST(request: Request) {
         value: 62,
         description: 'Conta vivo',
         type: 'INDIVIDUAL',
-        paymentBarCode: '14587412224865356784658431521632086357168740641840696066',
-        observations: 'Teste de observações das despesas',
-        status: false,
+        paymentBarCode: '8341203849514723387641273946123018723610238461230417623948176230',
+        observations: 'Teste de observações de despesas',
+        status: true,
         paymentList_id: null,
+        owners: [
+          {
+            id: 1,
+          },
+        ],
       },
       {
         id: 2,
@@ -107,8 +117,13 @@ export async function POST(request: Request) {
         type: 'INDIVIDUAL',
         paymentBarCode: null,
         observations: null,
-        status: true,
+        status: false,
         paymentList_id: null,
+        owners: [
+          {
+            id: 1,
+          },
+        ],
       },
       {
         id: 3,
@@ -118,8 +133,13 @@ export async function POST(request: Request) {
         type: 'INDIVIDUAL',
         paymentBarCode: null,
         observations: null,
-        status: true,
+        status: false,
         paymentList_id: null,
+        owners: [
+          {
+            id: 1,
+          },
+        ],
       },
       {
         id: 4,
@@ -131,6 +151,11 @@ export async function POST(request: Request) {
         observations: null,
         status: true,
         paymentList_id: null,
+        owners: [
+          {
+            id: 1,
+          },
+        ],
       },
       {
         id: 5,
@@ -142,6 +167,11 @@ export async function POST(request: Request) {
         observations: null,
         status: true,
         paymentList_id: null,
+        owners: [
+          {
+            id: 1,
+          },
+        ],
       },
       {
         id: 7,
@@ -151,8 +181,13 @@ export async function POST(request: Request) {
         type: 'INDIVIDUAL',
         paymentBarCode: null,
         observations: null,
-        status: false,
+        status: true,
         paymentList_id: null,
+        owners: [
+          {
+            id: 1,
+          },
+        ],
       },
       {
         id: 8,
@@ -164,6 +199,11 @@ export async function POST(request: Request) {
         observations: null,
         status: true,
         paymentList_id: null,
+        owners: [
+          {
+            id: 2,
+          },
+        ],
       },
       {
         id: 9,
@@ -175,6 +215,11 @@ export async function POST(request: Request) {
         observations: null,
         status: true,
         paymentList_id: null,
+        owners: [
+          {
+            id: 2,
+          },
+        ],
       },
       {
         id: 10,
@@ -186,6 +231,11 @@ export async function POST(request: Request) {
         observations: null,
         status: true,
         paymentList_id: null,
+        owners: [
+          {
+            id: 2,
+          },
+        ],
       },
       {
         id: 11,
@@ -197,6 +247,11 @@ export async function POST(request: Request) {
         observations: null,
         status: true,
         paymentList_id: null,
+        owners: [
+          {
+            id: 2,
+          },
+        ],
       },
       {
         id: 12,
@@ -208,6 +263,11 @@ export async function POST(request: Request) {
         observations: null,
         status: true,
         paymentList_id: null,
+        owners: [
+          {
+            id: 2,
+          },
+        ],
       },
       {
         id: 13,
@@ -219,6 +279,11 @@ export async function POST(request: Request) {
         observations: null,
         status: true,
         paymentList_id: null,
+        owners: [
+          {
+            id: 2,
+          },
+        ],
       },
       {
         id: 14,
@@ -230,6 +295,11 @@ export async function POST(request: Request) {
         observations: null,
         status: true,
         paymentList_id: null,
+        owners: [
+          {
+            id: 2,
+          },
+        ],
       },
       {
         id: 15,
@@ -241,6 +311,11 @@ export async function POST(request: Request) {
         observations: null,
         status: true,
         paymentList_id: null,
+        owners: [
+          {
+            id: 2,
+          },
+        ],
       },
       {
         id: 16,
@@ -252,6 +327,11 @@ export async function POST(request: Request) {
         observations: null,
         status: true,
         paymentList_id: null,
+        owners: [
+          {
+            id: 2,
+          },
+        ],
       },
       {
         id: 17,
@@ -263,6 +343,11 @@ export async function POST(request: Request) {
         observations: null,
         status: true,
         paymentList_id: null,
+        owners: [
+          {
+            id: 2,
+          },
+        ],
       },
       {
         id: 18,
@@ -274,6 +359,11 @@ export async function POST(request: Request) {
         observations: null,
         status: false,
         paymentList_id: null,
+        owners: [
+          {
+            id: 2,
+          },
+        ],
       },
       {
         id: 19,
@@ -285,6 +375,11 @@ export async function POST(request: Request) {
         observations: null,
         status: false,
         paymentList_id: null,
+        owners: [
+          {
+            id: 2,
+          },
+        ],
       },
       {
         id: 20,
@@ -296,6 +391,14 @@ export async function POST(request: Request) {
         observations: null,
         status: true,
         paymentList_id: null,
+        owners: [
+          {
+            id: 1,
+          },
+          {
+            id: 2,
+          },
+        ],
       },
       {
         id: 21,
@@ -307,6 +410,14 @@ export async function POST(request: Request) {
         observations: null,
         status: true,
         paymentList_id: null,
+        owners: [
+          {
+            id: 1,
+          },
+          {
+            id: 2,
+          },
+        ],
       },
       {
         id: 22,
@@ -318,6 +429,14 @@ export async function POST(request: Request) {
         observations: null,
         status: true,
         paymentList_id: null,
+        owners: [
+          {
+            id: 1,
+          },
+          {
+            id: 2,
+          },
+        ],
       },
       {
         id: 23,
@@ -329,6 +448,14 @@ export async function POST(request: Request) {
         observations: null,
         status: true,
         paymentList_id: null,
+        owners: [
+          {
+            id: 1,
+          },
+          {
+            id: 2,
+          },
+        ],
       },
       {
         id: 24,
@@ -340,6 +467,14 @@ export async function POST(request: Request) {
         observations: null,
         status: true,
         paymentList_id: null,
+        owners: [
+          {
+            id: 1,
+          },
+          {
+            id: 2,
+          },
+        ],
       },
       {
         id: 25,
@@ -351,6 +486,14 @@ export async function POST(request: Request) {
         observations: null,
         status: false,
         paymentList_id: null,
+        owners: [
+          {
+            id: 1,
+          },
+          {
+            id: 2,
+          },
+        ],
       },
       {
         id: 26,
@@ -362,6 +505,14 @@ export async function POST(request: Request) {
         observations: null,
         status: false,
         paymentList_id: null,
+        owners: [
+          {
+            id: 1,
+          },
+          {
+            id: 2,
+          },
+        ],
       },
       {
         id: 27,
@@ -373,17 +524,14 @@ export async function POST(request: Request) {
         observations: null,
         status: false,
         paymentList_id: null,
-      },
-      {
-        id: 28,
-        dueDate: '2023-07-22T03:00:00.000Z',
-        value: 103.15,
-        description: 'Energia',
-        type: 'SHARED',
-        paymentBarCode: null,
-        observations: null,
-        status: false,
-        paymentList_id: null,
+        owners: [
+          {
+            id: 1,
+          },
+          {
+            id: 2,
+          },
+        ],
       },
     ];
 
@@ -405,7 +553,7 @@ export async function POST(request: Request) {
       );
     } else {
       return NextResponse.json(
-        { data: null, message: 'EXPENSE NOT CREATED, SOMETHING WENT WRONG.' },
+        { data: null, message: 'EXPENSE NOT FINDED, SOMETHING WENT WRONG.' },
         { status: 500 },
       );
     }
