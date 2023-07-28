@@ -31,7 +31,7 @@ export async function GET() {
       );
     } else {
       return NextResponse.json(
-        { data: null, message: 'EXPENSE NOT CREATED, SOMETHING WENT WRONG.' },
+        { data: null, message: 'OWNERS NOT FINDED, SOMETHING WENT WRONG.' },
         { status: 500 },
       );
     }
