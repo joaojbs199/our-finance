@@ -84,6 +84,7 @@ export async function POST(request: Request) {
       owners: {
         select: {
           id: true,
+          name: true,
         },
       },
     },
@@ -99,13 +100,14 @@ export async function POST(request: Request) {
         value: 62,
         description: 'Conta vivo',
         type: 'INDIVIDUAL',
-        paymentBarCode: '8341203849514723387641273946123018723610238461230417623948176230',
+        paymentBarCode: '1237123197263192378612301782310238741623041872361092387412304',
         observations: 'Teste de observações de despesas',
         status: true,
         paymentList_id: null,
         owners: [
           {
             id: 1,
+            name: 'João',
           },
         ],
       },
@@ -122,6 +124,7 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 1,
+            name: 'João',
           },
         ],
       },
@@ -138,6 +141,7 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 1,
+            name: 'João',
           },
         ],
       },
@@ -154,6 +158,7 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 1,
+            name: 'João',
           },
         ],
       },
@@ -170,6 +175,7 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 1,
+            name: 'João',
           },
         ],
       },
@@ -186,6 +192,7 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 1,
+            name: 'João',
           },
         ],
       },
@@ -202,6 +209,7 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 2,
+            name: 'Fernanda',
           },
         ],
       },
@@ -218,6 +226,7 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 2,
+            name: 'Fernanda',
           },
         ],
       },
@@ -234,6 +243,7 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 2,
+            name: 'Fernanda',
           },
         ],
       },
@@ -250,6 +260,7 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 2,
+            name: 'Fernanda',
           },
         ],
       },
@@ -266,6 +277,7 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 2,
+            name: 'Fernanda',
           },
         ],
       },
@@ -282,6 +294,7 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 2,
+            name: 'Fernanda',
           },
         ],
       },
@@ -298,6 +311,7 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 2,
+            name: 'Fernanda',
           },
         ],
       },
@@ -314,6 +328,7 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 2,
+            name: 'Fernanda',
           },
         ],
       },
@@ -330,6 +345,7 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 2,
+            name: 'Fernanda',
           },
         ],
       },
@@ -346,6 +362,7 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 2,
+            name: 'Fernanda',
           },
         ],
       },
@@ -362,6 +379,7 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 2,
+            name: 'Fernanda',
           },
         ],
       },
@@ -378,6 +396,7 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 2,
+            name: 'Fernanda',
           },
         ],
       },
@@ -394,9 +413,11 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 1,
+            name: 'João',
           },
           {
             id: 2,
+            name: 'Fernanda',
           },
         ],
       },
@@ -413,9 +434,11 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 1,
+            name: 'João',
           },
           {
             id: 2,
+            name: 'Fernanda',
           },
         ],
       },
@@ -432,9 +455,11 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 1,
+            name: 'João',
           },
           {
             id: 2,
+            name: 'Fernanda',
           },
         ],
       },
@@ -451,9 +476,11 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 1,
+            name: 'João',
           },
           {
             id: 2,
+            name: 'Fernanda',
           },
         ],
       },
@@ -470,9 +497,11 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 1,
+            name: 'João',
           },
           {
             id: 2,
+            name: 'Fernanda',
           },
         ],
       },
@@ -489,9 +518,11 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 1,
+            name: 'João',
           },
           {
             id: 2,
+            name: 'Fernanda',
           },
         ],
       },
@@ -508,9 +539,11 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 1,
+            name: 'João',
           },
           {
             id: 2,
+            name: 'Fernanda',
           },
         ],
       },
@@ -527,9 +560,11 @@ export async function POST(request: Request) {
         owners: [
           {
             id: 1,
+            name: 'João',
           },
           {
             id: 2,
+            name: 'Fernanda',
           },
         ],
       },
