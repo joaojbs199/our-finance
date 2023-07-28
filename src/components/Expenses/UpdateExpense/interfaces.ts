@@ -5,7 +5,7 @@ type TypeOptions = {
   value: ExpenseType;
 };
 
-type OwnerOptions = {
+export type OwnerOptions = {
   label: string;
   value: number;
 };
@@ -16,6 +16,6 @@ export interface FormValues {
   observations: string | null;
   paymentBarCode: string | null;
   type: TypeOptions;
-  owners: OwnerOptions;
+  owners: OwnerOptions[];
   value: string;
 }

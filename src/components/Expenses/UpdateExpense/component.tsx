@@ -9,7 +9,7 @@ import { DateHandler } from '@/src/utils/DateHandler';
 import { convertCurrency, parseLocaleNumber } from '@/src/utils/Helpers';
 import { IFormInputProps } from '@/src/components/BasicForm/interfaces';
 import { Form } from '@/src/components/BasicForm/component';
-import { FormValues } from './interfaces';
+import { FormValues, OwnerOptions } from './interfaces';
 import { DefaultValues } from 'react-hook-form';
 import { BasicModal } from '@/src/components/BasicModal/component';
 import { CloseButton } from '@/src/components/Buttons/CloseButton/component';
@@ -43,16 +43,9 @@ const UpdateExpense: React.FC = () => {
     },
   ];
 
-  const ownerOptions = [
-    {
-      label: 'João',
-      value: 1,
-    },
-    {
-      label: 'Fernanda',
-      value: 2,
-    },
-  ];
+  const ownerOptions: Array<OwnerOptions> = expense.owners.map((owner) => {
+    return { label: owner.name, value: owner.id };
+  });
 
   const inputs: Array<IFormInputProps<FormValues>> = [
     {
@@ -159,8 +152,8 @@ const UpdateExpense: React.FC = () => {
           value: newValue,
         }),
       },
-      ownerIds: [1, 2].map((id) => {
-        return { id };
+      ownerIds: formData.owners.map((owner) => {
+        return { id: owner.value };
       }),
     };
     console.log('DEBUG_OUR-FINANCE <-----> updateExpenseParams:', updateExpenseParams);

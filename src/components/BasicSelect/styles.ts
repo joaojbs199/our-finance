@@ -45,6 +45,7 @@ export const createSelectStyles = <
         isSelected ? 'bg-neutral-700' : '',
         'p-1 text-gray-100 tracking-widest cursor-pointer hover:bg-neutral-700',
       ),
+    noOptionsMessage: () => 'text-gray-300 tracking-wider',
     singleValue: () => 'text-[12px] pl-1 text-gray-100 tracking-widest',
     multiValue: () =>
       'text-[11px] pl-1 rounded border border-neutral-500 bg-neutral-500 ml-1 text-gray-100 tracking-widest',

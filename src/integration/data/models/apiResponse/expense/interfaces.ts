@@ -1,4 +1,4 @@
-import { Expense } from '@prisma/client';
+import { Expense, Prisma } from '@prisma/client';
 
 export interface IGetExpenseApiResponse {
   metadata: {
@@ -7,4 +7,9 @@ export interface IGetExpenseApiResponse {
   data: PartialExpense[];
 }
 
-export type PartialExpense = Omit<Expense, 'created_at' | 'updated_at'>;
+export type PartialExpense = Omit<Expense, 'created_at' | 'updated_at'> &
+  Prisma.ExpenseGetPayload<{
+    include: {
+      owners: true;
+    };
+  }>;
