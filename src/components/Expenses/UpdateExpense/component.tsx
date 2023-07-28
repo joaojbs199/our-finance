@@ -32,7 +32,7 @@ const UpdateExpense: React.FC = () => {
     state.expense.expenses.data.filter((expense) => expense.id === expenseId),
   );
 
-  const selectOptions = [
+  const typeOptions = [
     {
       label: 'Individual',
       value: ExpenseType.INDIVIDUAL,
@@ -40,6 +40,17 @@ const UpdateExpense: React.FC = () => {
     {
       label: 'Compartilhada',
       value: ExpenseType.SHARED,
+    },
+  ];
+
+  const ownerOptions = [
+    {
+      label: 'João',
+      value: 1,
+    },
+    {
+      label: 'Fernanda',
+      value: 2,
     },
   ];
 
@@ -53,7 +64,6 @@ const UpdateExpense: React.FC = () => {
       rules: { required: 'Informe uma descrição.' },
       classNames:
         'mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50',
-      error: { type: 'required', message: 'Informe uma descrição.' },
     },
     {
       id: 2,
@@ -64,7 +74,6 @@ const UpdateExpense: React.FC = () => {
       rules: { required: 'Selecione uma data.' },
       classNames:
         'mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 pr-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50',
-      error: { type: 'required', message: 'Selecione uma data.' },
     },
     {
       id: 3,
@@ -81,7 +90,6 @@ const UpdateExpense: React.FC = () => {
       },
       classNames:
         'mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50',
-      error: { type: 'validate', message: 'Informe um valor.' },
     },
     {
       id: 4,
@@ -106,13 +114,24 @@ const UpdateExpense: React.FC = () => {
       name: 'type',
       control: 'CONTROLLED',
       type: 'select',
+      isMulti: false,
       defaultValue:
         expense.type === ExpenseType.INDIVIDUAL
-          ? selectOptions[0]
-          : (selectOptions[1] as DefaultValues<FormValues>),
+          ? typeOptions[0]
+          : (typeOptions[1] as DefaultValues<FormValues>),
       rules: { required: 'Selecione um tipo.' },
-      error: { type: 'required', message: 'Informe um valor.' },
-      options: selectOptions,
+      options: typeOptions,
+    },
+    {
+      id: 7,
+      name: 'owners',
+      control: 'CONTROLLED',
+      type: 'select',
+      isMulti: true,
+      placeholder: 'Selecione ao menos uma opção',
+      defaultValue: ownerOptions as DefaultValues<FormValues>,
+      rules: { required: 'Selecionar responsável.' },
+      options: ownerOptions,
     },
   ];
 

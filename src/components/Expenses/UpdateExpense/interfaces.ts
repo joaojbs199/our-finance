@@ -1,8 +1,13 @@
 import { ExpenseType } from '@prisma/client';
 
-type SelectOption = {
+type TypeOptions = {
   label: string;
   value: ExpenseType;
+};
+
+type OwnerOptions = {
+  label: string;
+  value: number;
 };
 
 export interface FormValues {
@@ -10,6 +15,7 @@ export interface FormValues {
   dueDate: string;
   observations: string | null;
   paymentBarCode: string | null;
-  type: SelectOption;
+  type: TypeOptions;
+  owners: OwnerOptions;
   value: string;
 }

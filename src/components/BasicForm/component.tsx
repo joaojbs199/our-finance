@@ -84,15 +84,17 @@ export const Form = <T extends FieldValues>({
                 key={input.id}
                 control={control}
                 name={input.name}
-                rules={{ required: 'Selecione um tipo.' }}
+                rules={input.rules}
                 render={({ field: { onChange, value } }) => {
                   return (
                     <>
                       <StyledSelect
                         error={errors[input.name]}
                         value={value}
+                        isMulti={input.isMulti}
                         onChange={onChange}
                         options={input.options}
+                        placeholder={input.placeholder}
                       />
                     </>
                   );
