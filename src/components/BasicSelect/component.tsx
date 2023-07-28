@@ -36,7 +36,7 @@ export const StyledSelect = <
     <>
       <Select
         {...props}
-        classNames={createSelectStyles<Option, IsMulti, Group>()}
+        classNames={createSelectStyles<Option, IsMulti, Group>(error)}
         unstyled
         isClearable
         isSearchable

@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 import { FieldErrors, FieldValues, Path } from 'react-hook-form';
 import { ErrorMessage } from '@/src/components/ErrorMessage/component';
+import { joinClassNames } from '@/src/utils/Helpers';
 
 export type IFormCurrencyInputProps<T extends FieldValues> = {
   /**
@@ -66,7 +67,15 @@ export const CurrencyInput = <T extends FieldValues>({
 
   return (
     <>
-      <input {...props} className={classNames} onChange={formatMoney} value={formattedValue} />
+      <input
+        {...props}
+        className={joinClassNames(
+          error ? 'border-red-500 text-red-500 focus:border-red-500' : '',
+          classNames,
+        )}
+        onChange={formatMoney}
+        value={formattedValue}
+      />
       {error && error.type === 'validate' && <ErrorMessage message={error.message as string} />}
     </>
   );

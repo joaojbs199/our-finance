@@ -1,19 +1,37 @@
 import { joinClassNames } from '@/src/utils/Helpers';
+import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
 import { ClassNamesConfig, GroupBase } from 'react-select';
 
 export const createSelectStyles = <
   Option,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>,
->(): ClassNamesConfig<Option, IsMulti, Group> => {
+>(
+  error:
+    | Merge<
+        FieldError,
+        FieldErrorsImpl<{
+          label: string;
+          value: string;
+        }>
+      >
+    | undefined,
+): ClassNamesConfig<Option, IsMulti, Group> => {
   const styles: ClassNamesConfig<Option, IsMulti, Group> = {
     container: () => 'w-full',
     control: ({ isFocused }) =>
       joinClassNames(
-        isFocused ? 'border-gray-50' : 'border-neutral-500',
+        isFocused && !error
+          ? 'border-gray-50'
+          : isFocused && error
+          ? 'border-red-500'
+          : !isFocused && error
+          ? 'border-red-500'
+          : 'border-neutral-500',
         'border mb-2 rounded bg-neutral-700',
       ),
-    placeholder: () => 'text-gray-100 pl-1 text-[12px] tracking-widest',
+    placeholder: () =>
+      joinClassNames(error ? 'text-red-500' : 'text-gray-100', 'pl-1 text-[12px] tracking-widest'),
     indicatorSeparator: () => 'border h-7 border-neutral-500 m-auto',
     dropdownIndicator: ({ isFocused }) =>
       joinClassNames(
