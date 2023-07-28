@@ -1,6 +1,8 @@
+import { ExpenseType } from '@prisma/client';
+
 type SelectOption = {
   label: string;
-  value: string;
+  value: ExpenseType;
 };
 
 export interface FormValues {

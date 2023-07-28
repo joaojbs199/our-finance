@@ -53,4 +53,9 @@ export class DateHandler {
     const simplifiedDate = splitteDate[0];
     return simplifiedDate;
   }
+
+  static createCompleteDateISO(date: string) {
+    const dateISO = new Date(`${date}T03:00:00.000Z`).toISOString();
+    return dateISO;
+  }
 }

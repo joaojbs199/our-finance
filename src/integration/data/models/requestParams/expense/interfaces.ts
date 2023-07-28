@@ -21,3 +21,14 @@ export interface IUpdateExpenseStatusRequestParams {
   id: number;
   status: boolean;
 }
+
+export interface IUpdateExpenseRequestParams {
+  id: number;
+  updates: {
+    dueDate?: string;
+    value?: number;
+    description?: string;
+    type?: ExpenseType;
+  };
+  ownerIds: Array<{ id: number }>;
+}

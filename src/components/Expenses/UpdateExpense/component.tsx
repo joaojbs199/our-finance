@@ -13,6 +13,7 @@ import { FormValues } from './interfaces';
 import { DefaultValues } from 'react-hook-form';
 import { BasicModal } from '@/src/components/BasicModal/component';
 import { CloseButton } from '@/src/components/Buttons/CloseButton/component';
+import { IUpdateExpenseRequestParams } from '@/src/integration/data/models/requestParams/expense/interfaces';
 
 export const RenderUpdateExpense = () => {
   const { isOpen } = useSelector(
@@ -115,8 +116,35 @@ const UpdateExpense: React.FC = () => {
     },
   ];
 
-  const handleFormSubmit = (data: any) => {
-    console.log('DEBUG_OUR-FINANCE <-----> data:', JSON.stringify(data, null, 2));
+  const handleFormSubmit = (formData: FormValues) => {
+    const newDueDate = DateHandler.createCompleteDateISO(formData.dueDate);
+    const newValue = parseLocaleNumber(formData.value, 'pt-BR');
+
+    const updateExpenseParams: IUpdateExpenseRequestParams = {
+      id: expense.id,
+      updates: {
+        ...(formData.description !== expense.description && { description: formData.description }),
+        ...(newDueDate !== String(expense.dueDate) && {
+          dueDate: newDueDate,
+        }),
+        ...(formData.observations !== expense.observations && {
+          observations: formData.observations,
+        }),
+        ...(formData.paymentBarCode !== expense.paymentBarCode && {
+          paymentBarCode: formData.paymentBarCode,
+        }),
+        ...(formData.type.value !== expense.type && {
+          type: formData.type.value,
+        }),
+        ...(newValue !== expense.value && {
+          value: newValue,
+        }),
+      },
+      ownerIds: [1, 2].map((id) => {
+        return { id };
+      }),
+    };
+    console.log('DEBUG_OUR-FINANCE <-----> updateExpenseParams:', updateExpenseParams);
   };
 
   return (
