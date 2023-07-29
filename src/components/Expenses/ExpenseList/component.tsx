@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { ItemList } from '../../BasicList/component';
 import { ExpenseCard } from '@/src/components/Expenses/ExpenseCard/component';
+import { getOwners } from '@/src/store/modules/owner/asyncThunks';
 
 export const ExpenseList = () => {
   const dispatch: AppDispatch = useAppDispatch();
@@ -19,6 +20,7 @@ export const ExpenseList = () => {
         finalDate: '',
       }),
     );
+    dispatch(getOwners());
   }, []);
 
   return (

@@ -30,8 +30,11 @@ export const createSelectStyles = <
           : 'border-neutral-500',
         'border mb-2 rounded bg-neutral-700',
       ),
-    placeholder: () =>
-      joinClassNames(error ? 'text-red-500' : 'text-gray-100', 'pl-1 text-[12px] tracking-widest'),
+    placeholder: ({ isDisabled }) =>
+      joinClassNames(
+        isDisabled ? 'text-gray-500' : error ? 'text-red-500' : 'text-gray-100',
+        'pl-1 text-[12px] tracking-widest',
+      ),
     indicatorSeparator: () => 'border h-7 border-neutral-500 m-auto',
     dropdownIndicator: ({ isFocused }) =>
       joinClassNames(

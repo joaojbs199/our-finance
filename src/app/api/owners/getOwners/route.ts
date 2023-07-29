@@ -15,6 +15,10 @@ export async function GET() {
     where: {
       user_email: session.user?.email as string,
     },
+    select: {
+      id: true,
+      name: true,
+    },
   };
 
   try {

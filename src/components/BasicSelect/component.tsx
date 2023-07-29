@@ -43,6 +43,7 @@ export const StyledSelect = <
         placeholder={placeholder}
       />
       {error && error.type === 'required' && <ErrorMessage message={error.message as string} />}
+      {error && error.type === 'validate' && <ErrorMessage message={error.message as string} />}
     </>
   );
 };

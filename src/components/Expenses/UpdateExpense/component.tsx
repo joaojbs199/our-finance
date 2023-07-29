@@ -7,13 +7,16 @@ import { ExpenseActions } from '@/src/slices/expense/expenseSlice';
 import { ExpenseType } from '@prisma/client';
 import { DateHandler } from '@/src/utils/DateHandler';
 import { convertCurrency, parseLocaleNumber } from '@/src/utils/Helpers';
-import { IFormInputProps } from '@/src/components/BasicForm/interfaces';
-import { Form } from '@/src/components/BasicForm/component';
-import { FormValues, OwnerOptions } from './interfaces';
-import { DefaultValues } from 'react-hook-form';
+import { FormValues, OwnerOptions, TypeOptions } from './interfaces';
+import { Controller, useForm } from 'react-hook-form';
 import { BasicModal } from '@/src/components/BasicModal/component';
 import { CloseButton } from '@/src/components/Buttons/CloseButton/component';
 import { IUpdateExpenseRequestParams } from '@/src/integration/data/models/requestParams/expense/interfaces';
+import { TextInput } from '@/src/components/Inputs/TextInput/component';
+import { DateInput } from '@/src/components/Inputs/DateInput/component';
+import { CurrencyInput } from '@/src/components/Inputs/CurrencyInput/component';
+import { StyledSelect } from '@/src/components/BasicSelect/component';
+import { useState } from 'react';
 
 export const RenderUpdateExpense = () => {
   const { isOpen } = useSelector(
@@ -25,14 +28,13 @@ export const RenderUpdateExpense = () => {
 const UpdateExpense: React.FC = () => {
   const dispatch: AppDispatch = useAppDispatch();
 
-  const { expenseId } = useSelector(
-    (state: RootState) => state.expense.uiState.dialogs.updateExpenseDialog,
-  );
-  const [expense] = useSelector((state: RootState) =>
-    state.expense.expenses.data.filter((expense) => expense.id === expenseId),
-  );
+  const state = useSelector((state: RootState) => state);
 
-  const typeOptions = [
+  const { expenseId } = state.expense.uiState.dialogs.updateExpenseDialog;
+
+  const [expense] = state.expense.expenses.data.filter((expense) => expense.id === expenseId);
+
+  const typeOptions: TypeOptions[] = [
     {
       label: 'Individual',
       value: ExpenseType.INDIVIDUAL,
@@ -43,90 +45,37 @@ const UpdateExpense: React.FC = () => {
     },
   ];
 
-  const ownerOptions: Array<OwnerOptions> = expense.owners.map((owner) => {
+  const expenseType = expense.type === ExpenseType.INDIVIDUAL ? typeOptions[0] : typeOptions[1];
+
+  const expenseOwner: Array<OwnerOptions> = expense.owners.map((owner) => {
     return { label: owner.name, value: owner.id };
   });
 
-  const inputs: Array<IFormInputProps<FormValues>> = [
-    {
-      id: 1,
-      name: 'description',
-      control: 'UNCONTROLLED',
-      type: 'text',
-      defaultValue: expense.description as DefaultValues<FormValues>,
-      rules: { required: 'Informe uma descrição.' },
-      classNames:
-        'mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50',
+  const ownerOptions: Array<OwnerOptions> = state.owner.owners.map((owner) => {
+    return { label: owner.name, value: owner.id };
+  });
+
+  const [isMulti, setIsMulti] = useState(expenseType.value === ExpenseType.SHARED);
+  const [ownersDisabled, setOwnersDisabled] = useState(false);
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    setValue,
+    clearErrors,
+    formState: { errors },
+  } = useForm<FormValues>({
+    defaultValues: {
+      description: expense.description,
+      dueDate: DateHandler.simplifyDateISO(expense.dueDate),
+      value: convertCurrency(expense.value),
+      observations: expense.observations,
+      paymentBarCode: expense.paymentBarCode,
+      type: expenseType,
+      owners: expenseOwner,
     },
-    {
-      id: 2,
-      name: 'dueDate',
-      control: 'UNCONTROLLED',
-      type: 'date',
-      defaultValue: DateHandler.simplifyDateISO(expense.dueDate) as DefaultValues<FormValues>,
-      rules: { required: 'Selecione uma data.' },
-      classNames:
-        'mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 pr-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50',
-    },
-    {
-      id: 3,
-      name: 'value',
-      control: 'CONTROLLED',
-      type: 'currency',
-      defaultValue: convertCurrency(expense.value) as DefaultValues<FormValues>,
-      rules: {
-        validate: (value) => {
-          const numberValue = parseLocaleNumber(value, 'pt-BR');
-          const isValid = typeof numberValue === 'number' && numberValue > 0;
-          if (!isValid) return 'Informe um valor.';
-        },
-      },
-      classNames:
-        'mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50',
-    },
-    {
-      id: 4,
-      name: 'observations',
-      control: 'UNCONTROLLED',
-      type: 'text',
-      defaultValue: expense.observations as DefaultValues<FormValues>,
-      classNames:
-        'mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50',
-    },
-    {
-      id: 5,
-      name: 'paymentBarCode',
-      control: 'UNCONTROLLED',
-      type: 'text',
-      defaultValue: expense.paymentBarCode as DefaultValues<FormValues>,
-      classNames:
-        'mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50',
-    },
-    {
-      id: 6,
-      name: 'type',
-      control: 'CONTROLLED',
-      type: 'select',
-      isMulti: false,
-      defaultValue:
-        expense.type === ExpenseType.INDIVIDUAL
-          ? typeOptions[0]
-          : (typeOptions[1] as DefaultValues<FormValues>),
-      rules: { required: 'Selecione um tipo.' },
-      options: typeOptions,
-    },
-    {
-      id: 7,
-      name: 'owners',
-      control: 'CONTROLLED',
-      type: 'select',
-      isMulti: true,
-      placeholder: 'Selecione ao menos uma opção',
-      defaultValue: ownerOptions as DefaultValues<FormValues>,
-      rules: { required: 'Selecionar responsável.' },
-      options: ownerOptions,
-    },
-  ];
+  });
 
   const handleFormSubmit = (formData: FormValues) => {
     const newDueDate = DateHandler.createCompleteDateISO(formData.dueDate);
@@ -170,11 +119,132 @@ const UpdateExpense: React.FC = () => {
           />
         }
       >
-        <Form<FormValues>
-          handleFormSubmit={handleFormSubmit}
-          inputs={inputs}
-          submitText="Atualizar"
-        />
+        <form
+          onSubmit={handleSubmit(handleFormSubmit)}
+          className=" m-auto mt-5 flex w-11/12 max-w-lg flex-wrap justify-center  p-3"
+        >
+          <TextInput
+            rules={{ required: 'Informe uma descrição.' }}
+            error={errors.description}
+            name="description"
+            register={register}
+            classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
+          />
+
+          <DateInput
+            rules={{ required: 'Selecione uma data.' }}
+            name="dueDate"
+            register={register}
+            error={errors.dueDate}
+            classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 pr-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
+          />
+
+          <Controller
+            control={control}
+            name="value"
+            rules={{
+              validate: (value) => {
+                const numberValue = parseLocaleNumber(value, 'pt-BR');
+                const isValid = typeof numberValue === 'number' && numberValue > 0;
+                if (!isValid) return 'Informe um valor.';
+              },
+            }}
+            render={({ field: { onChange, value } }) => {
+              return (
+                <>
+                  <CurrencyInput
+                    onChange={onChange}
+                    value={value}
+                    error={errors.value}
+                    classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
+                  />
+                </>
+              );
+            }}
+          />
+
+          <TextInput
+            error={errors.observations}
+            name="observations"
+            register={register}
+            classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
+          />
+
+          <TextInput
+            error={errors.paymentBarCode}
+            name="paymentBarCode"
+            register={register}
+            classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
+          />
+
+          <Controller
+            control={control}
+            name="type"
+            rules={{ required: 'Selecione um tipo.' }}
+            render={({ field: { onChange, value } }) => {
+              return (
+                <>
+                  <StyledSelect
+                    error={errors.type}
+                    value={value}
+                    onChange={(option) => {
+                      setValue('owners', []);
+                      onChange(option);
+                      option ? setOwnersDisabled(false) : setOwnersDisabled(true);
+                      const isValid = option && option.value === ExpenseType.SHARED;
+                      setIsMulti(!!isValid);
+                      clearErrors('owners');
+                    }}
+                    options={typeOptions}
+                  />
+                </>
+              );
+            }}
+          />
+
+          <Controller
+            control={control}
+            name="owners"
+            rules={{
+              required: 'Selecione um responsável.',
+              validate: (value) => {
+                const isValid =
+                  !isMulti && value.length === 1
+                    ? true
+                    : isMulti && value.length > 1
+                    ? true
+                    : false;
+                if (!isValid) return 'Despesa deve ter mais de um responsável.';
+              },
+            }}
+            render={({ field: { onChange, value } }) => {
+              return (
+                <>
+                  <StyledSelect
+                    error={errors.owners}
+                    value={value}
+                    isDisabled={ownersDisabled}
+                    isMulti={isMulti}
+                    onChange={(value) => {
+                      const selectValue =
+                        value && Array.isArray(value) ? value : !value ? value : [value];
+                      onChange(selectValue);
+                    }}
+                    options={ownerOptions}
+                    placeholder={isMulti ? 'Selecione as opções' : 'Seleciona uma opção'}
+                  />
+                </>
+              );
+            }}
+          />
+
+          <button
+            className="duration-250 mb-5 mt-8 flex h-9 w-full max-w-[200px] items-center justify-center rounded-md border border-neutral-700 text-gray-100 transition-all hover:bg-orange-500 hover:text-neutral-800"
+            type="submit"
+          >
+            Alterar
+          </button>
+        </form>
       </BasicModal>
     </BlockBackground>
   );

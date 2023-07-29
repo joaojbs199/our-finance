@@ -1,6 +1,6 @@
 import { ExpenseType } from '@prisma/client';
 
-type TypeOptions = {
+export type TypeOptions = {
   label: string;
   value: ExpenseType;
 };
