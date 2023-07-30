@@ -91,9 +91,9 @@ export async function POST(request: Request) {
   };
 
   try {
-    // const data = await prisma.expense.findMany();
+    const data = await prisma.expense.findMany(query);
 
-    const data: any = [
+    /* const data: any = [
       {
         id: 1,
         dueDate: '2023-07-01T03:00:00.000Z',
@@ -568,7 +568,7 @@ export async function POST(request: Request) {
           },
         ],
       },
-    ];
+    ]; */
 
     const response: IGetExpenseApiResponse = {
       metadata: {

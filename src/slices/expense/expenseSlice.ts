@@ -3,6 +3,7 @@ import { initialExpenseState } from '@/src/store/state';
 import {
   createExpense,
   getExpenses,
+  updateExpense,
   updateExpenseStatus,
 } from '@/src/store/modules/expense/asyncThunks';
 import { updateExpenses, updateIsOpenUpdateExpenseDialog } from './reducer-helper';
@@ -46,6 +47,23 @@ const expenseSlice = createSlice({
       .addCase(createExpense.rejected, (state, action) => {
         state.uiState.createExpense.isLoading = false;
         state.uiState.createExpense.error = {
+          isError: true,
+          errorMessage: action.payload || 'Something went wrong',
+        };
+      });
+
+    builder
+      .addCase(updateExpense.pending, (state) => {
+        state.uiState.updateExpense.isLoading = true;
+        state.uiState.updateExpense.error = { isError: false, errorMessage: '' };
+      })
+      .addCase(updateExpense.fulfilled, (state) => {
+        state.uiState.updateExpense.isLoading = false;
+        // set updated response here
+      })
+      .addCase(updateExpense.rejected, (state, action) => {
+        state.uiState.updateExpense.isLoading = false;
+        state.uiState.updateExpense.error = {
           isError: true,
           errorMessage: action.payload || 'Something went wrong',
         };

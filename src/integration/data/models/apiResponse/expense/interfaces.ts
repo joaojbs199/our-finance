@@ -9,7 +9,12 @@ export interface IGetExpenseApiResponse {
 
 export type PartialExpense = Omit<Expense, 'created_at' | 'updated_at'> &
   Prisma.ExpenseGetPayload<{
-    include: {
-      owners: true;
+    select: {
+      owners: {
+        select: {
+          id: true;
+          name: true;
+        };
+      };
     };
   }>;

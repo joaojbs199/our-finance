@@ -8,6 +8,7 @@ import {
 import {
   ICreateExpenseRequestParams,
   IGetExpensesRequestParams,
+  IUpdateExpenseRequestParams,
   IUpdateExpenseStatusRequestParams,
 } from '@/src/integration/data/models/requestParams/expense/interfaces';
 import { ConfigurationActions } from '@/src/slices/configuration/configurationSlice';
@@ -51,6 +52,27 @@ export const createExpense = createAsyncThunk<
       method: 'put',
       body: requestParams,
     });
+    return response;
+  } catch (err) {
+    const error = err as Error;
+    return rejectWithValue(error.message);
+  }
+});
+
+export const updateExpense = createAsyncThunk<
+  PartialExpense,
+  IUpdateExpenseRequestParams,
+  { state: RootState; rejectValue: string }
+>('expense/updateExpense', async (requestParams, { rejectWithValue }) => {
+  try {
+    const request = makeRequestHandlerFactory();
+
+    const response = await request.handle<PartialExpense>({
+      url: '/api/expenses/updateExpense',
+      method: 'put',
+      body: requestParams,
+    });
+
     return response;
   } catch (err) {
     const error = err as Error;

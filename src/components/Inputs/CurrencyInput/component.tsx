@@ -1,9 +1,10 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, InputHTMLAttributes, useState } from 'react';
 import { FieldErrors, FieldValues, Path } from 'react-hook-form';
 import { ErrorMessage } from '@/src/components/ErrorMessage/component';
 import { joinClassNames } from '@/src/utils/Helpers';
 
-export type IFormCurrencyInputProps<T extends FieldValues> = {
+export interface IFormCurrencyInputProps<T extends FieldValues>
+  extends InputHTMLAttributes<HTMLInputElement> {
   /**
    * React-hook-form method to handle changes on the input.
    * @param event Value inserted on the input
@@ -22,7 +23,7 @@ export type IFormCurrencyInputProps<T extends FieldValues> = {
    * The default value for input. Must be in "R$ 0,00" format.
    */
   value: string;
-};
+}
 
 /**
  *

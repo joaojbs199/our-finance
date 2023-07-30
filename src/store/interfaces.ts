@@ -33,6 +33,7 @@ export interface IExpenseState {
     getExpenses: IUiState;
     createExpense: IUiState;
     updateExpenseStatus: IUiState;
+    updateExpense: IUiState;
   };
   expenses: IGetExpenseApiResponse;
 }

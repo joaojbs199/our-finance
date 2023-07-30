@@ -1,15 +1,21 @@
+import { joinClassNames } from '@/src/utils/Helpers';
 import { X } from 'lucide-react';
+import { ButtonHTMLAttributes } from 'react';
 
-interface IBasicCloseButtonProps {
+interface IBasicCloseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   closeAction: () => void;
+  isDisabled?: boolean;
 }
 
-export const CloseButton = ({ closeAction }: IBasicCloseButtonProps) => {
+export const CloseButton = ({ closeAction, isDisabled = false }: IBasicCloseButtonProps) => {
   return (
     <X
-      className="h-4 w-4 rounded-full border border-neutral-600 p-0.5 text-gray-50 hover:cursor-pointer hover:border-gray-500 hover:text-neutral-400 sm:h-5 sm:w-5"
+      className={joinClassNames(
+        isDisabled ? 'bg-gray-700 text-gray-500' : 'text-gray-50',
+        'h-4 w-4 rounded-full border border-neutral-600 p-0.5 hover:cursor-pointer hover:border-gray-500 hover:text-neutral-400  sm:h-5 sm:w-5',
+      )}
       onClick={() => {
-        closeAction();
+        !isDisabled && closeAction();
       }}
     />
   );

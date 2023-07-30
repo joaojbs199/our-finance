@@ -49,9 +49,16 @@ export const createSelectStyles = <
         'p-1 text-gray-100 tracking-widest cursor-pointer hover:bg-neutral-700',
       ),
     noOptionsMessage: () => 'text-gray-300 tracking-wider',
-    singleValue: () => 'text-[12px] pl-1 text-gray-100 tracking-widest',
-    multiValue: () =>
-      'text-[11px] pl-1 rounded border border-neutral-500 bg-neutral-500 ml-1 text-gray-100 tracking-widest',
+    singleValue: ({ isDisabled }) =>
+      joinClassNames(
+        isDisabled ? 'text-gray-500' : 'text-gray-100',
+        'text-[12px] pl-1 tracking-widest',
+      ),
+    multiValue: ({ isDisabled }) =>
+      joinClassNames(
+        isDisabled ? 'text-gray-500' : 'text-gray-100',
+        'text-[11px] pl-1 rounded border border-neutral-500 bg-neutral-500 ml-1  tracking-widest',
+      ),
   };
 
   return styles;

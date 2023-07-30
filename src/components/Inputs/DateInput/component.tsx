@@ -1,8 +1,10 @@
 import { FieldErrors, FieldValues, Path, RegisterOptions, UseFormRegister } from 'react-hook-form';
 import { ErrorMessage } from '@/src/components/ErrorMessage/component';
 import { joinClassNames } from '@/src/utils/Helpers';
+import { InputHTMLAttributes } from 'react';
 
-export interface IDateInputProps<T extends FieldValues> {
+export interface IDateInputProps<T extends FieldValues>
+  extends InputHTMLAttributes<HTMLInputElement> {
   name: Path<T>;
   rules?: RegisterOptions;
   register?: UseFormRegister<T>;

@@ -17,6 +17,8 @@ import { DateInput } from '@/src/components/Inputs/DateInput/component';
 import { CurrencyInput } from '@/src/components/Inputs/CurrencyInput/component';
 import { StyledSelect } from '@/src/components/BasicSelect/component';
 import { useState } from 'react';
+import { updateExpense } from '@/src/store/modules/expense/asyncThunks';
+import isEmpty from 'is-empty';
 
 export const RenderUpdateExpense = () => {
   const { isOpen } = useSelector(
@@ -28,7 +30,11 @@ export const RenderUpdateExpense = () => {
 const UpdateExpense: React.FC = () => {
   const dispatch: AppDispatch = useAppDispatch();
 
+  const [hasUpdates, setHasUpdates] = useState(true);
+
   const state = useSelector((state: RootState) => state);
+
+  const { isLoading, isDone, error } = state.expense.uiState.updateExpense;
 
   const { expenseId } = state.expense.uiState.dialogs.updateExpenseDialog;
 
@@ -107,7 +113,15 @@ const UpdateExpense: React.FC = () => {
         }),
       },
     };
-    console.log('DEBUG_OUR-FINANCE <-----> updateExpenseParams:', updateExpenseParams);
+
+    if (isEmpty(updateExpenseParams.updates)) {
+      setTimeout(() => {
+        setHasUpdates(true);
+      }, 1000);
+      setHasUpdates(false);
+    } else {
+      dispatch(updateExpense(updateExpenseParams));
+    }
   };
 
   return (
@@ -115,6 +129,7 @@ const UpdateExpense: React.FC = () => {
       <BasicModal
         closeButton={
           <CloseButton
+            isDisabled={isLoading}
             closeAction={() =>
               dispatch(ExpenseActions.setIsOpenUpdateExpenseDialog({ isOpen: false, expenseId: 0 }))
             }
@@ -123,14 +138,15 @@ const UpdateExpense: React.FC = () => {
       >
         <form
           onSubmit={handleSubmit(handleFormSubmit)}
-          className=" m-auto mt-5 flex w-11/12 max-w-lg flex-wrap justify-center  p-3"
+          className=" m-auto mt-5 flex w-11/12 max-w-lg flex-wrap justify-center p-3  pb-5"
         >
           <TextInput
             rules={{ required: 'Informe uma descrição.' }}
             error={errors.description}
             name="description"
             register={register}
-            classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
+            disabled={isLoading}
+            classNames="mb-2 h-9 w-full disabled:text-gray-500 content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
           />
 
           <DateInput
@@ -138,7 +154,8 @@ const UpdateExpense: React.FC = () => {
             name="dueDate"
             register={register}
             error={errors.dueDate}
-            classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 pr-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
+            disabled={isLoading}
+            classNames="mb-2 h-9 w-full disabled:text-gray-500 content-center rounded border border-neutral-500 bg-neutral-700 pl-1 pr-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
           />
 
           <Controller
@@ -158,7 +175,8 @@ const UpdateExpense: React.FC = () => {
                     onChange={onChange}
                     value={value}
                     error={errors.value}
-                    classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
+                    disabled={isLoading}
+                    classNames="mb-2 h-9 w-full disabled:text-gray-500 content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
                   />
                 </>
               );
@@ -169,14 +187,16 @@ const UpdateExpense: React.FC = () => {
             error={errors.observations}
             name="observations"
             register={register}
-            classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
+            disabled={isLoading}
+            classNames="mb-2 h-9 w-full disabled:text-gray-500 content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
           />
 
           <TextInput
             error={errors.paymentBarCode}
             name="paymentBarCode"
             register={register}
-            classNames="mb-2 h-9 w-full content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
+            disabled={isLoading}
+            classNames="mb-2 h-9 w-full disabled:text-gray-500 content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
           />
 
           <Controller
@@ -197,6 +217,7 @@ const UpdateExpense: React.FC = () => {
                       setIsMulti(!!isValid);
                       clearErrors('owners');
                     }}
+                    isDisabled={isLoading}
                     options={typeOptions}
                   />
                 </>
@@ -225,7 +246,7 @@ const UpdateExpense: React.FC = () => {
                   <StyledSelect
                     error={errors.owners}
                     value={value}
-                    isDisabled={ownersDisabled}
+                    isDisabled={ownersDisabled || isLoading}
                     isMulti={isMulti}
                     onChange={(value) => {
                       const selectValue =
@@ -241,11 +262,17 @@ const UpdateExpense: React.FC = () => {
           />
 
           <button
-            className="duration-250 mb-5 mt-8 flex h-9 w-full max-w-[200px] items-center justify-center rounded-md border border-neutral-700 text-gray-100 transition-all hover:bg-orange-500 hover:text-neutral-800"
+            className="duration-250 mt-5 flex h-9 w-full max-w-[200px] items-center justify-center rounded-md border border-neutral-700 text-gray-100 transition-all hover:bg-orange-500 hover:text-neutral-800"
             type="submit"
+            disabled={isLoading}
           >
             Alterar
           </button>
+          {!hasUpdates && (
+            <p className="mb-2 mt-2 w-full text-center font-poppins text-xs font-normal tracking-widest text-orange-500">
+              Nada à atualizar
+            </p>
+          )}
         </form>
       </BasicModal>
     </BlockBackground>
