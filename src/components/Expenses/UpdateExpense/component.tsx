@@ -19,6 +19,7 @@ import { StyledSelect } from '@/src/components/BasicSelect/component';
 import { useState } from 'react';
 import { updateExpense } from '@/src/store/modules/expense/asyncThunks';
 import isEmpty from 'is-empty';
+import { Loader2 } from 'lucide-react';
 
 export const RenderUpdateExpense = () => {
   const { isOpen } = useSelector(
@@ -129,7 +130,7 @@ const UpdateExpense: React.FC = () => {
       <BasicModal
         closeButton={
           <CloseButton
-            isDisabled={isLoading}
+            isDisabled={isLoading || isDone}
             closeAction={() =>
               dispatch(ExpenseActions.setIsOpenUpdateExpenseDialog({ isOpen: false, expenseId: 0 }))
             }
@@ -145,7 +146,7 @@ const UpdateExpense: React.FC = () => {
             error={errors.description}
             name="description"
             register={register}
-            disabled={isLoading}
+            disabled={isLoading || isDone}
             classNames="mb-2 h-9 w-full disabled:text-gray-500 content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
           />
 
@@ -154,7 +155,7 @@ const UpdateExpense: React.FC = () => {
             name="dueDate"
             register={register}
             error={errors.dueDate}
-            disabled={isLoading}
+            disabled={isLoading || isDone}
             classNames="mb-2 h-9 w-full disabled:text-gray-500 content-center rounded border border-neutral-500 bg-neutral-700 pl-1 pr-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
           />
 
@@ -175,7 +176,7 @@ const UpdateExpense: React.FC = () => {
                     onChange={onChange}
                     value={value}
                     error={errors.value}
-                    disabled={isLoading}
+                    disabled={isLoading || isDone}
                     classNames="mb-2 h-9 w-full disabled:text-gray-500 content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
                   />
                 </>
@@ -187,7 +188,7 @@ const UpdateExpense: React.FC = () => {
             error={errors.observations}
             name="observations"
             register={register}
-            disabled={isLoading}
+            disabled={isLoading || isDone}
             classNames="mb-2 h-9 w-full disabled:text-gray-500 content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
           />
 
@@ -195,7 +196,7 @@ const UpdateExpense: React.FC = () => {
             error={errors.paymentBarCode}
             name="paymentBarCode"
             register={register}
-            disabled={isLoading}
+            disabled={isLoading || isDone}
             classNames="mb-2 h-9 w-full disabled:text-gray-500 content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
           />
 
@@ -217,7 +218,7 @@ const UpdateExpense: React.FC = () => {
                       setIsMulti(!!isValid);
                       clearErrors('owners');
                     }}
-                    isDisabled={isLoading}
+                    isDisabled={isLoading || isDone}
                     options={typeOptions}
                   />
                 </>
@@ -246,7 +247,7 @@ const UpdateExpense: React.FC = () => {
                   <StyledSelect
                     error={errors.owners}
                     value={value}
-                    isDisabled={ownersDisabled || isLoading}
+                    isDisabled={ownersDisabled || isLoading || isDone}
                     isMulti={isMulti}
                     onChange={(value) => {
                       const selectValue =
@@ -262,15 +263,25 @@ const UpdateExpense: React.FC = () => {
           />
 
           <button
-            className="duration-250 mt-5 flex h-9 w-full max-w-[200px] items-center justify-center rounded-md border border-neutral-700 text-gray-100 transition-all hover:bg-orange-500 hover:text-neutral-800"
+            className="duration-250 mt-5 flex h-9 w-full max-w-[200px] items-center justify-center rounded-md border border-neutral-700 bg-orange-500 text-gray-100 transition-all hover:bg-orange-400 hover:text-gray-50 disabled:bg-orange-400"
             type="submit"
-            disabled={isLoading}
+            disabled={isLoading || isDone}
           >
-            Alterar
+            {isLoading ? (
+              <Loader2 className="font-extrabold5 h-5 w-5 animate-spin text-gray-100" />
+            ) : (
+              'Alterar'
+            )}
           </button>
           {!hasUpdates && (
             <p className="mb-2 mt-2 w-full text-center font-poppins text-xs font-normal tracking-widest text-orange-500">
               Nada à atualizar
+            </p>
+          )}
+
+          {isDone && (
+            <p className="mb-2 mt-2 w-full text-center font-poppins text-xs font-normal tracking-widest text-green-500">
+              Despesa atualizada
             </p>
           )}
         </form>

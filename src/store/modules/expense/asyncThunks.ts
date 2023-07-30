@@ -12,6 +12,8 @@ import {
   IUpdateExpenseStatusRequestParams,
 } from '@/src/integration/data/models/requestParams/expense/interfaces';
 import { ConfigurationActions } from '@/src/slices/configuration/configurationSlice';
+import { delay } from '@/src/utils/Helpers';
+import { ExpenseActions } from '@/src/slices/expense/expenseSlice';
 
 export const getExpenses = createAsyncThunk<
   IGetExpenseApiResponse,
@@ -63,7 +65,7 @@ export const updateExpense = createAsyncThunk<
   PartialExpense,
   IUpdateExpenseRequestParams,
   { state: RootState; rejectValue: string }
->('expense/updateExpense', async (requestParams, { rejectWithValue }) => {
+>('expense/updateExpense', async (requestParams, { rejectWithValue, dispatch }) => {
   try {
     const request = makeRequestHandlerFactory();
 
@@ -72,6 +74,11 @@ export const updateExpense = createAsyncThunk<
       method: 'put',
       body: requestParams,
     });
+
+    dispatch(ExpenseActions.setUpdateExpenseIsLoading(false));
+    dispatch(ExpenseActions.setUpdateExpenseIsDone(true));
+    await delay(1000);
+    dispatch(ExpenseActions.setUpdateExpenseIsDone(false));
 
     return response;
   } catch (err) {

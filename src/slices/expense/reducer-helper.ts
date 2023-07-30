@@ -8,11 +8,11 @@ type A<T> = PayloadAction<T>;
 
 /**
  * Replaces the old expense with the new one that was returned.
- * @param updatedExpense Returned expense from update query.
  * @param expenses Current expenses list in state.
+ * @param updatedExpense Returned expense from update query.
  * @returns Updated expense list.
  */
-export const updateExpenses = (updatedExpense: PartialExpense, expenses: PartialExpense[]) => {
+export const updateExpenses = (expenses: PartialExpense[], updatedExpense: PartialExpense) => {
   const updatedExpenses: PartialExpense[] = expenses.map((expense) => {
     return expense.id === updatedExpense.id ? { ...updatedExpense } : expense;
   });
@@ -33,6 +33,32 @@ export const updateIsOpenUpdateExpenseDialog = (state: S, action: A<IOpenExpense
           isOpen,
           expenseId,
         },
+      },
+    },
+  };
+};
+
+export const updateUpdateExpenseIsLoading = (state: S, action: A<boolean>) => {
+  return {
+    ...state,
+    uiState: {
+      ...state.uiState,
+      updateExpense: {
+        ...state.uiState.updateExpense,
+        isLoading: action.payload,
+      },
+    },
+  };
+};
+
+export const updateUpdateExpenseIsDone = (state: S, action: A<boolean>) => {
+  return {
+    ...state,
+    uiState: {
+      ...state.uiState,
+      updateExpense: {
+        ...state.uiState.updateExpense,
+        isDone: action.payload,
       },
     },
   };

@@ -57,6 +57,12 @@ export async function PUT(request: Request) {
       observations: true,
       status: true,
       paymentList_id: true,
+      owners: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
     },
   };
 
