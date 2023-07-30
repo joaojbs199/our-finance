@@ -25,10 +25,12 @@ export interface IUpdateExpenseStatusRequestParams {
 export interface IUpdateExpenseRequestParams {
   id: number;
   updates: {
+    description?: string;
     dueDate?: string;
     value?: number;
-    description?: string;
+    observations?: string | null;
+    paymentBarCode?: string | null;
     type?: ExpenseType;
+    owners?: Array<{ id: number }>;
   };
-  ownerIds: Array<{ id: number }>;
 }

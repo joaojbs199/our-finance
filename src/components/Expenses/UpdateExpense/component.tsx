@@ -100,10 +100,12 @@ const UpdateExpense: React.FC = () => {
         ...(newValue !== expense.value && {
           value: newValue,
         }),
+        ...(JSON.stringify(formData.owners) !== JSON.stringify(expenseOwner) && {
+          owners: formData.owners.map((owner) => {
+            return { id: owner.value };
+          }),
+        }),
       },
-      ownerIds: formData.owners.map((owner) => {
-        return { id: owner.value };
-      }),
     };
     console.log('DEBUG_OUR-FINANCE <-----> updateExpenseParams:', updateExpenseParams);
   };
