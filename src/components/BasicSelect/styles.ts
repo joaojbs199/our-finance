@@ -28,7 +28,7 @@ export const createSelectStyles = <
           : !isFocused && error
           ? 'border-red-500'
           : 'border-neutral-500',
-        'border mb-2 rounded bg-neutral-700',
+        'border rounded bg-neutral-700',
       ),
     placeholder: ({ isDisabled }) =>
       joinClassNames(

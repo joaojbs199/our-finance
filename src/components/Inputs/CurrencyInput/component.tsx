@@ -1,7 +1,5 @@
 import { ChangeEvent, InputHTMLAttributes, useState } from 'react';
-import { FieldErrors, FieldValues, Path } from 'react-hook-form';
-import { ErrorMessage } from '@/src/components/ErrorMessage/component';
-import { joinClassNames } from '@/src/utils/Helpers';
+import { FieldValues } from 'react-hook-form';
 
 export interface IFormCurrencyInputProps<T extends FieldValues>
   extends InputHTMLAttributes<HTMLInputElement> {
@@ -11,10 +9,6 @@ export interface IFormCurrencyInputProps<T extends FieldValues>
    * @returns void
    */
   onChange: (...event: any[]) => void;
-  /**
-   * Form input errors to warning.
-   */
-  error?: FieldErrors<T>[Path<T>];
   /**
    * Classes to style the input.
    */
@@ -36,7 +30,6 @@ export interface IFormCurrencyInputProps<T extends FieldValues>
  */
 export const CurrencyInput = <T extends FieldValues>({
   classNames,
-  error,
   value,
   onChange,
   ...props
@@ -66,18 +59,5 @@ export const CurrencyInput = <T extends FieldValues>({
     }
   };
 
-  return (
-    <>
-      <input
-        {...props}
-        className={joinClassNames(
-          error ? 'border-red-500 text-red-500 focus:border-red-500' : '',
-          classNames,
-        )}
-        onChange={formatMoney}
-        value={formattedValue}
-      />
-      {error && error.type === 'validate' && <ErrorMessage message={error.message as string} />}
-    </>
-  );
+  return <input {...props} className={classNames} onChange={formatMoney} value={formattedValue} />;
 };

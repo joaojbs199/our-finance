@@ -6,7 +6,7 @@ import { BlockBackground } from '@/src/components/BlockBackground/component';
 import { ExpenseActions } from '@/src/slices/expense/expenseSlice';
 import { ExpenseType } from '@prisma/client';
 import { DateHandler } from '@/src/utils/DateHandler';
-import { convertCurrency, parseLocaleNumber } from '@/src/utils/Helpers';
+import { convertCurrency, joinClassNames, parseLocaleNumber } from '@/src/utils/Helpers';
 import { FormValues, OwnerOptions, TypeOptions } from './interfaces';
 import { Controller, useForm } from 'react-hook-form';
 import { BasicModal } from '@/src/components/BasicModal/component';
@@ -19,7 +19,9 @@ import { StyledSelect } from '@/src/components/BasicSelect/component';
 import { useState } from 'react';
 import { updateExpense } from '@/src/store/modules/expense/asyncThunks';
 import isEmpty from 'is-empty';
-import { Loader2 } from 'lucide-react';
+import { FormInputWrapper } from '@/src/components/FormInputWrapper/component';
+import { AlertMessage } from '@/src/components/AlertMessage/component';
+import { SubmitButton } from '../../Buttons/SubmitButton/component';
 
 export const RenderUpdateExpense = () => {
   const { isOpen } = useSelector(
@@ -30,6 +32,8 @@ export const RenderUpdateExpense = () => {
 
 const UpdateExpense: React.FC = () => {
   const dispatch: AppDispatch = useAppDispatch();
+
+  const formId = 'update_expense_form';
 
   const [hasUpdates, setHasUpdates] = useState(true);
 
@@ -138,26 +142,41 @@ const UpdateExpense: React.FC = () => {
         }
       >
         <form
+          id={formId}
           onSubmit={handleSubmit(handleFormSubmit)}
           className=" m-auto mt-5 flex w-11/12 max-w-lg flex-wrap justify-center p-3  pb-5"
         >
-          <TextInput
-            rules={{ required: 'Informe uma descrição.' }}
-            error={errors.description}
-            name="description"
-            register={register}
-            disabled={isLoading || isDone}
-            classNames="mb-2 h-9 w-full disabled:text-gray-500 content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
-          />
+          <FormInputWrapper classNames="">
+            <TextInput
+              rules={{ required: 'Informe uma descrição.' }}
+              name="description"
+              register={register}
+              disabled={isLoading || isDone}
+              classNames={joinClassNames(
+                errors.description ? 'border-red-500 focus:border-red-500' : '',
+                'h-9 w-full disabled:text-gray-500 content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50',
+              )}
+            />
+            {errors && errors?.description?.type === 'required' && (
+              <AlertMessage messageType="error" message={errors.description.message} />
+            )}
+          </FormInputWrapper>
 
-          <DateInput
-            rules={{ required: 'Selecione uma data.' }}
-            name="dueDate"
-            register={register}
-            error={errors.dueDate}
-            disabled={isLoading || isDone}
-            classNames="mb-2 h-9 w-full disabled:text-gray-500 content-center rounded border border-neutral-500 bg-neutral-700 pl-1 pr-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
-          />
+          <FormInputWrapper classNames="">
+            <DateInput
+              rules={{ required: 'Selecione uma data.' }}
+              name="dueDate"
+              register={register}
+              disabled={isLoading || isDone}
+              classNames={joinClassNames(
+                errors.dueDate ? 'border-red-500 text-red-500 focus:border-red-500' : '',
+                'h-9 w-full disabled:text-gray-500 content-center rounded border border-neutral-500 bg-neutral-700 pl-1 pr-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50',
+              )}
+            />
+            {errors && errors?.dueDate?.type === 'required' && (
+              <AlertMessage messageType="error" message={errors.dueDate.message} />
+            )}
+          </FormInputWrapper>
 
           <Controller
             control={control}
@@ -171,34 +190,53 @@ const UpdateExpense: React.FC = () => {
             }}
             render={({ field: { onChange, value } }) => {
               return (
-                <>
+                <FormInputWrapper classNames="">
                   <CurrencyInput
                     onChange={onChange}
                     value={value}
-                    error={errors.value}
                     disabled={isLoading || isDone}
-                    classNames="mb-2 h-9 w-full disabled:text-gray-500 content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
+                    classNames={joinClassNames(
+                      errors.value ? 'border-red-500 text-red-500 focus:border-red-500' : '',
+                      'h-9 w-full disabled:text-gray-500 content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50',
+                    )}
                   />
-                </>
+                  {errors && errors?.value?.type === 'validate' && (
+                    <AlertMessage messageType="error" message={errors.value.message} />
+                  )}
+                </FormInputWrapper>
               );
             }}
           />
 
-          <TextInput
-            error={errors.observations}
-            name="observations"
-            register={register}
-            disabled={isLoading || isDone}
-            classNames="mb-2 h-9 w-full disabled:text-gray-500 content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
-          />
+          <FormInputWrapper classNames="">
+            <TextInput
+              name="observations"
+              register={register}
+              disabled={isLoading || isDone}
+              classNames={joinClassNames(
+                errors.observations ? 'border-red-500 focus:border-red-500' : '',
+                'h-9 w-full disabled:text-gray-500 content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50',
+              )}
+            />
+            {errors && errors?.observations?.type === 'required' && (
+              <AlertMessage messageType="error" message={errors.observations.message} />
+            )}
+          </FormInputWrapper>
 
-          <TextInput
-            error={errors.paymentBarCode}
-            name="paymentBarCode"
-            register={register}
-            disabled={isLoading || isDone}
-            classNames="mb-2 h-9 w-full disabled:text-gray-500 content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50"
-          />
+          <FormInputWrapper classNames="">
+            <TextInput
+              name="paymentBarCode"
+              register={register}
+              disabled={isLoading || isDone}
+              classNames={joinClassNames(
+                errors.paymentBarCode ? 'border-red-500 focus:border-red-500' : '',
+                'h-9 w-full disabled:text-gray-500 content-center rounded border border-neutral-500 bg-neutral-700 pl-1 text-[12px] tracking-widest text-gray-100 outline-none focus:border-gray-50',
+              )}
+            />
+            {errors && errors?.paymentBarCode?.type === 'required' && (
+              <AlertMessage messageType="error" message={errors.paymentBarCode.message} />
+            )}
+          </FormInputWrapper>
 
           <Controller
             control={control}
@@ -206,7 +244,7 @@ const UpdateExpense: React.FC = () => {
             rules={{ required: 'Selecione um tipo.' }}
             render={({ field: { onChange, value } }) => {
               return (
-                <>
+                <FormInputWrapper classNames="">
                   <StyledSelect
                     error={errors.type}
                     value={value}
@@ -221,7 +259,13 @@ const UpdateExpense: React.FC = () => {
                     isDisabled={isLoading || isDone}
                     options={typeOptions}
                   />
-                </>
+                  {errors && errors?.type?.type === 'required' && (
+                    <AlertMessage messageType="error" message={errors.type.message} />
+                  )}
+                  {errors && errors?.type?.type === 'validate' && (
+                    <AlertMessage messageType="error" message={errors.type.message} />
+                  )}
+                </FormInputWrapper>
               );
             }}
           />
@@ -243,7 +287,7 @@ const UpdateExpense: React.FC = () => {
             }}
             render={({ field: { onChange, value } }) => {
               return (
-                <>
+                <FormInputWrapper classNames="">
                   <StyledSelect
                     error={errors.owners}
                     value={value}
@@ -257,33 +301,28 @@ const UpdateExpense: React.FC = () => {
                     options={ownerOptions}
                     placeholder={isMulti ? 'Selecione as opções' : 'Seleciona uma opção'}
                   />
-                </>
+                  {errors && errors?.owners?.type === 'required' && (
+                    <AlertMessage messageType="error" message={errors.owners.message} />
+                  )}
+                  {errors && errors?.owners?.type === 'validate' && (
+                    <AlertMessage messageType="error" message={errors.owners.message} />
+                  )}
+                </FormInputWrapper>
               );
             }}
           />
 
-          <button
-            className="duration-250 mt-5 flex h-9 w-full max-w-[200px] items-center justify-center rounded-md border border-neutral-700 bg-orange-500 text-gray-100 transition-all hover:bg-orange-400 hover:text-gray-50 disabled:bg-orange-400"
-            type="submit"
+          <SubmitButton
+            formId={formId}
+            isSubmitting={isLoading}
             disabled={isLoading || isDone}
-          >
-            {isLoading ? (
-              <Loader2 className="font-extrabold5 h-5 w-5 animate-spin text-gray-100" />
-            ) : (
-              'Alterar'
-            )}
-          </button>
-          {!hasUpdates && (
-            <p className="mb-2 mt-2 w-full text-center font-poppins text-xs font-normal tracking-widest text-orange-500">
-              Nada à atualizar
-            </p>
-          )}
+            text="Alterar"
+          />
 
-          {isDone && (
-            <p className="mb-2 mt-2 w-full text-center font-poppins text-xs font-normal tracking-widest text-green-500">
-              Despesa atualizada
-            </p>
-          )}
+          <div className="w-full pt-2">
+            {!hasUpdates && <AlertMessage messageType="warning" message="Nada à alterar" />}
+            {isDone && <AlertMessage messageType="success" message="Despesa atualizada" />}
+          </div>
         </form>
       </BasicModal>
     </BlockBackground>
