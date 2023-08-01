@@ -1,9 +1,8 @@
 import { Expense, Prisma } from '@prisma/client';
+import { IMetadata } from '@/src/integration/data/models/apiResponse/base/interfaces';
 
 export interface IGetExpenseApiResponse {
-  metadata: {
-    totalResults: number;
-  };
+  metadata: IMetadata;
   data: PartialExpense[];
 }
 

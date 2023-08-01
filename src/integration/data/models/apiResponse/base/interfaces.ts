@@ -3,6 +3,10 @@ export interface ApiResponse<T> {
   data: T;
 }
 
+export interface IMetadata {
+  totalResults: number;
+}
+
 export type ISODate = `${Year}-${Month}-${Day}`;
 
 type Digit = `0` | `1` | `2` | `3` | `4` | `5` | `6` | `7` | `8` | `9`;

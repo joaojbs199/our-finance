@@ -4,9 +4,10 @@ import { getExpenses } from '@/src/store/modules/expense/asyncThunks';
 import { AppDispatch, RootState, useAppDispatch } from '@/src/store/store';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { ItemList } from '../../BasicList/component';
+import { ItemList } from '@/src/components/BasicList/component';
 import { ExpenseCard } from '@/src/components/Expenses/ExpenseCard/component';
 import { getOwners } from '@/src/store/modules/owner/asyncThunks';
+import { Metadata } from '@/src/components/Metadata/component';
 
 export const ExpenseList = () => {
   const dispatch: AppDispatch = useAppDispatch();
@@ -24,10 +25,13 @@ export const ExpenseList = () => {
   }, []);
 
   return (
-    <ItemList>
-      {data.map((expense) => (
-        <ExpenseCard key={expense.id} expense={expense} />
-      ))}
-    </ItemList>
+    <>
+      <Metadata metadata={metadata} />
+      <ItemList>
+        {data.map((expense) => (
+          <ExpenseCard key={expense.id} expense={expense} />
+        ))}
+      </ItemList>
+    </>
   );
 };
