@@ -29,6 +29,9 @@ export interface IExpenseState {
         isOpen: boolean;
         expenseId: number;
       };
+      createExpenseDialog: {
+        isOpen: boolean;
+      };
     };
     getExpenses: IUiState;
     createExpense: IUiState;

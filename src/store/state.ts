@@ -14,6 +14,9 @@ export const initialExpenseState: IExpenseState = {
         isOpen: false,
         expenseId: 0,
       },
+      createExpenseDialog: {
+        isOpen: false,
+      },
     },
     getExpenses: initialUiState,
     createExpense: initialUiState,

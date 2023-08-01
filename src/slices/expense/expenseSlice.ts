@@ -8,6 +8,7 @@ import {
 } from '@/src/store/modules/expense/asyncThunks';
 import {
   updateExpenses,
+  updateIsOpenCreateExpenseDialog,
   updateIsOpenUpdateExpenseDialog,
   updateUpdateExpenseIsDone,
   updateUpdateExpenseIsLoading,
@@ -20,6 +21,9 @@ const expenseSlice = createSlice({
   reducers: {
     setIsOpenUpdateExpenseDialog: (state, action: PayloadAction<IOpenExpenseDialogs>) => {
       return updateIsOpenUpdateExpenseDialog(state, action);
+    },
+    setIsOpenCreateExpenseDialog: (state, action: PayloadAction<boolean>) => {
+      return updateIsOpenCreateExpenseDialog(state, action);
     },
     setUpdateExpenseIsLoading: (state, action: PayloadAction<boolean>) => {
       return updateUpdateExpenseIsLoading(state, action);
@@ -101,11 +105,16 @@ const expenseSlice = createSlice({
   },
 });
 
-const { setIsOpenUpdateExpenseDialog, setUpdateExpenseIsLoading, setUpdateExpenseIsDone } =
-  expenseSlice.actions;
+const {
+  setIsOpenUpdateExpenseDialog,
+  setIsOpenCreateExpenseDialog,
+  setUpdateExpenseIsLoading,
+  setUpdateExpenseIsDone,
+} = expenseSlice.actions;
 
 export const ExpenseActions = {
   setIsOpenUpdateExpenseDialog,
+  setIsOpenCreateExpenseDialog,
   setUpdateExpenseIsLoading,
   setUpdateExpenseIsDone,
 };

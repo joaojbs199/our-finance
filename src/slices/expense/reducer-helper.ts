@@ -38,6 +38,22 @@ export const updateIsOpenUpdateExpenseDialog = (state: S, action: A<IOpenExpense
   };
 };
 
+export const updateIsOpenCreateExpenseDialog = (state: S, action: A<boolean>) => {
+  return {
+    ...state,
+    uiState: {
+      ...state.uiState,
+      dialogs: {
+        ...state.uiState.dialogs,
+        createExpenseDialog: {
+          ...state.uiState.dialogs.createExpenseDialog,
+          isOpen: action.payload,
+        },
+      },
+    },
+  };
+};
+
 export const updateUpdateExpenseIsLoading = (state: S, action: A<boolean>) => {
   return {
     ...state,
