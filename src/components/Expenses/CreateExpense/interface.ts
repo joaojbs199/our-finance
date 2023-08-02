@@ -15,7 +15,7 @@ export interface FormValues {
   dueDate: string;
   observations: string | null;
   paymentBarCode: string | null;
-  type: TypeOptions | null;
-  owners: OwnerOptions[] | null;
+  type: TypeOptions;
+  owners: OwnerOptions[];
   value: string;
 }

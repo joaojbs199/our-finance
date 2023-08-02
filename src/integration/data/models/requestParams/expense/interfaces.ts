@@ -6,17 +6,6 @@ export interface IGetExpensesRequestParams {
   type?: Array<ExpenseType>;
 }
 
-export interface ICreateExpenseRequestParams {
-  expense: {
-    dueDate: Date;
-    value: number;
-    description: string;
-    type: ExpenseType;
-    status: boolean;
-  };
-  ownerId: number;
-}
-
 export interface IUpdateExpenseStatusRequestParams {
   id: number;
   status: boolean;
@@ -33,4 +22,14 @@ export interface IUpdateExpenseRequestParams {
     type?: ExpenseType;
     owners?: Array<{ id: number }>;
   };
+}
+
+export interface ICreateExpenseRequestParams {
+  description: string;
+  dueDate: string;
+  value: number;
+  observations: string | null;
+  paymentBarCode: string | null;
+  type: ExpenseType;
+  owners: Array<{ id: number }>;
 }

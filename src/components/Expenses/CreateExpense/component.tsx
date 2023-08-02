@@ -18,6 +18,9 @@ import { StyledSelect } from '@/src/components/BasicSelect/component';
 import { useState } from 'react';
 import { ExpenseType } from '@prisma/client';
 import { SubmitButton } from '@/src/components/Buttons/SubmitButton/component';
+import { DateHandler } from '@/src/utils/DateHandler';
+import { ICreateExpenseRequestParams } from '@/src/integration/data/models/requestParams/expense/interfaces';
+import isEmpty from 'is-empty';
 
 export const RenderCreateExpense = () => {
   const { isOpen } = useSelector(
@@ -67,13 +70,27 @@ const CreateExpense = () => {
       value: '',
       observations: '',
       paymentBarCode: '',
-      type: null,
-      owners: null,
+      type: undefined,
+      owners: undefined,
     },
   });
 
-  const handleFormSubmit = (data: FormValues) => {
-    console.log('DEBUG_OUR-FINANCE <-----> data:', data);
+  const handleFormSubmit = (formData: FormValues) => {
+    const dueDate = DateHandler.createCompleteDateISO(formData.dueDate);
+    const value = parseLocaleNumber(formData.value, 'pt-BR');
+
+    const createExpenseParams: ICreateExpenseRequestParams = {
+      description: formData.description,
+      dueDate,
+      value,
+      observations: !isEmpty(formData.observations) ? formData.observations : null,
+      paymentBarCode: !isEmpty(formData.paymentBarCode) ? formData.paymentBarCode : null,
+      type: formData.type.value,
+      owners: formData.owners.map((owner) => {
+        return { id: owner.value };
+      }),
+    };
+    console.log('DEBUG_OUR-FINANCE <-----> createExpenseParams:', createExpenseParams);
   };
 
   return (
