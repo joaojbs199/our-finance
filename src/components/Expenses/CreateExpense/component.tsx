@@ -21,6 +21,7 @@ import { SubmitButton } from '@/src/components/Buttons/SubmitButton/component';
 import { DateHandler } from '@/src/utils/DateHandler';
 import { ICreateExpenseRequestParams } from '@/src/integration/data/models/requestParams/expense/interfaces';
 import isEmpty from 'is-empty';
+import { createExpense } from '@/src/store/modules/expense/asyncThunks';
 
 export const RenderCreateExpense = () => {
   const { isOpen } = useSelector(
@@ -90,7 +91,8 @@ const CreateExpense = () => {
         return { id: owner.value };
       }),
     };
-    console.log('DEBUG_OUR-FINANCE <-----> createExpenseParams:', createExpenseParams);
+
+    dispatch(createExpense(createExpenseParams));
   };
 
   return (

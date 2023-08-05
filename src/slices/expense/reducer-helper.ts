@@ -54,6 +54,32 @@ export const updateIsOpenCreateExpenseDialog = (state: S, action: A<boolean>) =>
   };
 };
 
+export const updateCreateExpenseIsLoading = (state: S, action: A<boolean>) => {
+  return {
+    ...state,
+    uiState: {
+      ...state.uiState,
+      createExpense: {
+        ...state.uiState.createExpense,
+        isLoading: action.payload,
+      },
+    },
+  };
+};
+
+export const updateCreateExpenseIsDone = (state: S, action: A<boolean>) => {
+  return {
+    ...state,
+    uiState: {
+      ...state.uiState,
+      createExpense: {
+        ...state.uiState.createExpense,
+        isDone: action.payload,
+      },
+    },
+  };
+};
+
 export const updateUpdateExpenseIsLoading = (state: S, action: A<boolean>) => {
   return {
     ...state,

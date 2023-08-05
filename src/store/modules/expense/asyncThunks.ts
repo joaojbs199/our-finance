@@ -42,19 +42,32 @@ export const getExpenses = createAsyncThunk<
 });
 
 export const createExpense = createAsyncThunk<
-  boolean,
+  void,
   ICreateExpenseRequestParams,
   { state: RootState; rejectValue: string }
->('expense/createExpense', async (requestParams, { rejectWithValue }) => {
+>('expense/createExpense', async (requestParams, { rejectWithValue, dispatch }) => {
   try {
     const request = makeRequestHandlerFactory();
 
-    const response = await request.handle<boolean>({
+    await request.handle<PartialExpense>({
       url: '/api/expenses/createExpense',
       method: 'put',
       body: requestParams,
     });
-    return response;
+
+    dispatch(ExpenseActions.setCreateExpenseIsLoading(false));
+    dispatch(ExpenseActions.setCreateExpenseIsDone(true));
+    await delay(1000);
+    dispatch(ExpenseActions.setCreateExpenseIsDone(false));
+
+    dispatch(ExpenseActions.setIsOpenCreateExpenseDialog(false));
+
+    dispatch(
+      getExpenses({
+        initialDate: '',
+        finalDate: '',
+      }),
+    );
   } catch (err) {
     const error = err as Error;
     return rejectWithValue(error.message);

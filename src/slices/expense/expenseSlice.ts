@@ -7,6 +7,8 @@ import {
   updateExpenseStatus,
 } from '@/src/store/modules/expense/asyncThunks';
 import {
+  updateCreateExpenseIsDone,
+  updateCreateExpenseIsLoading,
   updateExpenses,
   updateIsOpenCreateExpenseDialog,
   updateIsOpenUpdateExpenseDialog,
@@ -30,6 +32,12 @@ const expenseSlice = createSlice({
     },
     setUpdateExpenseIsDone: (state, action: PayloadAction<boolean>) => {
       return updateUpdateExpenseIsDone(state, action);
+    },
+    setCreateExpenseIsLoading: (state, action: PayloadAction<boolean>) => {
+      return updateCreateExpenseIsLoading(state, action);
+    },
+    setCreateExpenseIsDone: (state, action: PayloadAction<boolean>) => {
+      return updateCreateExpenseIsDone(state, action);
     },
   },
 
@@ -56,9 +64,9 @@ const expenseSlice = createSlice({
         state.uiState.createExpense.isLoading = true;
         state.uiState.createExpense.error = { isError: false, errorMessage: '' };
       })
-      .addCase(createExpense.fulfilled, (state) => {
-        state.uiState.createExpense.isLoading = false;
-      })
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      .addCase(createExpense.fulfilled, (state, action) => {})
+
       .addCase(createExpense.rejected, (state, action) => {
         state.uiState.createExpense.isLoading = false;
         state.uiState.createExpense.error = {
@@ -108,6 +116,8 @@ const expenseSlice = createSlice({
 const {
   setIsOpenUpdateExpenseDialog,
   setIsOpenCreateExpenseDialog,
+  setCreateExpenseIsLoading,
+  setCreateExpenseIsDone,
   setUpdateExpenseIsLoading,
   setUpdateExpenseIsDone,
 } = expenseSlice.actions;
@@ -115,6 +125,8 @@ const {
 export const ExpenseActions = {
   setIsOpenUpdateExpenseDialog,
   setIsOpenCreateExpenseDialog,
+  setCreateExpenseIsLoading,
+  setCreateExpenseIsDone,
   setUpdateExpenseIsLoading,
   setUpdateExpenseIsDone,
 };
