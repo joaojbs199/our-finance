@@ -7,7 +7,10 @@ import { useSelector } from 'react-redux';
 import { ItemList } from '@/src/components/BasicList/component';
 import { ExpenseCard } from '@/src/components/Expenses/ExpenseCard/component';
 import { getOwners } from '@/src/store/modules/owner/asyncThunks';
-import { Metadata } from '@/src/components/Metadata/component';
+import { ListHeader } from '@/src/components/ListHeader/component';
+import { Metadata } from '@/src/components/TotalResults/component';
+import { CreateButton } from '@/src/components/Buttons/CreateButton/component';
+import { ExpenseActions } from '@/src/slices/expense/expenseSlice';
 
 export const ExpenseList = () => {
   const dispatch: AppDispatch = useAppDispatch();
@@ -26,7 +29,13 @@ export const ExpenseList = () => {
 
   return (
     <>
-      <Metadata metadata={metadata} />
+      <ListHeader>
+        <Metadata metadata={metadata} />
+        <CreateButton
+          createAction={() => dispatch(ExpenseActions.setIsOpenCreateExpenseDialog(true))}
+        />
+      </ListHeader>
+
       <ItemList>
         {data.map((expense) => (
           <ExpenseCard key={expense.id} expense={expense} />
