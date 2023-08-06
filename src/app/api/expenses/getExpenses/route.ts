@@ -71,6 +71,10 @@ export async function POST(request: Request) {
         },
       ],
     },
+    orderBy: {
+      // eslint-disable-next-line prettier/prettier
+      dueDate: 'asc' as "asc",
+    },
     select: {
       id: true,
       dueDate: true,

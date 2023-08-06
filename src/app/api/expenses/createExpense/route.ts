@@ -13,15 +13,15 @@ export async function PUT(request: Request) {
   }
 
   const body = await request.json();
-  const { expense, ownerId }: ICreateExpenseRequestParams = body;
+  const createExpenseParams: ICreateExpenseRequestParams = body;
+
+  const { owners, ...expense } = createExpenseParams;
 
   const query = {
     data: {
       ...expense,
       owners: {
-        connect: {
-          id: ownerId,
-        },
+        connect: owners,
       },
     },
     select: {
@@ -34,6 +34,12 @@ export async function PUT(request: Request) {
       observations: true,
       status: true,
       paymentList_id: true,
+      owners: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
     },
   };
 

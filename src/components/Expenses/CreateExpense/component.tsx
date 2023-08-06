@@ -101,7 +101,10 @@ const CreateExpense = () => {
         closeButton={
           <CloseButton
             isDisabled={isLoading || isDone}
-            closeAction={() => dispatch(ExpenseActions.setIsOpenCreateExpenseDialog(false))}
+            closeAction={() => {
+              dispatch(ExpenseActions.setIsOpenCreateExpenseDialog(false));
+              dispatch(ExpenseActions.setCreateExpenseError({ isError: false, errorMessage: '' }));
+            }}
           />
         }
       >
@@ -285,6 +288,7 @@ const CreateExpense = () => {
 
           <div className="w-full pt-2">
             {isDone && <AlertMessage messageType="success" message="Despesa criada" />}
+            {error.isError && <AlertMessage messageType="error" message="Erro ao criar despesa" />}
           </div>
         </form>
       </BasicModal>

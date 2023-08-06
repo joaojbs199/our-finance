@@ -12,10 +12,12 @@ import {
   updateExpenses,
   updateIsOpenCreateExpenseDialog,
   updateIsOpenUpdateExpenseDialog,
+  updateCreateExpenseError,
   updateUpdateExpenseIsDone,
   updateUpdateExpenseIsLoading,
 } from './reducer-helper';
 import { IOpenExpenseDialogs } from '@/src/integration/data/models/flow/expense/interfaces';
+import { IErrorState } from '@/src/store/interfaces';
 
 const expenseSlice = createSlice({
   name: 'expenses',
@@ -32,6 +34,9 @@ const expenseSlice = createSlice({
     },
     setUpdateExpenseIsDone: (state, action: PayloadAction<boolean>) => {
       return updateUpdateExpenseIsDone(state, action);
+    },
+    setCreateExpenseError: (state, action: PayloadAction<IErrorState>) => {
+      return updateCreateExpenseError(state, action);
     },
     setCreateExpenseIsLoading: (state, action: PayloadAction<boolean>) => {
       return updateCreateExpenseIsLoading(state, action);
@@ -118,6 +123,7 @@ const {
   setIsOpenCreateExpenseDialog,
   setCreateExpenseIsLoading,
   setCreateExpenseIsDone,
+  setCreateExpenseError,
   setUpdateExpenseIsLoading,
   setUpdateExpenseIsDone,
 } = expenseSlice.actions;
@@ -127,6 +133,7 @@ export const ExpenseActions = {
   setIsOpenCreateExpenseDialog,
   setCreateExpenseIsLoading,
   setCreateExpenseIsDone,
+  setCreateExpenseError,
   setUpdateExpenseIsLoading,
   setUpdateExpenseIsDone,
 };

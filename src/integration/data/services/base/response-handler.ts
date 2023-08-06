@@ -5,6 +5,7 @@ import {
   NotAllowedError,
   NotFoundError,
   UnauthorizedError,
+  UnexpectedError,
   UnprocessableEntityError,
 } from '@/src/integration/domain/exceptions';
 import { ApiResponse } from '@/src/integration/data/models/apiResponse/base/interfaces';
@@ -42,6 +43,10 @@ export class ResponseHandler {
 
     if (response.statusCode === HttpStatusCode.notAllowed) {
       return Promise.reject(new NotAllowedError(response.body.message));
+    }
+
+    if (response.statusCode === HttpStatusCode.unexpected) {
+      return Promise.reject(new UnexpectedError(response.body.message));
     }
   };
 }

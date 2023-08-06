@@ -25,4 +25,5 @@ export enum HttpStatusCode {
   notFound = 404,
   unprocessableEntity = 422,
   notAllowed = 405,
+  unexpected = 500,
 }

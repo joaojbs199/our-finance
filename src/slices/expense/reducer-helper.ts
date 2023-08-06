@@ -1,6 +1,6 @@
 import { PartialExpense } from '@/src/integration/data/models/apiResponse/expense/interfaces';
 import { IOpenExpenseDialogs } from '@/src/integration/data/models/flow/expense/interfaces';
-import { IExpenseState } from '@/src/store/interfaces';
+import { IErrorState, IExpenseState } from '@/src/store/interfaces';
 import { Draft, PayloadAction } from '@reduxjs/toolkit';
 
 type S = Draft<IExpenseState>;
@@ -101,6 +101,19 @@ export const updateUpdateExpenseIsDone = (state: S, action: A<boolean>) => {
       updateExpense: {
         ...state.uiState.updateExpense,
         isDone: action.payload,
+      },
+    },
+  };
+};
+
+export const updateCreateExpenseError = (state: S, action: A<IErrorState>) => {
+  return {
+    ...state,
+    uiState: {
+      ...state.uiState,
+      createExpense: {
+        ...state.uiState.createExpense,
+        error: action.payload,
       },
     },
   };
