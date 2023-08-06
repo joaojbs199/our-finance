@@ -1,4 +1,4 @@
-import { ChangeEvent, InputHTMLAttributes, useState } from 'react';
+import { ChangeEvent, InputHTMLAttributes, useEffect, useState } from 'react';
 import { FieldValues } from 'react-hook-form';
 
 export interface IFormCurrencyInputProps<T extends FieldValues>
@@ -35,6 +35,11 @@ export const CurrencyInput = <T extends FieldValues>({
   ...props
 }: IFormCurrencyInputProps<T>) => {
   const [formattedValue, setFormattedValue] = useState<string>(value);
+
+  useEffect(() => {
+    onChange('R$ 0,00');
+    setFormattedValue('R$ 0,00');
+  }, []);
 
   const formatMoney = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
