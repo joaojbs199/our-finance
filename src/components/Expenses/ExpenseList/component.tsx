@@ -11,6 +11,7 @@ import { ListHeader } from '@/src/components/ListHeader/component';
 import { Metadata } from '@/src/components/TotalResults/component';
 import { CreateButton } from '@/src/components/Buttons/CreateButton/component';
 import { ExpenseActions } from '@/src/slices/expense/expenseSlice';
+import { isValid } from '@/src/utils/validators';
 
 export const ExpenseList = () => {
   const dispatch: AppDispatch = useAppDispatch();
@@ -29,12 +30,14 @@ export const ExpenseList = () => {
 
   return (
     <>
-      <ListHeader>
-        <Metadata metadata={metadata} />
-        <CreateButton
-          createAction={() => dispatch(ExpenseActions.setIsOpenCreateExpenseDialog(true))}
-        />
-      </ListHeader>
+      {isValid(metadata.totalResults) && (
+        <ListHeader>
+          <Metadata metadata={metadata} />
+          <CreateButton
+            createAction={() => dispatch(ExpenseActions.setIsOpenCreateExpenseDialog(true))}
+          />
+        </ListHeader>
+      )}
 
       <ItemList>
         {data.map((expense) => (
