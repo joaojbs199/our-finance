@@ -30,7 +30,7 @@ export const RenderUpdateExpense = () => {
   return <>{isOpen && <UpdateExpense />}</>;
 };
 
-const UpdateExpense: React.FC = () => {
+const UpdateExpense = () => {
   const dispatch: AppDispatch = useAppDispatch();
 
   const formId = 'update_expense_form';
@@ -322,6 +322,9 @@ const UpdateExpense: React.FC = () => {
           <div className="w-full pt-2">
             {!hasUpdates && <AlertMessage messageType="warning" message="Nada à alterar" />}
             {isDone && <AlertMessage messageType="success" message="Despesa atualizada" />}
+            {error.isError && (
+              <AlertMessage messageType="error" message="Erro ao atualizar despesa" />
+            )}
           </div>
         </form>
       </BasicModal>

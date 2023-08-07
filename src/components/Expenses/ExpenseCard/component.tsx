@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import { Card } from '@/src/components/BasicCard/component';
 import { Checkbox } from 'pretty-checkbox-react';
 import '@djthoms/pretty-checkbox';
-import { Clipboard, ClipboardCheck, Pencil } from 'lucide-react';
+import { Clipboard, ClipboardCheck, Pencil, Trash } from 'lucide-react';
 import isEmpty from 'is-empty';
 import { convertCurrency } from '@/src/utils/Helpers';
 import { DateHandler } from '@/src/utils/DateHandler';
@@ -36,14 +36,22 @@ export const ExpenseCard = ({ expense }: ExpenseCardProps) => {
 
   return (
     <Card>
-      <div className="mb-3 flex w-full justify-end border-b border-zinc-900 p-2 pt-0 text-gray-100">
+      <div className="mb-3 flex w-full justify-end gap-2 border-b border-zinc-900 p-2 pt-0 text-gray-100">
         <Pencil
           onClick={() => {
             dispatch(
               ExpenseActions.setIsOpenUpdateExpenseDialog({ isOpen: true, expenseId: expense.id }),
             );
           }}
-          className="h-4 w-4"
+          className="h-4 w-4 cursor-pointer hover:text-gray-400"
+        />
+        <Trash
+          onClick={() => {
+            dispatch(
+              ExpenseActions.setIsOpenDeleteExpenseDialog({ isOpen: true, expenseId: expense.id }),
+            );
+          }}
+          className="h-4 w-4 cursor-pointer hover:text-gray-400"
         />
       </div>
 
