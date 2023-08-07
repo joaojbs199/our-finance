@@ -32,6 +32,7 @@ export interface ICreateExpenseRequestParams {
   paymentBarCode: string | null;
   type: ExpenseType;
   owners: Array<{ id: number }>;
+  status: boolean;
 }
 
 export interface IDeleteExpenseParams {

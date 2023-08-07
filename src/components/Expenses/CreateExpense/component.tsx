@@ -22,6 +22,7 @@ import { DateHandler } from '@/src/utils/DateHandler';
 import { ICreateExpenseRequestParams } from '@/src/integration/data/models/requestParams/expense/interfaces';
 import isEmpty from 'is-empty';
 import { createExpense } from '@/src/store/modules/expense/asyncThunks';
+import { CheckboxInput } from '@/src/components/Inputs/CheckboxInput/component';
 
 export const RenderCreateExpense = () => {
   const { isOpen } = useSelector(
@@ -73,6 +74,7 @@ const CreateExpense = () => {
       paymentBarCode: '',
       type: undefined,
       owners: undefined,
+      status: false,
     },
   });
 
@@ -87,6 +89,7 @@ const CreateExpense = () => {
       observations: !isEmpty(formData.observations) ? formData.observations : null,
       paymentBarCode: !isEmpty(formData.paymentBarCode) ? formData.paymentBarCode : null,
       type: formData.type.value,
+      status: formData.status,
       owners: formData.owners.map((owner) => {
         return { id: owner.value };
       }),
@@ -170,6 +173,19 @@ const CreateExpense = () => {
                   {errors && errors?.value?.type === 'validate' && (
                     <AlertMessage messageType="error" message={errors.value.message} />
                   )}
+                </FormInputWrapper>
+              );
+            }}
+          />
+
+          <Controller
+            control={control}
+            name="status"
+            render={({ field: { onChange, value } }) => {
+              return (
+                <FormInputWrapper classNames="flex items-center h-8">
+                  <CheckboxInput onChange={onChange} styles={{ fontSize: '12px' }} value={value} />
+                  <p className="text-xs font-light text-gray-100">{value ? 'Paga' : 'À pagar'}</p>
                 </FormInputWrapper>
               );
             }}

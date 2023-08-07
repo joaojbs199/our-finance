@@ -18,4 +18,5 @@ export interface FormValues {
   type: TypeOptions;
   owners: OwnerOptions[];
   value: string;
+  status: boolean;
 }
