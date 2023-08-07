@@ -17,34 +17,26 @@ export async function DELETE(request: Request) {
 
   const { id } = removeExpenseParams;
 
-  const query = {
-    where: {
-      id: id,
-    },
-    select: {
-      id: true,
-      dueDate: true,
-      value: true,
-      description: true,
-      type: true,
-      paymentBarCode: true,
-      observations: true,
-      status: true,
-      paymentList_id: true,
-      owners: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  };
-
   try {
-    const response = await prisma.expense.delete(query);
-    console.log('DEBUG_OUR-FINANCE <-----> response:', response);
+    await prisma.$transaction([
+      prisma.expense.update({
+        where: {
+          id: id,
+        },
+        data: {
+          owners: {
+            set: [],
+          },
+        },
+      }),
+      prisma.expense.delete({
+        where: {
+          id: id,
+        },
+      }),
+    ]);
 
-    return NextResponse.json({ data: response, message: 'EXPENSE REMOVED.' }, { status: 202 });
+    return NextResponse.json({ data: true, message: 'EXPENSE REMOVED.' }, { status: 202 });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       console.log('DEBUG_OUR-FINANCE <-----> error:', error);
