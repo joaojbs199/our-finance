@@ -32,11 +32,16 @@ export interface IExpenseState {
       createExpenseDialog: {
         isOpen: boolean;
       };
+      deleteExpenseDialog: {
+        isOpen: boolean;
+        expenseId: number;
+      };
     };
     getExpenses: IUiState;
     createExpense: IUiState;
-    updateExpenseStatus: IUiState;
     updateExpense: IUiState;
+    deleteExpense: IUiState;
+    updateExpenseStatus: IUiState;
   };
   expenses: IGetExpenseApiResponse;
 }

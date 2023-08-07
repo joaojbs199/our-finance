@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/src/app/api/auth/[...nextauth]/route';
 import { prisma } from '@/lib/prisma';
-import { IRemoveExpenseParams } from '@/src/integration/data/models/requestParams/expense/interfaces';
+import { IDeleteExpenseParams } from '@/src/integration/data/models/requestParams/expense/interfaces';
 import { Prisma } from '@prisma/client';
 
 export async function DELETE(request: Request) {
@@ -13,7 +13,7 @@ export async function DELETE(request: Request) {
   }
 
   const body = await request.json();
-  const removeExpenseParams: IRemoveExpenseParams = body;
+  const removeExpenseParams: IDeleteExpenseParams = body;
 
   const { id } = removeExpenseParams;
 

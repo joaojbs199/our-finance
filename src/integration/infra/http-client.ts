@@ -14,7 +14,7 @@ export type IHttpResponse<T = any> = {
   body: T;
 };
 
-export type IHttpMethod = 'post' | 'get' | 'put';
+export type IHttpMethod = 'post' | 'get' | 'put' | 'delete';
 
 export enum HttpStatusCode {
   ok = 200,

@@ -17,11 +17,16 @@ export const initialExpenseState: IExpenseState = {
       createExpenseDialog: {
         isOpen: false,
       },
+      deleteExpenseDialog: {
+        isOpen: false,
+        expenseId: 0,
+      },
     },
     getExpenses: initialUiState,
     createExpense: initialUiState,
-    updateExpenseStatus: initialUiState,
     updateExpense: initialUiState,
+    deleteExpense: initialUiState,
+    updateExpenseStatus: initialUiState,
   },
   expenses: {
     metadata: {

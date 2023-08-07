@@ -34,6 +34,6 @@ export interface ICreateExpenseRequestParams {
   owners: Array<{ id: number }>;
 }
 
-export interface IRemoveExpenseParams {
+export interface IDeleteExpenseParams {
   id: number;
 }
