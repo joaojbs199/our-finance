@@ -33,3 +33,7 @@ export interface ICreateExpenseRequestParams {
   type: ExpenseType;
   owners: Array<{ id: number }>;
 }
+
+export interface IRemoveExpenseParams {
+  id: number;
+}
