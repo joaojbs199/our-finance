@@ -3,6 +3,8 @@ import { authOptions } from '@/src/app/api/auth/[...nextauth]/route';
 import { redirect } from 'next/navigation';
 import { Navbar } from '@/src/components/Navbar/component';
 import { Metadata } from 'next';
+import { Loader } from '@/src/components/Loader/component';
+import { RevenueList } from '@/src/components/Revenues/RevenueList/component';
 
 export const metadata: Metadata = {
   title: 'Receitas',
@@ -16,9 +18,10 @@ export default async function Revenues() {
   }
 
   return (
-    <div>
+    <div className="flex h-screen flex-col">
+      <Loader />
       <Navbar />
-      <h1>Página de receitas</h1>
+      <RevenueList />
     </div>
   );
 }

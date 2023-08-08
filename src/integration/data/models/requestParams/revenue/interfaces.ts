@@ -1,0 +1,14 @@
+import { RevenueType } from '@prisma/client';
+
+export interface IGetRevenuesRequestParams {
+  /**
+   * string date in yyyy-mm-dd format
+   */
+  initialDate: string;
+  /**
+   * string date in yyyy-mm-dd format
+   */
+  finalDate: string;
+  ownerId?: number;
+  type?: Array<RevenueType>;
+}

@@ -1,5 +1,5 @@
 import { IGetRevenueApiResponse } from '@/src/integration/data/models/apiResponse/revenues/interfaces';
-import { IGetRevenuesRequestParams } from '@/src/integration/data/models/requestParams/revenue/interface';
+import { IGetRevenuesRequestParams } from '@/src/integration/data/models/requestParams/revenue/interfaces';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '@/src/store/store';
 import { makeRequestHandlerFactory } from '@/src/integration/domain/factories/services/request-service-factory';
@@ -9,14 +9,14 @@ export const getRevenues = createAsyncThunk<
   IGetRevenueApiResponse,
   IGetRevenuesRequestParams,
   { state: RootState; rejectValue: string }
->('expense/getExpenses', async (requestParams, { rejectWithValue, dispatch }) => {
+>('revenue/getRevenues', async (requestParams, { rejectWithValue, dispatch }) => {
   try {
     const request = makeRequestHandlerFactory();
 
     dispatch(ConfigurationActions.setGlobalIsLoading(true));
 
     const response = await request.handle<IGetRevenueApiResponse>({
-      url: '/api/expenses/getExpenses',
+      url: '/api/revenues/getRevenues',
       method: 'post',
       body: requestParams,
     });
