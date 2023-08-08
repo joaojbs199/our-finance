@@ -1,5 +1,6 @@
 import { IGetExpenseApiResponse } from '@/src/integration/data/models/apiResponse/expense/interfaces';
 import { PartialOwner } from '@/src/integration/data/models/apiResponse/owner/interfaces';
+import { IGetRevenueApiResponse } from '../integration/data/models/apiResponse/revenues/interfaces';
 
 // COMMON INTERFACES
 export interface IUiState {
@@ -44,6 +45,29 @@ export interface IExpenseState {
     updateExpenseStatus: IUiState;
   };
   expenses: IGetExpenseApiResponse;
+}
+
+export interface IRevenueState {
+  uiState: {
+    dialogs: {
+      updateRevenueDialog: {
+        isOpen: boolean;
+        revenueId: number;
+      };
+      createRevenueDialog: {
+        isOpen: boolean;
+      };
+      deleteRevenueDialog: {
+        isOpen: boolean;
+        revenueId: number;
+      };
+    };
+    getRevenues: IUiState;
+    createRevenue: IUiState;
+    updateRevenue: IUiState;
+    deleteRevenue: IUiState;
+  };
+  revenues: IGetRevenueApiResponse;
 }
 
 export interface IConfigurationState {

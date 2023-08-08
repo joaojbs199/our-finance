@@ -1,4 +1,10 @@
-import { IConfigurationState, IExpenseState, IOwnerState, initialUiState } from './interfaces';
+import {
+  IConfigurationState,
+  IExpenseState,
+  IOwnerState,
+  IRevenueState,
+  initialUiState,
+} from './interfaces';
 
 export const initialOwnerState: IOwnerState = {
   uiState: {
@@ -29,6 +35,34 @@ export const initialExpenseState: IExpenseState = {
     updateExpenseStatus: initialUiState,
   },
   expenses: {
+    metadata: {
+      totalResults: 0,
+    },
+    data: [],
+  },
+};
+
+export const initialRevenueState: IRevenueState = {
+  uiState: {
+    dialogs: {
+      updateRevenueDialog: {
+        isOpen: false,
+        revenueId: 0,
+      },
+      createRevenueDialog: {
+        isOpen: false,
+      },
+      deleteRevenueDialog: {
+        isOpen: false,
+        revenueId: 0,
+      },
+    },
+    getRevenues: initialUiState,
+    createRevenue: initialUiState,
+    updateRevenue: initialUiState,
+    deleteRevenue: initialUiState,
+  },
+  revenues: {
     metadata: {
       totalResults: 0,
     },

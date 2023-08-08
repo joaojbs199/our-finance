@@ -3,6 +3,7 @@ import ownerSlice from '@/src/slices/owner/ownerSlice';
 import { useDispatch } from 'react-redux';
 import expenseSlice from '@/src/slices/expense/expenseSlice';
 import configurationSlice from '../slices/configuration/configurationSlice';
+import revenueSlice from '../slices/revenue/revenueSlice';
 
 export const makeStore = () => {
   return configureStore({
@@ -10,6 +11,7 @@ export const makeStore = () => {
       configuration: configurationSlice.reducer,
       owner: ownerSlice.reducer,
       expense: expenseSlice.reducer,
+      revenue: revenueSlice.reducer,
     },
   });
 };
