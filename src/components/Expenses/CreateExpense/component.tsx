@@ -70,7 +70,7 @@ const CreateExpense = () => {
     defaultValues: {
       description: '',
       dueDate: '',
-      value: '',
+      value: 'R$ 0,00',
       observations: '',
       paymentBarCode: '',
       type: undefined,
