@@ -37,3 +37,21 @@ export const updateIsOpenUpdateRevenueDialog = (state: S, action: A<IOpenRevenue
     },
   };
 };
+
+export const updateIsOpenDeleteRevenueDialog = (state: S, action: A<IOpenRevenueDialogs>) => {
+  const { isOpen, revenueId } = action.payload;
+  return {
+    ...state,
+    uiState: {
+      ...state.uiState,
+      dialogs: {
+        ...state.uiState.dialogs,
+        deleteRevenueDialog: {
+          ...state.uiState.dialogs.deleteRevenueDialog,
+          isOpen,
+          revenueId,
+        },
+      },
+    },
+  };
+};

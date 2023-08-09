@@ -27,10 +27,9 @@ export const RevenueCard = ({ revenue }: RevenueCardProps) => {
         />
         <Trash
           onClick={() => {
-            console.log('DEBUG_OUR-FINANCE <-----> TRASH');
-            // dispatch(
-            //   ExpenseActions.setIsOpenDeleteExpenseDialog({ isOpen: true, expenseId: expense.id }),
-            // );
+            dispatch(
+              RevenueActions.setIsOpenDeleteRevenueDialog({ isOpen: true, revenueId: revenue.id }),
+            );
           }}
           className="h-4 w-4 cursor-pointer hover:text-gray-400"
         />

@@ -6,6 +6,7 @@ import { Metadata } from 'next';
 import { Loader } from '@/src/components/Loader/component';
 import { RevenueList } from '@/src/components/Revenues/RevenueList/component';
 import { RenderUpdateRevenue } from '@/src/components/Revenues/UpdateRevenue/component';
+import { RenderDeleteRevenue } from '@/src/components/Revenues/DeleteRevenue/component';
 
 export const metadata: Metadata = {
   title: 'Receitas',
@@ -22,6 +23,7 @@ export default async function Revenues() {
     <div className="flex h-screen flex-col">
       <Loader />
       <RenderUpdateRevenue />
+      <RenderDeleteRevenue />
       <Navbar />
       <RevenueList />
     </div>
