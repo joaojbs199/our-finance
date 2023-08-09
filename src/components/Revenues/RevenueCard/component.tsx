@@ -5,6 +5,7 @@ import { DateHandler } from '@/src/utils/DateHandler';
 import { AppDispatch, useAppDispatch } from '@/src/store/store';
 import { PartialRevenue } from '@/src/integration/data/models/apiResponse/revenues/interfaces';
 import { RevenueType } from '@prisma/client';
+import { RevenueActions } from '@/src/slices/revenue/revenueSlice';
 
 interface RevenueCardProps {
   revenue: PartialRevenue;
@@ -18,10 +19,9 @@ export const RevenueCard = ({ revenue }: RevenueCardProps) => {
       <div className="mb-3 flex w-full justify-end gap-2 border-b border-zinc-900 p-2 pt-0 text-gray-100">
         <Pencil
           onClick={() => {
-            console.log('DEBUG_OUR-FINANCE <-----> EDIT');
-            // dispatch(
-            //   ExpenseActions.setIsOpenUpdateExpenseDialog({ isOpen: true, expenseId: expense.id }),
-            // );
+            dispatch(
+              RevenueActions.setIsOpenUpdateRevenueDialog({ isOpen: true, revenueId: revenue.id }),
+            );
           }}
           className="h-4 w-4 cursor-pointer hover:text-gray-400"
         />

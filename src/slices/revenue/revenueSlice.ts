@@ -1,11 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { initialRevenueState } from '@/src/store/state';
 import { getRevenues } from '@/src/store/modules/revenue/asyncThunks';
+import { IOpenRevenueDialogs } from '@/src/integration/data/models/flow/revenue/interfaces';
+import { updateIsOpenUpdateRevenueDialog } from './reducer-helper';
 
 const revenueSlice = createSlice({
   name: 'revenues',
   initialState: initialRevenueState,
-  reducers: {},
+  reducers: {
+    setIsOpenUpdateRevenueDialog: (state, action: PayloadAction<IOpenRevenueDialogs>) => {
+      return updateIsOpenUpdateRevenueDialog(state, action);
+    },
+  },
 
   extraReducers(builder) {
     builder
@@ -26,5 +32,11 @@ const revenueSlice = createSlice({
       });
   },
 });
+
+const { setIsOpenUpdateRevenueDialog } = revenueSlice.actions;
+
+export const RevenueActions = {
+  setIsOpenUpdateRevenueDialog,
+};
 
 export default revenueSlice;

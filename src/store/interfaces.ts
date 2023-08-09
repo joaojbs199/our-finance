@@ -1,6 +1,8 @@
 import { IGetExpenseApiResponse } from '@/src/integration/data/models/apiResponse/expense/interfaces';
 import { PartialOwner } from '@/src/integration/data/models/apiResponse/owner/interfaces';
-import { IGetRevenueApiResponse } from '../integration/data/models/apiResponse/revenues/interfaces';
+import { IGetRevenueApiResponse } from '@/src/integration/data/models/apiResponse/revenues/interfaces';
+import { IOpenExpenseDialogs } from '@/src/integration/data/models/flow/expense/interfaces';
+import { IOpenRevenueDialogs } from '@/src/integration/data/models/flow/revenue/interfaces';
 
 // COMMON INTERFACES
 export interface IUiState {
@@ -26,17 +28,11 @@ export interface IOwnerState {
 export interface IExpenseState {
   uiState: {
     dialogs: {
-      updateExpenseDialog: {
-        isOpen: boolean;
-        expenseId: number;
-      };
+      updateExpenseDialog: IOpenExpenseDialogs;
       createExpenseDialog: {
         isOpen: boolean;
       };
-      deleteExpenseDialog: {
-        isOpen: boolean;
-        expenseId: number;
-      };
+      deleteExpenseDialog: IOpenExpenseDialogs;
     };
     getExpenses: IUiState;
     createExpense: IUiState;
@@ -50,17 +46,11 @@ export interface IExpenseState {
 export interface IRevenueState {
   uiState: {
     dialogs: {
-      updateRevenueDialog: {
-        isOpen: boolean;
-        revenueId: number;
-      };
+      updateRevenueDialog: IOpenRevenueDialogs;
       createRevenueDialog: {
         isOpen: boolean;
       };
-      deleteRevenueDialog: {
-        isOpen: boolean;
-        revenueId: number;
-      };
+      deleteRevenueDialog: IOpenRevenueDialogs;
     };
     getRevenues: IUiState;
     createRevenue: IUiState;
