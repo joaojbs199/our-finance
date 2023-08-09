@@ -1,6 +1,6 @@
 import { PartialRevenue } from '@/src/integration/data/models/apiResponse/revenues/interfaces';
 import { IOpenRevenueDialogs } from '@/src/integration/data/models/flow/revenue/interfaces';
-import { IRevenueState } from '@/src/store/interfaces';
+import { IErrorState, IRevenueState } from '@/src/store/interfaces';
 import { Draft, PayloadAction } from '@reduxjs/toolkit';
 
 type S = Draft<IRevenueState>;
@@ -18,6 +18,22 @@ export const updateRevenues = (revenues: PartialRevenue[], updatedRevenue: Parti
   });
 
   return updatedRevenues;
+};
+
+export const updateIsOpenCreateRevenueDialog = (state: S, action: A<boolean>) => {
+  return {
+    ...state,
+    uiState: {
+      ...state.uiState,
+      dialogs: {
+        ...state.uiState.dialogs,
+        createRevenueDialog: {
+          ...state.uiState.dialogs.createRevenueDialog,
+          isOpen: action.payload,
+        },
+      },
+    },
+  };
 };
 
 export const updateIsOpenUpdateRevenueDialog = (state: S, action: A<IOpenRevenueDialogs>) => {
@@ -51,6 +67,19 @@ export const updateIsOpenDeleteRevenueDialog = (state: S, action: A<IOpenRevenue
           isOpen,
           revenueId,
         },
+      },
+    },
+  };
+};
+
+export const updateCreateRevenueError = (state: S, action: A<IErrorState>) => {
+  return {
+    ...state,
+    uiState: {
+      ...state.uiState,
+      createRevenue: {
+        ...state.uiState.createRevenue,
+        error: action.payload,
       },
     },
   };

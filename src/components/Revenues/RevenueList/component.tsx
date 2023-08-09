@@ -11,6 +11,7 @@ import { CreateButton } from '@/src/components/Buttons/CreateButton/component';
 import { isValid } from '@/src/utils/validators';
 import { getRevenues } from '@/src/store/modules/revenue/asyncThunks';
 import { RevenueCard } from '@/src/components/Revenues/RevenueCard/component';
+import { RevenueActions } from '@/src/slices/revenue/revenueSlice';
 
 export const RevenueList = () => {
   const dispatch: AppDispatch = useAppDispatch();
@@ -34,8 +35,7 @@ export const RevenueList = () => {
           <Metadata metadata={metadata} />
           <CreateButton
             createAction={() => {
-              console.log('DEBUG_OUR-FINANCE <-----> CREATE REVENUE');
-              // dispatch(ExpenseActions.setIsOpenCreateExpenseDialog(true))
+              dispatch(RevenueActions.setIsOpenCreateRevenueDialog(true));
             }}
           />
         </ListHeader>

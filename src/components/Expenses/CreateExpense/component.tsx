@@ -7,7 +7,7 @@ import { BasicModal } from '@/src/components/BasicModal/component';
 import { CloseButton } from '@/src/components/Buttons/CloseButton/component';
 import { useSelector } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
-import { FormValues, OwnerOptions, TypeOptions } from './interface';
+import { CreateExpenseFormValues, ExpenseTypeOptions } from '@/src/components/Expenses/interfaces';
 import { FormInputWrapper } from '@/src/components/FormInputWrapper/component';
 import { joinClassNames, parseLocaleNumber } from '@/src/utils/Helpers';
 import { AlertMessage } from '@/src/components/AlertMessage/component';
@@ -23,6 +23,7 @@ import { ICreateExpenseRequestParams } from '@/src/integration/data/models/reque
 import isEmpty from 'is-empty';
 import { createExpense } from '@/src/store/modules/expense/asyncThunks';
 import { CheckboxInput } from '@/src/components/Inputs/CheckboxInput/component';
+import { OwnerSelectOptions } from '@/src/integration/data/models/flow/owner/interfaces';
 
 export const RenderCreateExpense = () => {
   const { isOpen } = useSelector(
@@ -43,7 +44,7 @@ const CreateExpense = () => {
   const [isMulti, setIsMulti] = useState(false);
   const [ownersDisabled, setOwnersDisabled] = useState(false);
 
-  const typeOptions: TypeOptions[] = [
+  const typeOptions: ExpenseTypeOptions[] = [
     {
       label: 'Individual',
       value: ExpenseType.INDIVIDUAL,
@@ -54,7 +55,7 @@ const CreateExpense = () => {
     },
   ];
 
-  const ownerOptions: Array<OwnerOptions> = state.owner.owners.map((owner) => {
+  const ownerOptions: Array<OwnerSelectOptions> = state.owner.owners.map((owner) => {
     return { label: owner.name, value: owner.id };
   });
 
@@ -65,7 +66,7 @@ const CreateExpense = () => {
     setValue,
     clearErrors,
     formState: { errors },
-  } = useForm<FormValues>({
+  } = useForm<CreateExpenseFormValues>({
     defaultValues: {
       description: '',
       dueDate: '',
@@ -78,7 +79,7 @@ const CreateExpense = () => {
     },
   });
 
-  const handleFormSubmit = (formData: FormValues) => {
+  const handleFormSubmit = (formData: CreateExpenseFormValues) => {
     const dueDate = DateHandler.createCompleteDateISO(formData.dueDate);
     const value = parseLocaleNumber(formData.value, 'pt-BR');
 

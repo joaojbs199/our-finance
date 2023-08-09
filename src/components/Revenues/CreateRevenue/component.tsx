@@ -1,35 +1,31 @@
 'use client';
 
 import { AppDispatch, RootState, useAppDispatch } from '@/src/store/store';
-import { useSelector } from 'react-redux';
 import { BlockBackground } from '@/src/components/BlockBackground/component';
 import { BasicModal } from '@/src/components/BasicModal/component';
 import { CloseButton } from '@/src/components/Buttons/CloseButton/component';
-import { RevenueActions } from '@/src/slices/revenue/revenueSlice';
+import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { RevenueTypeOptions } from '@/src/components/Revenues/interfaces';
 import { RevenueType } from '@prisma/client';
+import { RevenueActions } from '@/src/slices/revenue/revenueSlice';
+import { RevenueTypeOptions } from '../interfaces';
 import { OwnerSelectOptions } from '@/src/integration/data/models/flow/owner/interfaces';
 
-export const RenderUpdateRevenue = () => {
+export const RenderCreateRevenue = () => {
   const { isOpen } = useSelector(
-    (state: RootState) => state.revenue.uiState.dialogs.updateRevenueDialog,
+    (state: RootState) => state.revenue.uiState.dialogs.createRevenueDialog,
   );
-  return <>{isOpen && <UpdateRevenue />}</>;
+  return <>{isOpen && <CreateRevenue />}</>;
 };
 
-const UpdateRevenue = () => {
+const CreateRevenue = () => {
   const dispatch: AppDispatch = useAppDispatch();
 
-  const formId = 'update_revenue_form';
+  const formId = 'create_revenue_form';
 
   const state = useSelector((state: RootState) => state);
 
-  const { isLoading, isDone, error } = state.revenue.uiState.updateRevenue;
-
-  const { revenueId } = state.revenue.uiState.dialogs.updateRevenueDialog;
-
-  const [revenue] = state.revenue.revenues.data.filter((revenue) => revenue.id === revenueId);
+  const { isLoading, isDone, error } = state.revenue.uiState.createRevenue;
 
   const typeOptions: RevenueTypeOptions[] = [
     {
@@ -65,9 +61,10 @@ const UpdateRevenue = () => {
         closeButton={
           <CloseButton
             isDisabled={isLoading || isDone}
-            closeAction={() =>
-              dispatch(RevenueActions.setIsOpenUpdateRevenueDialog({ isOpen: false, revenueId: 0 }))
-            }
+            closeAction={() => {
+              dispatch(RevenueActions.setIsOpenCreateRevenueDialog(false));
+              dispatch(RevenueActions.setCreateRevenueError({ isError: false, errorMessage: '' }));
+            }}
           />
         }
       >

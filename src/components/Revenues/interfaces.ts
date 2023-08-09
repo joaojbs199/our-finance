@@ -1,6 +1,6 @@
 import { RevenueType } from '@prisma/client';
 
-export type TypeOptions = {
+export type RevenueTypeOptions = {
   label: string;
   value: RevenueType;
 };
