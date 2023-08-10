@@ -12,3 +12,14 @@ export interface IGetRevenuesRequestParams {
   ownerId?: number;
   type?: Array<RevenueType>;
 }
+
+export interface IUpdateRevenueRequestParams {
+  id: number;
+  updates: {
+    description?: string;
+    date?: string;
+    value?: number;
+    type?: RevenueType;
+    owner?: number;
+  };
+}

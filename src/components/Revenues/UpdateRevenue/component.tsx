@@ -20,6 +20,8 @@ import { SubmitButton } from '@/src/components/Buttons/SubmitButton/component';
 import { DateInput } from '@/src/components/Inputs/DateInput/component';
 import { CurrencyInput } from '@/src/components/Inputs/CurrencyInput/component';
 import { StyledSelect } from '@/src/components/BasicSelect/component';
+import { IUpdateRevenueRequestParams } from '@/src/integration/data/models/requestParams/revenue/interfaces';
+import isEmpty from 'is-empty';
 
 export const RenderUpdateRevenue = () => {
   const { isOpen } = useSelector(
@@ -79,8 +81,37 @@ const UpdateRevenue = () => {
     },
   });
 
-  const handleFormSubmit = (formData: any) => {
-    console.log('DEBUG_OUR-FINANCE <-----> formData:', formData);
+  const handleFormSubmit = (formData: UpdateRevenueFormValues) => {
+    const newDate = DateHandler.createCompleteDateISO(formData.date);
+    const newValue = parseLocaleNumber(formData.value, 'pt-BR');
+
+    const updateRevenueParams: IUpdateRevenueRequestParams = {
+      id: revenue.id,
+      updates: {
+        ...(formData.description !== revenue.description && { description: formData.description }),
+        ...(newDate !== String(revenue.date) && {
+          date: newDate,
+        }),
+        ...(formData.type.value !== revenue.type && {
+          type: formData.type.value,
+        }),
+        ...(newValue !== revenue.value && {
+          value: newValue,
+        }),
+        ...(JSON.stringify(formData.owner) !== JSON.stringify(revenueOwner) && {
+          owner: formData.owner.value,
+        }),
+      },
+    };
+
+    if (isEmpty(updateRevenueParams.updates)) {
+      setTimeout(() => {
+        setHasUpdates(true);
+      }, 1000);
+      setHasUpdates(false);
+    } else {
+      console.log('DEBUG_OUR-FINANCE <-----> updateRevenueParams:', updateRevenueParams);
+    }
   };
 
   return (
@@ -192,14 +223,14 @@ const UpdateRevenue = () => {
               return (
                 <FormInputWrapper classNames="">
                   <StyledSelect
-                    error={errors.type}
+                    error={errors.owner}
                     value={value}
                     onChange={onChange}
                     isDisabled={isLoading || isDone}
                     options={ownerOptions}
                   />
-                  {errors && errors?.type?.type === 'required' && (
-                    <AlertMessage messageType="error" message={errors.type.message} />
+                  {errors && errors?.owner?.type === 'required' && (
+                    <AlertMessage messageType="error" message={errors.owner.message} />
                   )}
                 </FormInputWrapper>
               );
