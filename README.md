@@ -1,34 +1,65 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Our-finance - Plataforma de Gestão Financeira 💰
 
-## Getting Started
+Bem-vindo ao repositório do projeto Our-finance! Esta plataforma foi desenvolvida para aplicar os novos conceitos do nextjs implementados na versão 13.4 e treinar a utilização do prisma ORM. Esse projeto tem o objetivo de me auxiliar no gerenciamento inteligente das finanças pessoais. Com uma combinação poderosa de tecnologias e recursos, Our-finance tornou a tarefa de controle financeiro fácil e eficaz.
 
-First, run the development server:
+## Tecnologias Utilizadas 🚀
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+Este projeto é construído com um conjunto de tecnologias modernas que proporcionam uma experiência de usuário excepcional e desempenho otimizado:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Next.js**: Um framework React que oferece renderização do lado do servidor, permitindo uma experiência de carregamento rápido e otimização para mecanismos de busca.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Prisma ORM**: Um ORM (Object-Relational Mapping) avançado para trabalhar com bancos de dados SQL, permitindo uma manipulação de dados eficiente e segura.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **PlanetScale**: Uma ferramenta escalável de banco de dados que oferece alta disponibilidade e replicação global, garantindo confiabilidade e consistência dos dados.
 
-## Learn More
+- **Tailwind CSS**: Um utilitário de classe CSS altamente configurável que acelera o processo de design e criação de interfaces atraentes.
 
-To learn more about Next.js, take a look at the following resources:
+## Funcionalidades Principais 📝
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Básicas
+- 🔐 **Login com Google**: Acesse a plataforma com segurança através de sua conta do Google. (*Biblioteca utilizada: [@next-auth/next-auth](https://www.npmjs.com/package/@next-auth/next-auth)*)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- 🔑 **Logout**: Encerre sua sessão com um simples clique.
 
-## Deploy on Vercel
+### Despesas
+- ➕ **Inclusão**: Registre suas despesas facilmente, fornecendo detalhes como categoria, valor e data. (*Biblioteca utilizada: [@reduxjs/toolkit](https://www.npmjs.com/package/@reduxjs/toolkit)*)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- ✏️ **Alteração**: Atualize detalhes das despesas conforme necessário.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- ❌ **Remoção**: Remova despesas antigas ou incorretas para manter seu registro organizado.
+
+### Receitas
+- ➕ **Inclusão**: Adicione suas receitas para rastrear suas fontes de renda. Forneça informações como valor, origem e data.
+
+- ✏️ **Alteração**: Edite detalhes das receitas para manter um registro preciso.
+
+- ❌ **Remoção**: Remova entradas de receitas que não são mais relevantes para sua análise financeira.
+
+### Pagamentos
+- 💸 **Geração de Lista Consolidada**: Crie uma lista consolidada de pagamentos mensais para manter o controle de suas obrigações financeiras.
+
+## Bibliotecas Principais 📚
+
+O projeto faz uso de diversas bibliotecas de alta qualidade para proporcionar a melhor experiência possível:
+
+- [@djthoms/pretty-checkbox](https://www.npmjs.com/package/@djthoms/pretty-checkbox): Biblioteca para criar caixas de seleção estilizadas.
+
+- [@fortawesome/react-fontawesome](https://www.npmjs.com/package/@fortawesome/react-fontawesome): Pacote de ícones para React, fornecendo uma ampla variedade de ícones personalizáveis.
+
+- [@reduxjs/toolkit](https://www.npmjs.com/package/@reduxjs/toolkit): Conjunto de ferramentas para gerenciar o estado da aplicação de forma eficiente.
+
+- [lucide-react](https://www.npmjs.com/package/lucide-react): Conjunto de ícones simples e elegantes para aplicativos web modernos.
+
+- [axios](https://www.npmjs.com/package/axios): Cliente HTTP baseado em Promises para fazer solicitações a APIs.
+
+- [mongodb](https://www.npmjs.com/package/mongodb): Driver oficial do MongoDB para Node.js, permitindo a interação com o banco de dados.
+
+- [next](https://www.npmjs.com/package/next): Framework para desenvolvimento de aplicativos React de alta performance.
+
+- [react-redux](https://www.npmjs.com/package/react-redux): Biblioteca para integrar o React com o gerenciamento de estado do Redux.
+
+- [react-select](https://www.npmjs.com/package/react-select): Componente de seleção avançada para campos de entrada.
+
+- [tailwindcss](https://www.npmjs.com/package/tailwindcss): Utilitário de classe CSS altamente configurável para estilização eficiente.
+
+- [typescript](https://www.npmjs.com/package/typescript): Linguagem de programação para desenvolvimento JavaScript com tipagem estática.
