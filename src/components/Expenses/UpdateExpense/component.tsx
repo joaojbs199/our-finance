@@ -7,7 +7,6 @@ import { ExpenseActions } from '@/src/slices/expense/expenseSlice';
 import { ExpenseType } from '@prisma/client';
 import { DateHandler } from '@/src/utils/DateHandler';
 import { convertCurrency, joinClassNames, parseLocaleNumber } from '@/src/utils/Helpers';
-import { FormValues, OwnerOptions, TypeOptions } from './interfaces';
 import { Controller, useForm } from 'react-hook-form';
 import { BasicModal } from '@/src/components/BasicModal/component';
 import { CloseButton } from '@/src/components/Buttons/CloseButton/component';
@@ -21,7 +20,9 @@ import { updateExpense } from '@/src/store/modules/expense/asyncThunks';
 import isEmpty from 'is-empty';
 import { FormInputWrapper } from '@/src/components/FormInputWrapper/component';
 import { AlertMessage } from '@/src/components/AlertMessage/component';
-import { SubmitButton } from '../../Buttons/SubmitButton/component';
+import { SubmitButton } from '@/src/components/Buttons/SubmitButton/component';
+import { OwnerSelectOptions } from '@/src/integration/data/models/flow/owner/interfaces';
+import { ExpenseTypeOptions, UpdateExpenseFormValues } from '@/src/components/Expenses/interfaces';
 
 export const RenderUpdateExpense = () => {
   const { isOpen } = useSelector(
@@ -30,7 +31,7 @@ export const RenderUpdateExpense = () => {
   return <>{isOpen && <UpdateExpense />}</>;
 };
 
-const UpdateExpense: React.FC = () => {
+const UpdateExpense = () => {
   const dispatch: AppDispatch = useAppDispatch();
 
   const formId = 'update_expense_form';
@@ -45,7 +46,7 @@ const UpdateExpense: React.FC = () => {
 
   const [expense] = state.expense.expenses.data.filter((expense) => expense.id === expenseId);
 
-  const typeOptions: TypeOptions[] = [
+  const typeOptions: ExpenseTypeOptions[] = [
     {
       label: 'Individual',
       value: ExpenseType.INDIVIDUAL,
@@ -58,11 +59,11 @@ const UpdateExpense: React.FC = () => {
 
   const expenseType = expense.type === ExpenseType.INDIVIDUAL ? typeOptions[0] : typeOptions[1];
 
-  const expenseOwner: Array<OwnerOptions> = expense.owners.map((owner) => {
+  const expenseOwner: Array<OwnerSelectOptions> = expense.owners.map((owner) => {
     return { label: owner.name, value: owner.id };
   });
 
-  const ownerOptions: Array<OwnerOptions> = state.owner.owners.map((owner) => {
+  const ownerOptions: Array<OwnerSelectOptions> = state.owner.owners.map((owner) => {
     return { label: owner.name, value: owner.id };
   });
 
@@ -76,7 +77,7 @@ const UpdateExpense: React.FC = () => {
     setValue,
     clearErrors,
     formState: { errors },
-  } = useForm<FormValues>({
+  } = useForm<UpdateExpenseFormValues>({
     defaultValues: {
       description: expense.description,
       dueDate: DateHandler.simplifyDateISO(expense.dueDate),
@@ -88,7 +89,7 @@ const UpdateExpense: React.FC = () => {
     },
   });
 
-  const handleFormSubmit = (formData: FormValues) => {
+  const handleFormSubmit = (formData: UpdateExpenseFormValues) => {
     const newDueDate = DateHandler.createCompleteDateISO(formData.dueDate);
     const newValue = parseLocaleNumber(formData.value, 'pt-BR');
 
@@ -322,6 +323,9 @@ const UpdateExpense: React.FC = () => {
           <div className="w-full pt-2">
             {!hasUpdates && <AlertMessage messageType="warning" message="Nada à alterar" />}
             {isDone && <AlertMessage messageType="success" message="Despesa atualizada" />}
+            {error.isError && (
+              <AlertMessage messageType="error" message="Erro ao atualizar despesa" />
+            )}
           </div>
         </form>
       </BasicModal>

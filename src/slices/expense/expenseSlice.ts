@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { initialExpenseState } from '@/src/store/state';
 import {
   createExpense,
+  deleteExpense,
   getExpenses,
   updateExpense,
   updateExpenseStatus,
@@ -15,6 +16,9 @@ import {
   updateCreateExpenseError,
   updateUpdateExpenseIsDone,
   updateUpdateExpenseIsLoading,
+  updateIsOpenDeleteExpenseDialog,
+  updateDeleteExpenseIsLoading,
+  updateDeleteExpenseIsDone,
 } from './reducer-helper';
 import { IOpenExpenseDialogs } from '@/src/integration/data/models/flow/expense/interfaces';
 import { IErrorState } from '@/src/store/interfaces';
@@ -29,11 +33,20 @@ const expenseSlice = createSlice({
     setIsOpenCreateExpenseDialog: (state, action: PayloadAction<boolean>) => {
       return updateIsOpenCreateExpenseDialog(state, action);
     },
+    setIsOpenDeleteExpenseDialog: (state, action: PayloadAction<IOpenExpenseDialogs>) => {
+      return updateIsOpenDeleteExpenseDialog(state, action);
+    },
     setUpdateExpenseIsLoading: (state, action: PayloadAction<boolean>) => {
       return updateUpdateExpenseIsLoading(state, action);
     },
     setUpdateExpenseIsDone: (state, action: PayloadAction<boolean>) => {
       return updateUpdateExpenseIsDone(state, action);
+    },
+    setDeleteExpenseIsLoading: (state, action: PayloadAction<boolean>) => {
+      return updateDeleteExpenseIsLoading(state, action);
+    },
+    setDeleteExpenseIsDone: (state, action: PayloadAction<boolean>) => {
+      return updateDeleteExpenseIsDone(state, action);
     },
     setCreateExpenseError: (state, action: PayloadAction<IErrorState>) => {
       return updateCreateExpenseError(state, action);
@@ -99,6 +112,22 @@ const expenseSlice = createSlice({
       });
 
     builder
+      .addCase(deleteExpense.pending, (state) => {
+        state.uiState.deleteExpense.isLoading = true;
+        state.uiState.deleteExpense.error = { isError: false, errorMessage: '' };
+      })
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      .addCase(deleteExpense.fulfilled, (state, action) => {})
+
+      .addCase(deleteExpense.rejected, (state, action) => {
+        state.uiState.deleteExpense.isLoading = false;
+        state.uiState.deleteExpense.error = {
+          isError: true,
+          errorMessage: action.payload || 'Something went wrong',
+        };
+      });
+
+    builder
       .addCase(updateExpenseStatus.pending, (state) => {
         state.uiState.updateExpenseStatus.isLoading = true;
         state.uiState.updateExpenseStatus.error = { isError: false, errorMessage: '' };
@@ -126,6 +155,9 @@ const {
   setCreateExpenseError,
   setUpdateExpenseIsLoading,
   setUpdateExpenseIsDone,
+  setDeleteExpenseIsDone,
+  setDeleteExpenseIsLoading,
+  setIsOpenDeleteExpenseDialog,
 } = expenseSlice.actions;
 
 export const ExpenseActions = {
@@ -136,6 +168,9 @@ export const ExpenseActions = {
   setCreateExpenseError,
   setUpdateExpenseIsLoading,
   setUpdateExpenseIsDone,
+  setDeleteExpenseIsDone,
+  setDeleteExpenseIsLoading,
+  setIsOpenDeleteExpenseDialog,
 };
 
 export default expenseSlice;

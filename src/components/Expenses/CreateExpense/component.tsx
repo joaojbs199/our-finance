@@ -7,7 +7,7 @@ import { BasicModal } from '@/src/components/BasicModal/component';
 import { CloseButton } from '@/src/components/Buttons/CloseButton/component';
 import { useSelector } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
-import { FormValues, OwnerOptions, TypeOptions } from './interface';
+import { CreateExpenseFormValues, ExpenseTypeOptions } from '@/src/components/Expenses/interfaces';
 import { FormInputWrapper } from '@/src/components/FormInputWrapper/component';
 import { joinClassNames, parseLocaleNumber } from '@/src/utils/Helpers';
 import { AlertMessage } from '@/src/components/AlertMessage/component';
@@ -22,6 +22,8 @@ import { DateHandler } from '@/src/utils/DateHandler';
 import { ICreateExpenseRequestParams } from '@/src/integration/data/models/requestParams/expense/interfaces';
 import isEmpty from 'is-empty';
 import { createExpense } from '@/src/store/modules/expense/asyncThunks';
+import { CheckboxInput } from '@/src/components/Inputs/CheckboxInput/component';
+import { OwnerSelectOptions } from '@/src/integration/data/models/flow/owner/interfaces';
 
 export const RenderCreateExpense = () => {
   const { isOpen } = useSelector(
@@ -42,7 +44,7 @@ const CreateExpense = () => {
   const [isMulti, setIsMulti] = useState(false);
   const [ownersDisabled, setOwnersDisabled] = useState(false);
 
-  const typeOptions: TypeOptions[] = [
+  const typeOptions: ExpenseTypeOptions[] = [
     {
       label: 'Individual',
       value: ExpenseType.INDIVIDUAL,
@@ -53,7 +55,7 @@ const CreateExpense = () => {
     },
   ];
 
-  const ownerOptions: Array<OwnerOptions> = state.owner.owners.map((owner) => {
+  const ownerOptions: Array<OwnerSelectOptions> = state.owner.owners.map((owner) => {
     return { label: owner.name, value: owner.id };
   });
 
@@ -64,19 +66,20 @@ const CreateExpense = () => {
     setValue,
     clearErrors,
     formState: { errors },
-  } = useForm<FormValues>({
+  } = useForm<CreateExpenseFormValues>({
     defaultValues: {
       description: '',
       dueDate: '',
-      value: '',
+      value: 'R$ 0,00',
       observations: '',
       paymentBarCode: '',
       type: undefined,
       owners: undefined,
+      status: false,
     },
   });
 
-  const handleFormSubmit = (formData: FormValues) => {
+  const handleFormSubmit = (formData: CreateExpenseFormValues) => {
     const dueDate = DateHandler.createCompleteDateISO(formData.dueDate);
     const value = parseLocaleNumber(formData.value, 'pt-BR');
 
@@ -87,6 +90,7 @@ const CreateExpense = () => {
       observations: !isEmpty(formData.observations) ? formData.observations : null,
       paymentBarCode: !isEmpty(formData.paymentBarCode) ? formData.paymentBarCode : null,
       type: formData.type.value,
+      status: formData.status,
       owners: formData.owners.map((owner) => {
         return { id: owner.value };
       }),
@@ -170,6 +174,19 @@ const CreateExpense = () => {
                   {errors && errors?.value?.type === 'validate' && (
                     <AlertMessage messageType="error" message={errors.value.message} />
                   )}
+                </FormInputWrapper>
+              );
+            }}
+          />
+
+          <Controller
+            control={control}
+            name="status"
+            render={({ field: { onChange, value } }) => {
+              return (
+                <FormInputWrapper classNames="flex items-center h-8">
+                  <CheckboxInput onChange={onChange} styles={{ fontSize: '12px' }} value={value} />
+                  <p className="text-xs font-light text-gray-100">{value ? 'Paga' : 'À pagar'}</p>
                 </FormInputWrapper>
               );
             }}

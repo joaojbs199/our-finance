@@ -1,15 +1,14 @@
 import { PartialExpense } from '@/src/integration/data/models/apiResponse/expense/interfaces';
 import { useRef, useState } from 'react';
 import { Card } from '@/src/components/BasicCard/component';
-import { Checkbox } from 'pretty-checkbox-react';
-import '@djthoms/pretty-checkbox';
-import { Clipboard, ClipboardCheck, Pencil } from 'lucide-react';
+import { Clipboard, ClipboardCheck, Pencil, Trash } from 'lucide-react';
 import isEmpty from 'is-empty';
 import { convertCurrency } from '@/src/utils/Helpers';
 import { DateHandler } from '@/src/utils/DateHandler';
 import { AppDispatch, useAppDispatch } from '@/src/store/store';
 import { updateExpenseStatus } from '@/src/store/modules/expense/asyncThunks';
 import { ExpenseActions } from '@/src/slices/expense/expenseSlice';
+import { CheckboxInput } from '@/src/components/Inputs/CheckboxInput/component';
 
 interface ExpenseCardProps {
   expense: PartialExpense;
@@ -36,14 +35,22 @@ export const ExpenseCard = ({ expense }: ExpenseCardProps) => {
 
   return (
     <Card>
-      <div className="mb-3 flex w-full justify-end border-b border-zinc-900 p-2 pt-0 text-gray-100">
+      <div className="mb-3 flex w-full justify-end gap-2 border-b border-zinc-900 p-2 pt-0 text-gray-100">
         <Pencil
           onClick={() => {
             dispatch(
               ExpenseActions.setIsOpenUpdateExpenseDialog({ isOpen: true, expenseId: expense.id }),
             );
           }}
-          className="h-4 w-4"
+          className="h-4 w-4 cursor-pointer hover:text-gray-400"
+        />
+        <Trash
+          onClick={() => {
+            dispatch(
+              ExpenseActions.setIsOpenDeleteExpenseDialog({ isOpen: true, expenseId: expense.id }),
+            );
+          }}
+          className="h-4 w-4 cursor-pointer hover:text-gray-400"
         />
       </div>
 
@@ -57,16 +64,16 @@ export const ExpenseCard = ({ expense }: ExpenseCardProps) => {
         <p className="font-poppins text-sm tracking-wide text-orange-400">
           {convertCurrency(expense.value)}
         </p>
-        <Checkbox
-          title={`${expense.status ? 'Despesa paga' : 'Pagar'}`}
-          checked={expense.status}
-          onChange={(e) => {
-            handleUpdateExpenseStatus(e.target.checked);
-          }}
-          style={{ fontSize: '12px' }}
-          color="success-o"
-          shape="curve"
-        />
+        <div className="flex h-8 items-center">
+          <CheckboxInput
+            onChange={(e) => {
+              handleUpdateExpenseStatus(e);
+            }}
+            styles={{ fontSize: '12px', marginRight: '5px' }}
+            value={expense.status}
+          />
+          <p className="text-xs font-light text-gray-100">{expense.status ? 'Paga' : 'À pagar'}</p>
+        </div>
       </div>
 
       {!isEmpty(expense.observations) && (

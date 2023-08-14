@@ -49,7 +49,7 @@ export async function POST(request: Request) {
         {
           owners: {
             every: {
-              user_email: 'joaojbs199@gmail.com',
+              user_email: session.user?.email as string,
               id: {
                 ...(!hasSharedType && {
                   in: ownerIds,

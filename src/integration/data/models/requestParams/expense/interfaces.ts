@@ -1,7 +1,13 @@
 import { ExpenseType } from '@prisma/client';
 export interface IGetExpensesRequestParams {
-  initialDate: Date | '';
-  finalDate: Date | '';
+  /**
+   * string date in yyyy-mm-dd format
+   */
+  initialDate: string;
+  /**
+   * string date in yyyy-mm-dd format
+   */
+  finalDate: string;
   ownerIds?: Array<number>;
   type?: Array<ExpenseType>;
 }
@@ -32,4 +38,9 @@ export interface ICreateExpenseRequestParams {
   paymentBarCode: string | null;
   type: ExpenseType;
   owners: Array<{ id: number }>;
+  status: boolean;
+}
+
+export interface IDeleteExpenseParams {
+  id: number;
 }

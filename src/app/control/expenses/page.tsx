@@ -7,6 +7,7 @@ import { ExpenseList } from '@/src/components/Expenses/ExpenseList/component';
 import { Loader } from '@/src/components/Loader/component';
 import { RenderUpdateExpense } from '@/src/components/Expenses/UpdateExpense/component';
 import { RenderCreateExpense } from '@/src/components/Expenses/CreateExpense/component';
+import { RenderDeleteExpense } from '@/src/components/Expenses/DeleteExpense/component';
 
 export const metadata: Metadata = {
   title: 'Despesas',
@@ -22,8 +23,9 @@ export default async function Expenses() {
   return (
     <div className="flex h-screen flex-col">
       <Loader />
-      <RenderUpdateExpense />
       <RenderCreateExpense />
+      <RenderUpdateExpense />
+      <RenderDeleteExpense />
       <Navbar />
       <ExpenseList />
     </div>

@@ -38,6 +38,24 @@ export const updateIsOpenUpdateExpenseDialog = (state: S, action: A<IOpenExpense
   };
 };
 
+export const updateIsOpenDeleteExpenseDialog = (state: S, action: A<IOpenExpenseDialogs>) => {
+  const { isOpen, expenseId } = action.payload;
+  return {
+    ...state,
+    uiState: {
+      ...state.uiState,
+      dialogs: {
+        ...state.uiState.dialogs,
+        deleteExpenseDialog: {
+          ...state.uiState.dialogs.deleteExpenseDialog,
+          isOpen,
+          expenseId,
+        },
+      },
+    },
+  };
+};
+
 export const updateIsOpenCreateExpenseDialog = (state: S, action: A<boolean>) => {
   return {
     ...state,
@@ -93,6 +111,19 @@ export const updateUpdateExpenseIsLoading = (state: S, action: A<boolean>) => {
   };
 };
 
+export const updateDeleteExpenseIsLoading = (state: S, action: A<boolean>) => {
+  return {
+    ...state,
+    uiState: {
+      ...state.uiState,
+      deleteExpense: {
+        ...state.uiState.deleteExpense,
+        isLoading: action.payload,
+      },
+    },
+  };
+};
+
 export const updateUpdateExpenseIsDone = (state: S, action: A<boolean>) => {
   return {
     ...state,
@@ -101,6 +132,32 @@ export const updateUpdateExpenseIsDone = (state: S, action: A<boolean>) => {
       updateExpense: {
         ...state.uiState.updateExpense,
         isDone: action.payload,
+      },
+    },
+  };
+};
+
+export const updateDeleteExpenseIsDone = (state: S, action: A<boolean>) => {
+  return {
+    ...state,
+    uiState: {
+      ...state.uiState,
+      deleteExpense: {
+        ...state.uiState.deleteExpense,
+        isDone: action.payload,
+      },
+    },
+  };
+};
+
+export const updateDeleteExpenseError = (state: S, action: A<IErrorState>) => {
+  return {
+    ...state,
+    uiState: {
+      ...state.uiState,
+      deleteExpense: {
+        ...state.uiState.deleteExpense,
+        error: action.payload,
       },
     },
   };

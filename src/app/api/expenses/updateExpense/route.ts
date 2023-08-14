@@ -80,7 +80,7 @@ export async function PUT(request: Request) {
       );
     } else {
       return NextResponse.json(
-        { data: null, message: 'EXPENSE NOT CREATED, SOMETHING WENT WRONG.' },
+        { data: null, message: 'EXPENSE NOT UPDATED, SOMETHING WENT WRONG.' },
         { status: 500 },
       );
     }

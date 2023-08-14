@@ -7,6 +7,7 @@ import {
 } from '@/src/integration/data/models/apiResponse/expense/interfaces';
 import {
   ICreateExpenseRequestParams,
+  IDeleteExpenseParams,
   IGetExpensesRequestParams,
   IUpdateExpenseRequestParams,
   IUpdateExpenseStatusRequestParams,
@@ -49,7 +50,7 @@ export const createExpense = createAsyncThunk<
   try {
     const request = makeRequestHandlerFactory();
 
-    await request.handle<PartialExpense>({
+    await request.handle<void>({
       url: '/api/expenses/createExpense',
       method: 'put',
       body: requestParams,
@@ -94,6 +95,39 @@ export const updateExpense = createAsyncThunk<
     dispatch(ExpenseActions.setUpdateExpenseIsDone(false));
 
     return response;
+  } catch (err) {
+    const error = err as Error;
+    return rejectWithValue(error.message);
+  }
+});
+
+export const deleteExpense = createAsyncThunk<
+  void,
+  IDeleteExpenseParams,
+  { state: RootState; rejectValue: string }
+>('expense/deleteExpense', async (requestParams, { rejectWithValue, dispatch }) => {
+  try {
+    const request = makeRequestHandlerFactory();
+
+    await request.handle<void>({
+      url: '/api/expenses/deleteExpense',
+      method: 'delete',
+      body: requestParams,
+    });
+
+    dispatch(ExpenseActions.setDeleteExpenseIsLoading(false));
+    dispatch(ExpenseActions.setDeleteExpenseIsDone(true));
+    await delay(1000);
+    dispatch(ExpenseActions.setDeleteExpenseIsDone(false));
+
+    dispatch(ExpenseActions.setIsOpenDeleteExpenseDialog({ isOpen: false, expenseId: 0 }));
+
+    dispatch(
+      getExpenses({
+        initialDate: '',
+        finalDate: '',
+      }),
+    );
   } catch (err) {
     const error = err as Error;
     return rejectWithValue(error.message);
